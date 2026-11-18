@@ -33,7 +33,7 @@
     <img class="herologo" src="/rodolphe.jpg" alt="Rodolphe Torres Tirado">
     <p class="lead">Votre activité, simplement organisée</p>
     <p class="intro">Retrouvez vos contacts, activités, documents, devis, factures et frais dans un espace clair, accessible depuis votre téléphone, tablette ou ordinateur.</p>
-    <a class="btn" href="https://headless-jzsfhrdevmx-guerrisseur-140b.wix-site-host.com/" target="_blank" rel="noopener noreferrer">Accéder à Ma Gestion</a>
+    <a class="btn" href="#modules" data-open-access>Accéder à Ma Gestion</a>
     <a class="btn" href="#apercu-modules">Découvrir les modules</a>
   </section>
 
@@ -70,25 +70,25 @@
   <section class="wrap" id="modules" aria-labelledby="modules-title">
     <div class="band">
       <div class="center module-login">
-        <a class="btn" href="https://headless-jzsfhrdevmx-guerrisseur-140b.wix-site-host.com/" target="_blank" rel="noopener noreferrer">Me connecter</a>
+        <button class="btn" type="button" data-open-access>Me connecter</button>
       </div>
       <h2 class="section-title" id="modules-title">Les 12 modules</h2>
       <div class="grid module-grid" aria-label="Liste des douze modules">
-        <article class="card module-card"><h3>Prospection</h3></article>
-        <article class="card module-card"><h3>Contact</h3></article>
-        <article class="card module-card"><h3>Compte</h3></article>
-        <article class="card module-card"><h3>À faire</h3></article>
-        <article class="card module-card"><h3>Tâche</h3></article>
-        <article class="card module-card"><h3>Réunion</h3></article>
-        <article class="card module-card"><h3>Calendrier</h3></article>
-        <article class="card module-card"><h3>Devis et facture</h3></article>
-        <article class="card module-card"><h3>Frais</h3></article>
-        <article class="card module-card"><h3>Document</h3></article>
-        <article class="card module-card"><h3>Protection</h3></article>
-        <article class="card module-card"><h3>Vente et achat</h3></article>
+        <article class="card module-card" data-module="prospection" role="button" tabindex="0" aria-label="Ouvrir le module Prospection"><span class="module-card-icon" aria-hidden="true">🎯</span><h3>Prospection</h3><span class="module-card-hint">Ouvrir le module →</span></article>
+        <article class="card module-card" data-module="contact" role="button" tabindex="0" aria-label="Ouvrir le module Contact"><span class="module-card-icon" aria-hidden="true">👤</span><h3>Contact</h3><span class="module-card-hint">Ouvrir le module →</span></article>
+        <article class="card module-card" data-module="compte" role="button" tabindex="0" aria-label="Ouvrir le module Compte"><span class="module-card-icon" aria-hidden="true">🏢</span><h3>Compte</h3><span class="module-card-hint">Ouvrir le module →</span></article>
+        <article class="card module-card" data-module="afaire" role="button" tabindex="0" aria-label="Ouvrir le module À faire"><span class="module-card-icon" aria-hidden="true">📋</span><h3>À faire</h3><span class="module-card-hint">Ouvrir le module →</span></article>
+        <article class="card module-card" data-module="tache" role="button" tabindex="0" aria-label="Ouvrir le module Tâche"><span class="module-card-icon" aria-hidden="true">✅</span><h3>Tâche</h3><span class="module-card-hint">Ouvrir le module →</span></article>
+        <article class="card module-card" data-module="reunion" role="button" tabindex="0" aria-label="Ouvrir le module Réunion"><span class="module-card-icon" aria-hidden="true">📅</span><h3>Réunion</h3><span class="module-card-hint">Ouvrir le module →</span></article>
+        <article class="card module-card" data-module="calendrier" role="button" tabindex="0" aria-label="Ouvrir le module Calendrier"><span class="module-card-icon" aria-hidden="true">🗓️</span><h3>Calendrier</h3><span class="module-card-hint">Ouvrir le module →</span></article>
+        <article class="card module-card" data-module="devis-facture" role="button" tabindex="0" aria-label="Ouvrir le module Devis et facture"><span class="module-card-icon" aria-hidden="true">🧾</span><h3>Devis et facture</h3><span class="module-card-hint">Ouvrir le module →</span></article>
+        <article class="card module-card" data-module="frais" role="button" tabindex="0" aria-label="Ouvrir le module Frais"><span class="module-card-icon" aria-hidden="true">🧮</span><h3>Frais</h3><span class="module-card-hint">Ouvrir le module →</span></article>
+        <article class="card module-card" data-module="document" role="button" tabindex="0" aria-label="Ouvrir le module Document"><span class="module-card-icon" aria-hidden="true">📁</span><h3>Document</h3><span class="module-card-hint">Ouvrir le module →</span></article>
+        <article class="card module-card" data-module="protection" role="button" tabindex="0" aria-label="Ouvrir le module Protection"><span class="module-card-icon" aria-hidden="true">🛡️</span><h3>Protection</h3><span class="module-card-hint">Ouvrir le module →</span></article>
+        <article class="card module-card" data-module="vente-achat" role="button" tabindex="0" aria-label="Ouvrir le module Vente et achat"><span class="module-card-icon" aria-hidden="true">🛒</span><h3>Vente et achat</h3><span class="module-card-hint">Ouvrir le module →</span></article>
       </div>
       <div class="center module-global-cta">
-        <a class="btn" href="https://headless-jzsfhrdevmx-guerrisseur-140b.wix-site-host.com/" target="_blank" rel="noopener noreferrer">Me connecter à mes 12 modules</a>
+        <button class="btn" type="button" data-open-access>Me connecter à mes 12 modules</button>
       </div>
     </div>
   </section>
@@ -164,9 +164,9 @@
       const r=await fetch("/api/session",{credentials:"same-origin",headers:{"Accept":"application/json"}});
       if(!r.ok) throw new Error("Service d’authentification indisponible.");
       const data=await r.json();
-      if(data.authenticated){mode="authenticated";desc.textContent="Vous êtes connecté.";form.querySelector("#access-password").hidden=true;confirmWrap.hidden=true;setupWrap.hidden=true;submit.hidden=true;logout.hidden=false;}
-      else if(data.initialized){mode="login";desc.textContent="Saisissez votre mot de passe pour accéder à votre espace.";form.querySelector("#access-password").hidden=false;form.querySelector("#access-password").autocomplete="current-password";confirmWrap.hidden=true;setupWrap.hidden=true;submit.hidden=false;logout.hidden=true;submit.textContent="Se connecter";}
-      else{mode="register";desc.textContent="Créez votre mot de passe personnel. La création initiale nécessite votre code propriétaire.";form.querySelector("#access-password").hidden=false;form.querySelector("#access-password").autocomplete="new-password";confirmWrap.hidden=false;setupWrap.hidden=false;submit.hidden=false;logout.hidden=true;submit.textContent="Créer mon mot de passe";}
+      if(data.authenticated){window.dispatchEvent(new CustomEvent("mg:auth",{detail:{authenticated:true}}));mode="authenticated";desc.textContent="Vous êtes connecté.";form.querySelector("#access-password").hidden=true;confirmWrap.hidden=true;setupWrap.hidden=true;submit.hidden=true;logout.hidden=false;}
+      else if(data.initialized){window.dispatchEvent(new CustomEvent("mg:auth",{detail:{authenticated:false}}));mode="login";desc.textContent="Saisissez votre mot de passe pour accéder à votre espace.";form.querySelector("#access-password").hidden=false;form.querySelector("#access-password").autocomplete="current-password";confirmWrap.hidden=true;setupWrap.hidden=true;submit.hidden=false;logout.hidden=true;submit.textContent="Se connecter";}
+      else{window.dispatchEvent(new CustomEvent("mg:auth",{detail:{authenticated:false}}));mode="register";desc.textContent="Créez votre mot de passe personnel. La création initiale nécessite votre code propriétaire.";form.querySelector("#access-password").hidden=false;form.querySelector("#access-password").autocomplete="new-password";confirmWrap.hidden=false;setupWrap.hidden=false;submit.hidden=false;logout.hidden=true;submit.textContent="Créer mon mot de passe";}
     }catch(e){
       mode="register";desc.textContent="Créez votre mot de passe personnel. La configuration du service doit être terminée pour valider la création.";
       form.querySelector("#access-password").hidden=false;form.querySelector("#access-password").autocomplete="new-password";
@@ -192,7 +192,7 @@
     }catch(err){status.textContent=err.message;}
     finally{submit.disabled=false;}
   });
-  logout.addEventListener("click",async()=>{try{await fetch("/api/logout",{method:"POST",credentials:"same-origin"});form.reset();await refresh();}catch(e){status.textContent="Déconnexion impossible.";}}); 
+  logout.addEventListener("click",async()=>{try{await fetch("/api/logout",{method:"POST",credentials:"same-origin"});window.dispatchEvent(new CustomEvent("mg:auth",{detail:{authenticated:false}}));form.reset();await refresh();}catch(e){status.textContent="Déconnexion impossible.";}}); 
 })();
 </script>
 
@@ -275,6 +275,123 @@
   document.body.appendChild(panel);
   var saved=palettes.some(function(p){return p.id===current;})?current:"ciel";
   apply(saved,false);
+})();
+</script>
+
+<script id="mg-modules-app">
+(function(){
+  "use strict";
+  var cards=[].slice.call(document.querySelectorAll(".module-card[data-module]"));
+  var access=document.getElementById("access-dialog");
+  var unlocked=false;
+  try{unlocked=sessionStorage.getItem("mg-preview-access")==="1";}catch(e){}
+  var defs={
+    "prospection":{title:"Prospection",fields:[["nom","Nom du prospect","text",true],["societe","Société","text"],["email","E-mail","email"],["telephone","Téléphone","tel"],["etape","Étape","select",false,["Nouveau","Contacté","Rendez-vous pris","Devis envoyé","Gagné","Perdu"]],["relance","Prochaine relance","date"],["budget","Budget estimé (€)","number"],["notes","Notes","textarea"]]},
+    "contact":{title:"Contact",fields:[["prenom","Prénom","text"],["nom","Nom","text",true],["email","E-mail","email"],["telephone","Téléphone","tel"],["societe","Société","text"],["adresse","Adresse","text"],["notes","Notes","textarea"]]},
+    "compte":{title:"Compte",fields:[["societe","Nom de la société","text",true],["type","Type","select",false,["Client","Fournisseur","Partenaire","Autre"]],["siret","SIRET","text"],["contact","Contact principal","text"],["email","E-mail","email"],["telephone","Téléphone","tel"],["adresse","Adresse","text"],["notes","Notes","textarea"]]},
+    "afaire":{title:"À faire",fields:[["titre","Élément à faire","text",true],["echeance","Échéance","date"],["priorite","Priorité","select",false,["Basse","Normale","Haute"]],["statut","Statut","select",false,["À faire","En cours","Terminée"]],["notes","Détails","textarea"]]},
+    "tache":{title:"Tâche",fields:[["titre","Nom de la tâche","text",true],["contact","Contact lié","text"],["debut","Date de début","date"],["echeance","Échéance","date"],["heure","Heure","time"],["rappel","Rappel","select",false,["Aucun","À l’heure","15 minutes avant","1 heure avant","1 jour avant"]],["statut","Statut","select",false,["À faire","En cours","Terminée"]],["priorite","Priorité","select",false,["Basse","Normale","Haute"]],["avancement","Avancement (%)","number"],["details","Détails","textarea"]]},
+    "reunion":{title:"Réunion",fields:[["sujet","Sujet","text",true],["date","Date","date"],["heure","Heure","time"],["duree","Durée","select",false,["30 minutes","1 heure","1 h 30","2 heures","Demi-journée"]],["lieu","Lieu","text"],["invites","Invités","text"],["ordre","Ordre du jour","textarea"]]},
+    "calendrier":{title:"Calendrier",fields:[["evenement","Événement","text",true],["agenda","Agenda","select",false,["Personnel","Travail","Clients","Famille"]],["debut","Début","date"],["fin","Fin","date"],["heure","Heure","time"],["lieu","Lieu","text"],["rappel","Rappel","select",false,["Aucun","15 minutes avant","1 heure avant","1 jour avant"]],["repetition","Répétition","select",false,["Jamais","Chaque jour","Chaque semaine","Chaque mois","Chaque année"]],["notes","Notes","textarea"]]},
+    "devis-facture":{title:"Devis et facture",fields:[["type","Type de document","select",true,["Devis","Facture"]],["numero","Numéro","text"],["client","Client","text",true],["date","Date d’émission","date"],["echeance","Date d’échéance / validité","date"],["objet","Objet","text"],["montant","Montant HT (€)","number",true],["tva","TVA (%)","number"],["remise","Remise (%)","number"],["acompte","Acompte (€)","number"],["statut","Statut","select",false,["Brouillon","Envoyé","Accepté","Payée","En retard","Refusé"]],["notes","Notes","textarea"]]},
+    "frais":{title:"Frais",fields:[["description","Description","text",true],["type","Type de frais","select",false,["Transport","Carburant","Péage","Parking","Hôtel","Repas","Téléphone","Matériel","Formation","Autre"]],["date","Date de la dépense","date"],["envoi","Date d’envoi","date"],["remboursement","Date de remboursement","date"],["montant","Montant (€)","number",true],["statut","Statut","select",false,["À envoyer","Envoyée","Remboursée","Refusée"]],["projet","Client / projet","text"],["moyen","Moyen de paiement","select",false,["Carte","Espèces","Virement","Chèque","Autre"]],["notes","Notes","textarea"]]},
+    "document":{title:"Document",fields:[["titre","Titre du document","text",true],["categorie","Catégorie","select",false,["Contrat","Facture","Devis","Identité","Plan","Photo","Autre"]],["client","Client lié","text"],["date","Date","date"],["url","Lien du document","url"],["notes","Notes","textarea"]]},
+    "protection":{title:"Protection",warning:"Aperçu local uniquement : ne saisis pas de mot de passe, de coordonnées bancaires ni d’informations réellement sensibles avant la mise en place du stockage sécurisé.",fields:[["information","Nom de l’information","text",true],["detail","Détail","textarea"]]},
+    "vente-achat":{title:"Vente et achat",fields:[["article","Produit ou service","text",true],["type","Opération","select",false,["Vente","Achat"]],["categorie","Catégorie","select",false,["Produit","Service","Abonnement","Prestation","Autre"]],["partenaire","Client / fournisseur","text"],["date","Date","date"],["quantite","Quantité","number"],["prix","Prix unitaire (€)","number"],["montant","Total (€)","number"],["statut","Statut","select",false,["En attente","Payé","Livré"]],["notes","Notes","textarea"]]}
+  };
+  var active=null,editing=-1;
+  var overlay=document.createElement("div");
+  overlay.className="mg-module-overlay";
+  overlay.hidden=true;
+  overlay.innerHTML='<section class="mg-module-dialog" role="dialog" aria-modal="true" aria-labelledby="mg-module-title"><button class="mg-module-close" type="button" aria-label="Fermer">×</button><div class="mg-module-head"><p class="mg-module-eyebrow">MA GESTION WEB · ESPACE DE TRAVAIL</p><h2 id="mg-module-title"></h2><p class="mg-module-subtitle">Créez, consultez et modifiez vos éléments.</p></div><div class="mg-module-warning" hidden></div><form class="mg-module-form"></form><div class="mg-module-list-head"><h3>Éléments enregistrés</h3><span class="mg-module-count">0 élément</span></div><div class="mg-module-list"></div><p class="mg-module-storage">Données de démonstration conservées dans ce navigateur uniquement.</p></section>';
+  document.body.appendChild(overlay);
+  var dialog=overlay.querySelector(".mg-module-dialog"),form=overlay.querySelector("form"),list=overlay.querySelector(".mg-module-list");
+  function esc(s){return String(s==null?"":s).replace(/[&<>"']/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c];});}
+  function key(id){return "mg-preview-items:"+id;}
+  function read(id){try{return JSON.parse(localStorage.getItem(key(id))||"[]");}catch(e){return [];}}
+  function write(id,items){try{localStorage.setItem(key(id),JSON.stringify(items));}catch(e){alert("Le navigateur ne permet pas d’enregistrer ces données.");}}
+  function openAccess(){
+    if(access){var b=document.getElementById("access-open");if(b)b.click();else access.showModal();}
+  }
+  function openModule(id){
+    if(!unlocked){openAccess();return;}
+    active=id;editing=-1;
+    var d=defs[id];if(!d)return;
+    overlay.hidden=false;document.body.classList.add("mg-modal-open");
+    overlay.querySelector("#mg-module-title").textContent=d.title;
+    var warning=overlay.querySelector(".mg-module-warning");
+    warning.hidden=!d.warning;warning.textContent=d.warning||"";
+    renderForm(null);renderList();
+    overlay.querySelector(".mg-module-close").focus();
+  }
+  function renderForm(item){
+    var d=defs[active];
+    form.innerHTML=d.fields.map(function(f){
+      var name=f[0],label=f[1],type=f[2],required=f[3],value=item&&item[name]!=null?item[name]:"";
+      var control;
+      if(type==="select")control='<select name="'+name+'" '+(required?"required":"")+'><option value="">Choisir…</option>'+f[4].map(function(v){return '<option value="'+esc(v)+'" '+(value===v?"selected":"")+'>'+esc(v)+'</option>';}).join("")+'</select>';
+      else if(type==="textarea")control='<textarea name="'+name+'" rows="3" '+(required?"required":"")+'>'+esc(value)+'</textarea>';
+      else control='<input name="'+name+'" type="'+type+'" value="'+esc(value)+'" '+(required?"required":"")+(type==="number"?' min="0" step="0.01"':"")+' />';
+      return '<label class="mg-field"><span>'+esc(label)+(required?' <i>*</i>':"")+'</span>'+control+'</label>';
+    }).join("")+'<div class="mg-form-actions"><button class="btn" type="submit">'+(item?"Enregistrer les modifications":"Ajouter à la liste")+'</button><button class="mg-cancel-edit" type="button" '+(item?"":"hidden")+'>Annuler</button></div>';
+    form.onsubmit=function(e){
+      e.preventDefault();
+      var data={};
+      d.fields.forEach(function(f){var el=form.elements.namedItem(f[0]);data[f[0]]=el?el.value.trim():"";});
+      if(!data[d.fields.find(function(f){return f[3]})?.[0]]){form.reportValidity();return;}
+      var items=read(active);
+      if(editing>=0){items[editing]=Object.assign({},items[editing],data,{updatedAt:new Date().toISOString()});}
+      else{data.createdAt=new Date().toISOString();items.unshift(data);}
+      write(active,items);editing=-1;renderForm(null);renderList();
+    };
+    var cancel=form.querySelector(".mg-cancel-edit");
+    if(cancel)cancel.onclick=function(){editing=-1;renderForm(null);};
+  }
+  function summary(item,d){
+    var preferred=["nom","titre","sujet","evenement","description","societe","information","article","client","numero"];
+    var first="";
+    for(var i=0;i<preferred.length;i++){if(item[preferred[i]]){first=item[preferred[i]];break;}}
+    if(!first){var k=Object.keys(item).find(function(k){return item[k]&&!/^(createdAt|updatedAt)$/.test(k);});first=k?item[k]:"Nouvel élément";}
+    var secondary=d.fields.filter(function(f){return item[f[0]]&&f[0]!==preferred[0]&&f[0]!==f[0];});
+    var details=d.fields.filter(function(f){return item[f[0]]&&f[0]!==preferred[0]&&f[0]!==("nom")&&f[0]!==("titre");}).slice(0,3);
+    return '<div class="mg-record-main"><b>'+esc(first)+'</b><span>'+details.map(function(f){return esc(f[1])+": "+esc(item[f[0]]);}).join(" · ")+'</span></div>';
+  }
+  function renderList(){
+    var items=read(active),d=defs[active];
+    overlay.querySelector(".mg-module-count").textContent=items.length+" élément"+(items.length>1?"s":"");
+    if(!items.length){list.innerHTML='<div class="mg-empty"><span>✧</span><b>Aucun élément pour le moment</b><p>Utilisez le formulaire ci-dessus pour créer votre première fiche.</p></div>';return;}
+    list.innerHTML=items.map(function(item,i){
+      var title=summary(item,d);
+      return '<article class="mg-record">'+title+'<div class="mg-record-actions"><button type="button" data-edit="'+i+'">Modifier</button><button type="button" data-delete="'+i+'">Supprimer</button></div></article>';
+    }).join("");
+    list.querySelectorAll("[data-edit]").forEach(function(b){b.onclick=function(){editing=Number(b.dataset.edit);renderForm(items[editing]);form.scrollIntoView({behavior:"smooth",block:"start"});};});
+    list.querySelectorAll("[data-delete]").forEach(function(b){b.onclick=function(){var i=Number(b.dataset.delete);if(confirm("Supprimer cet élément ?")){items.splice(i,1);write(active,items);renderList();}};});
+  }
+  function close(){overlay.hidden=true;document.body.classList.remove("mg-modal-open");active=null;editing=-1;}
+  overlay.querySelector(".mg-module-close").onclick=close;
+  overlay.addEventListener("click",function(e){if(e.target===overlay)close();});
+  document.addEventListener("keydown",function(e){if(e.key==="Escape"&&!overlay.hidden)close();});
+  cards.forEach(function(card){
+    card.addEventListener("click",function(){openModule(card.dataset.module);});
+    card.addEventListener("keydown",function(e){if(e.key==="Enter"||e.key===" "){e.preventDefault();openModule(card.dataset.module);}});
+  });
+  document.querySelectorAll("[data-open-access]").forEach(function(b){b.addEventListener("click",function(e){e.preventDefault();openAccess();});});
+  if(access){
+    var preview=document.createElement("button");
+    preview.type="button";preview.className="space-btn mg-preview-access";
+    preview.textContent="Accéder en mode aperçu";
+    preview.title="Ouvre les formulaires de démonstration ; les données restent dans ce navigateur.";
+    var actions=access.querySelector(".access-actions");
+    if(actions)actions.insertBefore(preview,actions.firstChild);
+    preview.addEventListener("click",function(){
+      unlocked=true;try{sessionStorage.setItem("mg-preview-access","1");}catch(e){}
+      access.close();document.getElementById("modules").scrollIntoView({behavior:"smooth"});
+    });
+  }
+  window.addEventListener("mg:auth",function(e){
+    unlocked=!!(e.detail&&e.detail.authenticated);
+    if(!unlocked){try{sessionStorage.removeItem("mg-preview-access");}catch(err){}}
+  });
 })();
 </script>
 </body>
