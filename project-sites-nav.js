@@ -1,14 +1,16 @@
 (function(){
   var sites=[
     {id:"guerisseur",name:"Guérisseur de l’Âme",url:"https://guerisseur-de-lame.vercel.app/"},
-    {id:"bleupro",name:"BLEU PRO",url:"https://transfert-bleu-pro.vercel.app/"},
-    {id:"documents",name:"Mes Documents",url:"https://mes-documents-seven.vercel.app/"},
-    {id:"gestion",name:"Ma Gestion Web",url:"https://ma-gestion-web.vercel.app/"},
+    {id:"bleupro",name:"Transfert BLEU PRO",url:"https://transfert-bleu-pro.vercel.app/"},
+    {id:"documents",name:"Transfert Mes Documents",url:"https://transfert-mes-documents.vercel.app/"},
+    {id:"gestion",name:"Transfert Ma Gestion Web",url:"https://transfert-ma-gestion-web.vercel.app/"},
     {id:"creatif",name:"Espace Créatif",url:"https://espace-creatif.vercel.app/"}
   ];
   var host=location.hostname;
   var current=host.indexOf("guerisseur-de-lame")>=0?"guerisseur":
     host.indexOf("transfert-bleu-pro")>=0?"bleupro":
+    host.indexOf("transfert-mes-documents")>=0?"documents":
+    host.indexOf("transfert-ma-gestion-web")>=0?"gestion":
     host.indexOf("mes-documents")>=0?"documents":
     host.indexOf("ma-gestion-web")>=0?"gestion":"creatif";
   var targets=current==="creatif"?sites.filter(function(s){return s.id!=="creatif";}):sites.filter(function(s){return s.id==="creatif";});
