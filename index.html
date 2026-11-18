@@ -194,6 +194,8 @@
 })();
 </script>
 
+<button id="pastel-theme-toggle" type="button" aria-controls="pastel-theme-panel" aria-expanded="false">🎨 Couleurs pastel</button>
+
 <script>
 (function(){
   "use strict";
@@ -263,10 +265,12 @@
   resetButton.id="pastel-theme-reset";resetButton.type="button";resetButton.textContent="Couleurs d’origine";
   resetButton.addEventListener("click",reset);
   panel.appendChild(close);panel.appendChild(title);panel.appendChild(grid);panel.appendChild(resetButton);
-  var toggle=document.createElement("button");toggle.id="pastel-theme-toggle";toggle.type="button";toggle.textContent="🎨 Couleurs pastel";
-  toggle.setAttribute("aria-expanded","false");
-  toggle.addEventListener("click",function(){panel.hidden=!panel.hidden;toggle.setAttribute("aria-expanded",String(!panel.hidden));});
-  document.body.appendChild(panel);document.body.appendChild(toggle);
+  var toggle=document.getElementById("pastel-theme-toggle");
+  if(toggle){
+    toggle.setAttribute("aria-expanded","false");
+    toggle.addEventListener("click",function(){panel.hidden=!panel.hidden;toggle.setAttribute("aria-expanded",String(!panel.hidden));});
+  }
+  document.body.appendChild(panel);
   var saved=palettes.some(function(p){return p.id===current;})?current:"ciel";
   apply(saved,false);
 })();

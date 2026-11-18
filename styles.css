@@ -164,3 +164,19 @@ footer p{margin:4px}
 #contact .contact-item h3 { margin:0; }
 #contact .contact-item a { overflow-wrap:anywhere; font-weight:600; text-decoration:none; }
 #contact .contact-item a:hover { text-decoration:underline; }
+
+/* Bouton de choix des couleurs : présent dans le HTML, indépendant du script */
+#pastel-theme-toggle {
+  position:fixed; right:14px; bottom:14px; z-index:10000;
+  padding:9px 15px; border:1px solid var(--bd); border-radius:999px;
+  background:var(--p3); color:var(--dk); font-weight:700; cursor:pointer;
+  box-shadow:0 4px 14px rgba(50,60,80,.12);
+}
+#pastel-theme-panel {
+  position:fixed; right:14px; bottom:66px; z-index:9999;
+  width:min(310px,calc(100vw - 28px)); padding:14px;
+  background:var(--card); color:var(--tx); border:1px solid var(--bd);
+  border-radius:18px; box-shadow:0 12px 36px rgba(50,60,80,.18);
+  font:14px/1.4 system-ui,sans-serif;
+}
+#pastel-theme-panel[hidden] { display:none; }
