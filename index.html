@@ -26,6 +26,74 @@
 
 <main>
 
+
+  <section class="mg-workspace" id="mg-workspace" aria-label="Espace de gestion">
+    <button class="mg-mobile-menu" id="mg-mobile-menu" type="button" aria-expanded="false" aria-controls="mg-sidebar">☰ <span>Menu</span></button>
+    <div class="mg-workspace-layout">
+      <aside class="mg-sidebar" id="mg-sidebar" aria-label="Navigation des modules">
+        <a class="mg-side-brand" href="#app-dashboard"><span class="mg-brand-symbol">M</span><span><b>Ma Gestion Web</b><small>Espace de travail</small></span></a>
+        <nav class="mg-side-nav">
+          <a class="mg-nav-link mg-nav-dashboard" href="#app-dashboard" data-app-route="dashboard"><span>⌂</span> Tableau de bord</a>
+          <p class="mg-nav-caption">CLIENTS</p>
+          <a class="mg-nav-link" href="#module-prospection" data-app-route="prospection"><span>🎯</span> Prospection</a>
+          <a class="mg-nav-link" href="#module-contact" data-app-route="contact"><span>👤</span> Contacts</a>
+          <a class="mg-nav-link" href="#module-compte" data-app-route="compte"><span>🏢</span> Comptes</a>
+          <p class="mg-nav-caption">ORGANISATION</p>
+          <a class="mg-nav-link" href="#module-afaire" data-app-route="afaire"><span>📋</span> À faire</a>
+          <a class="mg-nav-link" href="#module-tache" data-app-route="tache"><span>✓</span> Tâches</a>
+          <a class="mg-nav-link" href="#module-reunion" data-app-route="reunion"><span>👥</span> Réunions</a>
+          <a class="mg-nav-link" href="#module-calendrier" data-app-route="calendrier"><span>🗓</span> Calendrier</a>
+          <p class="mg-nav-caption">COMMERCIAL</p>
+          <a class="mg-nav-link" href="#module-devis-facture" data-app-route="devis-facture"><span>🧾</span> Devis et factures</a>
+          <a class="mg-nav-link" href="#module-vente-achat" data-app-route="vente-achat"><span>🛒</span> Ventes et achats</a>
+          <p class="mg-nav-caption">ADMINISTRATION</p>
+          <a class="mg-nav-link" href="#module-frais" data-app-route="frais"><span>🧮</span> Frais</a>
+          <a class="mg-nav-link" href="#module-document" data-app-route="document"><span>📁</span> Documents</a>
+          <a class="mg-nav-link" href="#module-protection" data-app-route="protection"><span>🛡</span> Protection</a>
+          <p class="mg-nav-caption">RESSOURCES HUMAINES</p>
+          <a class="mg-nav-link" href="#module-bulletins-salaire" data-app-route="bulletins-salaire"><span>💶</span> Bulletins de salaire</a>
+        </nav>
+        <div class="mg-sidebar-bottom"><span class="mg-status-dot"></span> Espace de gestion</div>
+      </aside>
+      <div class="mg-main-column">
+        <header class="mg-app-topbar">
+          <div><span class="mg-topbar-kicker">VOTRE ESPACE</span><h1 id="mg-page-heading">Tableau de bord</h1></div>
+          <button class="btn mg-top-access" type="button" id="mg-top-access">Me connecter</button>
+        </header>
+        <main class="mg-page-content">
+          <section class="mg-app-page" data-page="dashboard">
+            <div class="mg-welcome-panel"><div><span class="mg-page-eyebrow">BIENVENUE</span><h2>Votre activité, bien organisée.</h2><p>Retrouvez vos outils dans un espace unique. Choisissez une rubrique pour commencer.</p></div><span class="mg-welcome-art" aria-hidden="true">✦</span></div>
+            <div class="mg-dashboard-section"><div class="mg-section-heading"><div><h2>Vos espaces de travail</h2><p>13 modules classés par activité</p></div></div>
+              <div class="mg-dashboard-grid">
+                <a class="mg-dashboard-card" href="#module-prospection"><span>🎯</span><b>Clients</b><small>Prospection, contacts et comptes</small><em>3 modules</em></a>
+                <a class="mg-dashboard-card" href="#module-tache"><span>🗓</span><b>Organisation</b><small>Actions, tâches, réunions et agenda</small><em>4 modules</em></a>
+                <a class="mg-dashboard-card" href="#module-devis-facture"><span>🧾</span><b>Commercial</b><small>Devis, factures, ventes et achats</small><em>2 modules</em></a>
+                <a class="mg-dashboard-card" href="#module-frais"><span>📁</span><b>Administration</b><small>Frais, documents et protection</small><em>3 modules</em></a>
+                <a class="mg-dashboard-card" href="#module-bulletins-salaire"><span>💶</span><b>Ressources humaines</b><small>Salariés et bulletins de salaire</small><em>1 module</em></a>
+              </div>
+            </div>
+            <div class="mg-dashboard-note"><span>✓</span><p><b>Votre espace est prêt à être organisé.</b><br>Les pages et les listes sont en place. La sauvegarde partagée sera connectée lors de la prochaine étape.</p></div>
+          </section>
+          <section class="mg-app-page" data-page="prospection" hidden></section>
+          <section class="mg-app-page" data-page="contact" hidden></section>
+          <section class="mg-app-page" data-page="compte" hidden></section>
+          <section class="mg-app-page" data-page="afaire" hidden></section>
+          <section class="mg-app-page" data-page="tache" hidden></section>
+          <section class="mg-app-page" data-page="reunion" hidden></section>
+          <section class="mg-app-page" data-page="calendrier" hidden></section>
+          <section class="mg-app-page" data-page="devis-facture" hidden></section>
+          <section class="mg-app-page" data-page="vente-achat" hidden></section>
+          <section class="mg-app-page" data-page="frais" hidden></section>
+          <section class="mg-app-page" data-page="document" hidden></section>
+          <section class="mg-app-page" data-page="protection" hidden></section>
+          <section class="mg-app-page" data-page="bulletins-salaire" hidden></section>
+        </main>
+        <footer class="mg-app-footer">Ma Gestion Web <span>·</span> Votre espace professionnel</footer>
+      </div>
+    </div>
+    <div class="mg-mobile-scrim" id="mg-mobile-scrim" hidden></div>
+  </section>
+
   <div class="theme-tools"><button id="pastel-theme-toggle" type="button" aria-controls="pastel-theme-panel" aria-expanded="false">🎨 Modifier les couleurs</button></div>
 
   <section class="hero" id="accueil">
@@ -72,7 +140,7 @@
       <div class="center module-login">
         <button class="btn" type="button" data-open-access>Me connecter</button>
       </div>
-      <h2 class="section-title" id="modules-title">Les 12 modules</h2>
+      <h2 class="section-title" id="modules-title">Les 13 modules</h2>
       <div class="grid module-grid" aria-label="Liste des douze modules">
         <article class="card module-card" data-module="prospection" role="button" tabindex="0" aria-label="Ouvrir le module Prospection"><span class="module-card-icon" aria-hidden="true">🎯</span><h3>Prospection</h3><span class="module-card-hint">Ouvrir le module →</span></article>
         <article class="card module-card" data-module="contact" role="button" tabindex="0" aria-label="Ouvrir le module Contact"><span class="module-card-icon" aria-hidden="true">👤</span><h3>Contact</h3><span class="module-card-hint">Ouvrir le module →</span></article>
@@ -87,8 +155,9 @@
         <article class="card module-card" data-module="protection" role="button" tabindex="0" aria-label="Ouvrir le module Protection"><span class="module-card-icon" aria-hidden="true">🛡️</span><h3>Protection</h3><span class="module-card-hint">Ouvrir le module →</span></article>
         <article class="card module-card" data-module="vente-achat" role="button" tabindex="0" aria-label="Ouvrir le module Vente et achat"><span class="module-card-icon" aria-hidden="true">🛒</span><h3>Vente et achat</h3><span class="module-card-hint">Ouvrir le module →</span></article>
       </div>
+      <article class="card module-card" data-module="bulletins-salaire" role="button" tabindex="0" aria-label="Ouvrir le module Bulletins de salaire"><span class="module-card-icon" aria-hidden="true">💶</span><h3>Bulletins de salaire</h3><span class="module-card-hint">Ouvrir le module →</span></article>
       <div class="center module-global-cta">
-        <button class="btn" type="button" data-open-access>Me connecter à mes 12 modules</button>
+        <button class="btn" type="button" data-open-access>Me connecter à mes 13 modules</button>
       </div>
     </div>
   </section>
@@ -394,5 +463,57 @@
   });
 })();
 </script>
+
+<script id="mg-page-navigation">
+(function(){
+  "use strict";
+  var modules={
+    prospection:["Prospection","Suivez vos prospects et vos opportunités.","🎯","Clients"],
+    contact:["Contacts","Centralisez les coordonnées et les échanges.","👤","Clients"],
+    compte:["Comptes","Retrouvez les fiches de vos clients et sociétés.","🏢","Clients"],
+    afaire:["À faire","Gardez une vue claire sur les actions à réaliser.","📋","Organisation"],
+    tache:["Tâches","Organisez vos tâches et leur avancement.","✓","Organisation"],
+    reunion:["Réunions","Préparez et retrouvez vos réunions.","👥","Organisation"],
+    calendrier:["Calendrier","Visualisez vos événements et vos échéances.","🗓","Organisation"],
+    "devis-facture":["Devis et factures","Suivez vos documents commerciaux et leur statut.","🧾","Commercial"],
+    "vente-achat":["Ventes et achats","Suivez vos opérations et mouvements commerciaux.","🛒","Commercial"],
+    frais:["Frais","Centralisez vos dépenses professionnelles.","🧮","Administration"],
+    document:["Documents","Retrouvez les documents associés à votre activité.","📁","Administration"],
+    protection:["Protection","Organisez vos informations et éléments de protection.","🛡","Administration"],
+    "bulletins-salaire":["Bulletins de salaire","Gérez les salariés et leurs bulletins de paie.","💶","Ressources humaines"]
+  };
+  var pages=[].slice.call(document.querySelectorAll(".mg-app-page"));
+  var heading=document.getElementById("mg-page-heading");
+  var nav=[].slice.call(document.querySelectorAll("[data-app-route]"));
+  var menu=document.getElementById("mg-mobile-menu");
+  var scrim=document.getElementById("mg-mobile-scrim");
+  function closeMenu(){document.body.classList.remove("mg-sidebar-open");if(menu)menu.setAttribute("aria-expanded","false");}
+  function render(){
+    var route=(location.hash||"#app-dashboard").replace(/^#/,"");
+    if(route.indexOf("module-")===0)route=route.slice(7);
+    if(route!=="dashboard"&&!modules[route])route="dashboard";
+    pages.forEach(function(p){p.hidden=p.dataset.page!==route;});
+    nav.forEach(function(a){var active=a.dataset.appRoute===route;a.classList.toggle("is-active",active);if(active)a.setAttribute("aria-current","page");else a.removeAttribute("aria-current");});
+    if(route==="dashboard"){heading.textContent="Tableau de bord";}
+    else{
+      var d=modules[route];heading.textContent=d[0];
+      var page=document.querySelector('.mg-app-page[data-page="'+route+'"]');
+      page.innerHTML='<div class="mg-module-page-head"><div><span class="mg-page-eyebrow">'+d[3].toUpperCase()+'</span><h2>'+d[0]+'</h2><p>'+d[1]+'</p></div><button class="mg-page-add" type="button" data-add-module="'+route+'">＋ Ajouter</button></div><div class="mg-page-list"><div><div class="mg-page-empty-icon">'+d[2]+'</div><h3>Aucun élément pour le moment</h3><p>Votre liste apparaîtra ici lorsque vous ajouterez votre première fiche.</p></div></div>';
+      page.querySelector("[data-add-module]").addEventListener("click",function(){window.alert("Le formulaire de ce module sera activé lors de la prochaine étape.");});
+    }
+    document.body.classList.add("mg-app-mode");
+    closeMenu();
+  }
+  nav.forEach(function(a){a.addEventListener("click",closeMenu);});
+  document.querySelectorAll(".mg-dashboard-card").forEach(function(a){a.addEventListener("click",function(){closeMenu();});});
+  if(menu)menu.addEventListener("click",function(){var open=!document.body.classList.contains("mg-sidebar-open");document.body.classList.toggle("mg-sidebar-open",open);menu.setAttribute("aria-expanded",String(open));});
+  if(scrim)scrim.addEventListener("click",closeMenu);
+  var access=document.getElementById("mg-top-access");
+  if(access)access.addEventListener("click",function(){var trigger=document.getElementById("access-open");if(trigger)trigger.click();});
+  window.addEventListener("hashchange",render);
+  render();
+})();
+</script>
+
 </body>
 </html>
