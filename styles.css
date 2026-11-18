@@ -156,3 +156,11 @@ footer p{margin:4px}
 .module-global-cta { margin-top:24px; }
 #contact .card { max-width:720px; margin:0 auto; }
 #contact .section-intro { margin-bottom:0; }
+
+/* Coordonnées de contact : email puis WhatsApp */
+#contact .contact-card { max-width:720px; margin:0 auto; }
+#contact .contact-list { display:grid; grid-template-columns:repeat(auto-fit,minmax(min(100%,240px),1fr)); gap:14px; margin-top:22px; }
+#contact .contact-item { display:flex; flex-direction:column; align-items:center; justify-content:center; gap:8px; padding:20px 14px; border:1px solid var(--bd); border-radius:15px; background:var(--p1); text-align:center; }
+#contact .contact-item h3 { margin:0; }
+#contact .contact-item a { overflow-wrap:anywhere; font-weight:600; text-decoration:none; }
+#contact .contact-item a:hover { text-decoration:underline; }
