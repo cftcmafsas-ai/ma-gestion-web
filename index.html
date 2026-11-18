@@ -15,11 +15,11 @@
 
 <header class="top">
   <nav aria-label="Navigation principale">
-    <a class="brand-home" href="#accueil" aria-label="Accueil Ma Gestion Web"><img src="/logos.jpg" alt="Logo R"><span>Accueil</span></a>
+    <a class="brand-mark" href="#accueil" aria-label="Retour à l’accueil"><img src="/logos.jpg" alt="Logo R"></a>
+    <a href="#accueil">Accueil</a>
     <a href="#gestion">Ma Gestion</a>
     <a href="#modules">Modules</a>
     <a href="#autres-sites">Mes espaces</a>
-    <a href="#contact">Contact</a>
     <button class="btn" id="access-open" type="button" style="padding:6px 14px;font-size:14px">Accès</button>
   </nav>
 </header>
@@ -32,6 +32,7 @@
     <p class="lead">Votre activité, simplement organisée</p>
     <p class="intro">Retrouvez vos contacts, activités, documents, devis, factures et frais dans un espace clair, accessible depuis votre téléphone, tablette ou ordinateur.</p>
     <a class="btn" href="https://headless-jzsfhrdevmx-guerrisseur-140b.wix-site-host.com/" target="_blank" rel="noopener noreferrer">Accéder à Ma Gestion</a>
+    <a class="btn" href="#apercu-modules">Découvrir les modules</a>
   </section>
 
   <section class="wrap" id="gestion">
@@ -43,10 +44,9 @@
       <article class="card"><h3>Gérer vos documents</h3><p>Retrouvez vos documents et vos éléments de suivi dans un environnement organisé.</p></article>
       <article class="card"><h3>Accéder simplement</h3><p>Un affichage adapté à votre téléphone, votre tablette et votre ordinateur.</p></article>
     </div>
-    <div class="center" style="margin-top:26px"><a class="btn" href="https://headless-jzsfhrdevmx-guerrisseur-140b.wix-site-host.com/" target="_blank" rel="noopener noreferrer">Se connecter à l’espace</a></div>
   </section>
 
-  <section class="wrap" id="modules">
+  <section class="wrap" id="apercu-modules">
     <div class="band">
       <h2 class="section-title">Une seule application, plusieurs modules</h2>
       <p class="section-intro">Les outils essentiels de votre activité réunis dans un même espace, sans multiplier les applications.</p>
@@ -65,6 +65,32 @@
 
 
 
+  <section class="wrap" id="modules" aria-labelledby="modules-title">
+    <div class="band">
+      <div class="center module-login">
+        <a class="btn" href="https://headless-jzsfhrdevmx-guerrisseur-140b.wix-site-host.com/" target="_blank" rel="noopener noreferrer">Me connecter</a>
+      </div>
+      <h2 class="section-title" id="modules-title">Les 12 modules</h2>
+      <div class="grid module-grid" aria-label="Liste des douze modules">
+        <article class="card module-card"><h3>Prospection</h3></article>
+        <article class="card module-card"><h3>Contact</h3></article>
+        <article class="card module-card"><h3>Compte</h3></article>
+        <article class="card module-card"><h3>À faire</h3></article>
+        <article class="card module-card"><h3>Tâche</h3></article>
+        <article class="card module-card"><h3>Réunion</h3></article>
+        <article class="card module-card"><h3>Calendrier</h3></article>
+        <article class="card module-card"><h3>Devis et facture</h3></article>
+        <article class="card module-card"><h3>Frais</h3></article>
+        <article class="card module-card"><h3>Document</h3></article>
+        <article class="card module-card"><h3>Protection</h3></article>
+        <article class="card module-card"><h3>Vente et achat</h3></article>
+      </div>
+      <div class="center module-global-cta">
+        <a class="btn" href="https://headless-jzsfhrdevmx-guerrisseur-140b.wix-site-host.com/" target="_blank" rel="noopener noreferrer">Me connecter à mes 12 modules</a>
+      </div>
+    </div>
+  </section>
+
   <section class="wrap" id="autres-sites">
 <div class="card">
       <h2 class="section-title">Mes autres sites</h2>
@@ -78,11 +104,17 @@
     </div>
   </section>
 
+  <section class="wrap" id="contact" aria-labelledby="contacts-title">
+    <div class="card">
+      <h2 class="section-title" id="contacts-title">Mes contacts</h2>
+      <p class="section-intro">Contact : coordonnées à compléter</p>
+    </div>
+  </section>
+
 </main>
 
-<footer id="contact">
+<footer id="site-footer">
   <p>Ma Gestion Web · Rodolphe Torres Tirado</p>
-  <p>Contact : coordonnées à compléter</p>
 </footer>
 
 <dialog id="access-dialog" aria-labelledby="access-title">
