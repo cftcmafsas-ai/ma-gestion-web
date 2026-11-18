@@ -58,3 +58,56 @@ footer p{margin:4px}
 #pastel-theme-reset{margin-top:10px;justify-content:center;font-weight:700}
 @media(max-width:640px){.top{align-items:flex-start}.top nav{padding-top:4px}.hero{padding:32px 15px 40px}.wrap{padding:22px 14px 42px}}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important}}
+
+
+/* Correctif de mise en page : navigation responsive */
+@media (max-width: 760px) {
+  .top {
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 8px 12px;
+    padding: 10px 12px;
+  }
+
+  .top > a {
+    display: block;
+    flex: 0 0 auto;
+  }
+
+  .top nav {
+    display: flex;
+    flex: 1 1 100%;
+    width: 100%;
+    min-width: 0;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 6px;
+    overflow: visible;
+    white-space: normal;
+    padding: 0;
+  }
+
+  .top nav a,
+  .top nav button {
+    flex: 0 0 auto;
+    white-space: nowrap;
+  }
+}
+
+@media (max-width: 380px) {
+  .top nav {
+    gap: 5px;
+  }
+
+  .top nav a {
+    padding: 6px 10px;
+    font-size: 13px;
+  }
+
+  .top nav .btn {
+    padding: 6px 10px !important;
+    font-size: 13px !important;
+  }
+}
