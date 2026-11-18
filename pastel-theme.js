@@ -20,14 +20,15 @@
     "nav a,.ck{background:var(--site-soft)!important;color:var(--site-text)!important}" +
     "input,textarea,select{background:var(--site-card)!important;color:var(--site-text)!important;border-color:var(--site-border)!important}" +
     "body{--bg:var(--site-bg);--card:var(--site-card);--tx:var(--site-text);--text:var(--site-text);--mu:var(--site-muted);--muted:var(--site-muted);--bd:var(--site-border);--border:var(--site-border);--p1:var(--site-soft);--p2:var(--site-soft);--p3:var(--site-accent);--accent:var(--site-accent);--ac:var(--site-accent);--dk:var(--site-text)}" +
-    "#pastel-theme-panel{position:fixed;right:14px;bottom:14px;z-index:9999;width:min(300px,calc(100vw - 28px));padding:14px;background:var(--site-card);color:var(--site-text);border:1px solid var(--site-border);border-radius:18px;box-shadow:0 12px 36px rgba(50,60,80,.18);font:14px/1.4 system-ui,sans-serif}" +
+    "#pastel-theme-panel{position:fixed;right:14px;bottom:66px;z-index:9999;width:min(300px,calc(100vw - 28px));padding:14px;background:var(--site-card);color:var(--site-text);border:1px solid var(--site-border);border-radius:18px;box-shadow:0 12px 36px rgba(50,60,80,.18);font:14px/1.4 system-ui,sans-serif}" +
     "#pastel-theme-panel .pt-title{font-weight:700;margin:0 0 10px}" +
     "#pastel-theme-panel .pt-colors{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}" +
     "#pastel-theme-panel button{display:flex;align-items:center;gap:7px;width:100%;padding:7px 8px;border:1px solid var(--site-border);border-radius:11px;background:var(--site-soft)!important;color:var(--site-text)!important;font:12px system-ui,sans-serif;cursor:pointer}" +
     "#pastel-theme-panel button[aria-pressed=true]{outline:2px solid var(--site-text);outline-offset:1px}" +
     "#pastel-theme-panel i{display:block;width:19px;height:19px;flex:none;border-radius:50%;border:1px solid rgba(0,0,0,.08)}" +
-    "#pastel-theme-toggle{display:block;margin:0 0 9px auto;padding:8px 13px;border:1px solid var(--site-border);border-radius:999px;background:var(--site-accent)!important;color:var(--site-text)!important;font-weight:700;cursor:pointer}" +
-    "#pastel-theme-panel[hidden]{display:none}";
+    "#pastel-theme-toggle{position:fixed;right:14px;bottom:14px;z-index:10000;padding:8px 13px;border:1px solid var(--site-border);border-radius:999px;background:var(--site-accent)!important;color:var(--site-text)!important;font-weight:700;cursor:pointer}" +
+    "#pastel-theme-panel[hidden]{display:none}" +
+    "#pastel-theme-close{float:right;border:0;border-radius:50%;width:28px;height:28px;font-size:18px;line-height:1;cursor:pointer;background:var(--site-soft)!important;color:var(--site-text)!important}";
   document.head.appendChild(style);
   function apply(id){
     var p=palettes.find(function(x){return x.id===id})||palettes[2];
@@ -42,6 +43,8 @@
   }
   var panel=document.createElement("aside");panel.id="pastel-theme-panel";panel.setAttribute("aria-label","Choisir une couleur pastel");
   var toggle=document.createElement("button");toggle.id="pastel-theme-toggle";toggle.type="button";toggle.textContent="🎨 Couleurs pastel";
+  var close=document.createElement("button");close.id="pastel-theme-close";close.type="button";close.textContent="×";close.setAttribute("aria-label","Fermer les couleurs");
+  close.addEventListener("click",function(){panel.hidden=true;});
   var title=document.createElement("p");title.className="pt-title";title.textContent="Choisissez votre ambiance pastel";
   var grid=document.createElement("div");grid.className="pt-colors";
   palettes.forEach(function(p){
@@ -51,7 +54,7 @@
     b.appendChild(dot);b.appendChild(label);b.addEventListener("click",function(){apply(p.id);});
     grid.appendChild(b);
   });
-  panel.appendChild(title);panel.appendChild(grid);document.body.appendChild(panel);document.body.appendChild(toggle);
+  panel.appendChild(close);panel.appendChild(title);panel.appendChild(grid);document.body.appendChild(panel);document.body.appendChild(toggle);
   toggle.addEventListener("click",function(){panel.hidden=!panel.hidden;});
-  panel.hidden=false;apply(current);
+  panel.hidden=true;apply(current);
 })();
