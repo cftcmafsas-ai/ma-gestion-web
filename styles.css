@@ -180,3 +180,9 @@ footer p{margin:4px}
   font:14px/1.4 system-ui,sans-serif;
 }
 #pastel-theme-panel[hidden] { display:none; }
+
+
+/* Le sélecteur de couleurs est placé en haut de page pour rester immédiatement visible */
+.theme-tools{display:flex;justify-content:center;align-items:center;padding:12px 12px 0;position:relative;z-index:20}
+#pastel-theme-toggle{position:relative!important;right:auto!important;bottom:auto!important;z-index:20!important;display:inline-flex!important;align-items:center;justify-content:center;min-height:42px;padding:9px 18px!important;background:var(--p3)!important;color:var(--dk)!important;border:1px solid var(--bd)!important;border-radius:999px!important;font:700 14px/1.2 system-ui,sans-serif!important;cursor:pointer;box-shadow:0 4px 14px rgba(50,60,80,.12)}
+#pastel-theme-panel{position:fixed!important;right:14px;bottom:14px;z-index:2147483646!important}
