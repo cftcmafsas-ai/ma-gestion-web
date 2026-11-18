@@ -3,20 +3,41 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Ma Gestion Web</title>
-  <meta name="description" content="Accédez à votre espace Ma Gestion Web.">
+  <meta name="theme-color" content="#eff8ff">
+  <title>Ma Gestion Web | Rodolphe Torres Tirado</title>
+  <meta name="description" content="Ma gestion, votre activité simplement organisée. Retrouvez votre espace Ma Gestion Web.">
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <main class="hero">
-    <h1>Ma Gestion Web</h1>
-    <p>Accédez à votre espace de gestion sécurisé.</p>
-    <a class="button" href="https://headless-jzsfhrdevmx-guerrisseur-140b.wix-site-host.com/" rel="noopener">Accéder à l’application</a>
+  <header class="site-header">
+    <nav class="main-nav" aria-label="Navigation principale">
+      <a href="#accueil">Accueil</a>
+      <a href="#gestion">Ma Gestion</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </header>
+  <main>
+    <section class="hero" id="accueil">
+      <p class="tagline">Ma gestion, votre activité simplement organisée</p>
+      <div class="brand" aria-label="Rodolphe Torres Tirado">
+        <span class="brand-mark" aria-hidden="true">RTT</span>
+        <span class="brand-name">Rodolphe Torres Tirado</span>
+      </div>
+      <h1>Ma Gestion Web</h1>
+      <p class="intro">Retrouvez vos outils et votre activité dans un espace clair, pratique et organisé.</p>
+      <div id="gestion" class="action-area">
+        <a class="button" href="login.html">Accéder à ma gestion web</a>
+      </div>
+    </section>
+    <section class="contact-section" id="contact">
+      <h2>Contact</h2>
+      <p>Pour toute question concernant Ma Gestion Web, contactez Rodolphe Torres Tirado.</p>
+      <a href="mailto:rodolphetorres@outlook.fr">rodolphetorres@outlook.fr</a>
+    </section>
   </main>
-  <footer>
-    <p>© Ma Gestion Web</p>
-  </footer>
-<script src="/project-sites-nav.js"></script>
-<script src="/pastel-theme.js"></script>
+  <footer><p>© <span id="year"></span> Rodolphe Torres Tirado</p></footer>
+  <script>document.getElementById('year').textContent=new Date().getFullYear();</script>
+  <script src="/project-sites-nav.js"></script>
+  <script src="/pastel-theme.js"></script>
 </body>
 </html>
