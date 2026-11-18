@@ -70,6 +70,8 @@ footer p{margin:4px}
 </style>
 </head>
 <body>
+
+
 <section class="wrap" id="autres-sites">
 <div class="card">
       <h2 class="section-title">Mes autres sites</h2>
@@ -82,22 +84,6 @@ footer p{margin:4px}
       </div>
     </div>
   </section>
-
-<header class="top">
-  <a href="#accueil" aria-label="Accueil Ma Gestion Web"><img src="/logos.JPG" alt="Logo R"></a>
-  <nav aria-label="Navigation principale">
-    <a href="#accueil">Accueil</a>
-    <a href="#gestion">Ma Gestion</a>
-    <a href="#modules">Modules</a>
-    <a href="#autres-sites">Mes espaces</a>
-    <a href="#contact">Contact</a>
-    <button class="btn" id="access-open" type="button" style="padding:6px 14px;font-size:14px">Accès</button>
-  </nav>
-</header>
-
-
-
-</section>
 
 <header class="top">
   <a href="#accueil" aria-label="Accueil Ma Gestion Web"><img src="/logos.JPG" alt="Logo R"></a>
@@ -196,7 +182,12 @@ footer p{margin:4px}
       if(data.authenticated){mode="authenticated";desc.textContent="Vous êtes connecté.";form.querySelector("#access-password").hidden=true;confirmWrap.hidden=true;setupWrap.hidden=true;submit.hidden=true;logout.hidden=false;}
       else if(data.initialized){mode="login";desc.textContent="Saisissez votre mot de passe pour accéder à votre espace.";form.querySelector("#access-password").hidden=false;form.querySelector("#access-password").autocomplete="current-password";confirmWrap.hidden=true;setupWrap.hidden=true;submit.hidden=false;logout.hidden=true;submit.textContent="Se connecter";}
       else{mode="register";desc.textContent="Créez votre mot de passe personnel. La création initiale nécessite votre code propriétaire.";form.querySelector("#access-password").hidden=false;form.querySelector("#access-password").autocomplete="new-password";confirmWrap.hidden=false;setupWrap.hidden=false;submit.hidden=false;logout.hidden=true;submit.textContent="Créer mon mot de passe";}
-    }catch(e){status.textContent=e.message;desc.textContent="Connexion sécurisée";submit.hidden=true;}
+    }catch(e){
+      mode="register";desc.textContent="Créez votre mot de passe personnel. La configuration du service doit être terminée pour valider la création.";
+      form.querySelector("#access-password").hidden=false;form.querySelector("#access-password").autocomplete="new-password";
+      confirmWrap.hidden=false;setupWrap.hidden=false;submit.hidden=false;logout.hidden=true;submit.textContent="Créer mon mot de passe";
+      status.textContent=e.message;
+    }
     finally{submit.disabled=false;}
   }
   document.getElementById("access-open").addEventListener("click",async()=>{form.reset();await refresh();dialog.showModal();});
