@@ -7,7 +7,7 @@
     {id:"peche",name:"Pêche",bg:"#fff5ef",card:"#fffdfb",text:"#76584a",muted:"#a08070",accent:"#f2c7ae",soft:"#fbe5d8",border:"#f2e3d9"},
     {id:"vanille",name:"Jaune vanille",bg:"#fffbed",card:"#fffef8",text:"#6b6245",muted:"#958a68",accent:"#efe0a7",soft:"#f8f0d1",border:"#eee7cf"}
   ];
-  var key="pastel-theme-v1";
+  var key="pastel-theme-v1";\n  var original="ciel";
   var current=localStorage.getItem(key)||"ciel";
   var style=document.createElement("style");
   style.id="pastel-theme-styles";
@@ -24,7 +24,7 @@
     "#pastel-theme-panel .pt-title{font-weight:700;margin:0 0 10px}" +
     "#pastel-theme-panel .pt-colors{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}" +
     "#pastel-theme-panel button{display:flex;align-items:center;gap:7px;width:100%;padding:7px 8px;border:1px solid var(--site-border);border-radius:11px;background:var(--site-soft)!important;color:var(--site-text)!important;font:12px system-ui,sans-serif;cursor:pointer}" +
-    "#pastel-theme-panel button[aria-pressed=true]{outline:2px solid var(--site-text);outline-offset:1px}" +
+    "#pastel-theme-panel button[aria-pressed=true]{outline:2px solid var(--site-text);outline-offset:1px}" +\n    "#pastel-theme-panel .pt-reset{display:block;margin-top:10px;text-align:center;font-weight:700}" +
     "#pastel-theme-panel i{display:block;width:19px;height:19px;flex:none;border-radius:50%;border:1px solid rgba(0,0,0,.08)}" +
     "#pastel-theme-toggle{position:fixed;right:14px;bottom:14px;z-index:10000;padding:8px 13px;border:1px solid var(--site-border);border-radius:999px;background:var(--site-accent)!important;color:var(--site-text)!important;font-weight:700;cursor:pointer}" +
     "#pastel-theme-panel[hidden]{display:none}" +
@@ -54,7 +54,7 @@
     b.appendChild(dot);b.appendChild(label);b.addEventListener("click",function(){apply(p.id);});
     grid.appendChild(b);
   });
-  panel.appendChild(close);panel.appendChild(title);panel.appendChild(grid);document.body.appendChild(panel);document.body.appendChild(toggle);
+  var reset=document.createElement("button");reset.type="button";reset.className="pt-reset";reset.textContent="↺ Retour à la couleur d’origine";reset.addEventListener("click",function(){apply(original);});\n  panel.appendChild(close);panel.appendChild(title);panel.appendChild(grid);panel.appendChild(reset);document.body.appendChild(panel);document.body.appendChild(toggle);
   toggle.addEventListener("click",function(){panel.hidden=!panel.hidden;});
   panel.hidden=true;apply(current);
 })();
