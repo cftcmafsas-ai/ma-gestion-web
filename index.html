@@ -48,6 +48,13 @@ a{color:var(--dk)}
 .site-item .unavailable{display:inline-block;padding:10px 20px;border-radius:999px;background:#edf0f3;color:#66717b;font-weight:600;font-size:14px}
 footer{text-align:center;color:var(--mu);font-size:14px;padding:26px 16px;border-top:1px solid var(--bd);background:var(--bg)}
 footer p{margin:4px}
+#access-dialog{width:min(420px,calc(100vw - 28px));border:1px solid var(--bd);border-radius:20px;padding:24px;color:var(--tx);background:var(--card);box-shadow:0 18px 55px rgba(30,45,60,.25)}
+#access-dialog::backdrop{background:rgba(25,35,45,.48)}
+#access-dialog h2{margin:0 0 8px}
+#access-dialog label{display:block;margin:12px 0 5px;font-weight:600}
+#access-dialog input{width:100%;padding:12px;border:1px solid var(--bd);border-radius:10px;font:inherit}
+#access-dialog .access-actions{display:flex;gap:10px;justify-content:flex-end;margin-top:18px}
+#access-dialog .access-status{min-height:1.5em;color:var(--mu);font-size:14px}
 #pastel-theme-panel{position:fixed;right:14px;bottom:66px;z-index:9999;width:min(310px,calc(100vw - 28px));padding:14px;background:var(--site-card,var(--card));color:var(--site-text,var(--tx));border:1px solid var(--site-border,var(--bd));border-radius:18px;box-shadow:0 12px 36px rgba(50,60,80,.18);font:14px/1.4 system-ui,sans-serif}
 #pastel-theme-panel[hidden]{display:none}
 #pastel-theme-panel .pt-title{font-weight:700;margin:0 0 10px}
@@ -71,6 +78,7 @@ footer p{margin:4px}
     <a href="#modules">Modules</a>
     <a href="#autres-sites">Mes espaces</a>
     <a href="#contact">Contact</a>
+    <button class="btn" id="access-open" type="button" style="padding:6px 14px;font-size:14px">Accès</button>
   </nav>
 </header>
 
@@ -131,6 +139,69 @@ footer p{margin:4px}
   <p>Ma Gestion Web · Rodolphe Torres Tirado</p>
   <p>Contact : coordonnées à compléter</p>
 </footer>
+
+<dialog id="access-dialog" aria-labelledby="access-title">
+  <form id="access-form">
+    <h2 id="access-title">Accès privé</h2>
+    <p id="access-description">Vérification de l’accès…</p>
+    <label for="access-password">Mot de passe</label>
+    <input id="access-password" name="password" type="password" autocomplete="new-password" minlength="12" required>
+    <div id="access-confirm-wrap">
+      <label for="access-confirm">Confirmer le mot de passe</label>
+      <input id="access-confirm" name="confirmation" type="password" autocomplete="new-password" minlength="12">
+    </div>
+    <div id="access-setup-wrap">
+      <label for="access-setup">Code propriétaire (configuration initiale)</label>
+      <input id="access-setup" name="setupToken" type="password" autocomplete="off">
+    </div>
+    <p class="access-status" id="access-status" role="status" aria-live="polite"></p>
+    <div class="access-actions">
+      <button class="space-btn" id="access-close" type="button">Fermer</button>
+      <button class="btn" id="access-submit" type="submit">Continuer</button>
+      <button class="space-btn" id="access-logout" type="button" hidden>Déconnexion</button>
+    </div>
+  </form>
+</dialog>
+
+<script>
+(function(){
+  const dialog=document.getElementById("access-dialog"), form=document.getElementById("access-form");
+  const status=document.getElementById("access-status"), desc=document.getElementById("access-description");
+  const confirmWrap=document.getElementById("access-confirm-wrap"), setupWrap=document.getElementById("access-setup-wrap");
+  const logout=document.getElementById("access-logout"), submit=document.getElementById("access-submit");
+  let mode="register";
+  async function refresh(){
+    status.textContent=""; submit.disabled=true;
+    try{
+      const r=await fetch("/api/session",{credentials:"same-origin",headers:{"Accept":"application/json"}});
+      if(!r.ok) throw new Error("Service d’authentification indisponible.");
+      const data=await r.json();
+      if(data.authenticated){mode="authenticated";desc.textContent="Vous êtes connecté.";form.querySelector("#access-password").hidden=true;confirmWrap.hidden=true;setupWrap.hidden=true;submit.hidden=true;logout.hidden=false;}
+      else if(data.initialized){mode="login";desc.textContent="Saisissez votre mot de passe pour accéder à votre espace.";form.querySelector("#access-password").hidden=false;form.querySelector("#access-password").autocomplete="current-password";confirmWrap.hidden=true;setupWrap.hidden=true;submit.hidden=false;logout.hidden=true;submit.textContent="Se connecter";}
+      else{mode="register";desc.textContent="Créez votre mot de passe personnel. La création initiale nécessite votre code propriétaire.";form.querySelector("#access-password").hidden=false;form.querySelector("#access-password").autocomplete="new-password";confirmWrap.hidden=false;setupWrap.hidden=false;submit.hidden=false;logout.hidden=true;submit.textContent="Créer mon mot de passe";}
+    }catch(e){status.textContent=e.message;desc.textContent="Connexion sécurisée";submit.hidden=true;}
+    finally{submit.disabled=false;}
+  }
+  document.getElementById("access-open").addEventListener("click",async()=>{form.reset();await refresh();dialog.showModal();});
+  document.getElementById("access-close").addEventListener("click",()=>dialog.close());
+  form.addEventListener("submit",async e=>{
+    e.preventDefault();status.textContent="";submit.disabled=true;
+    const password=form.elements.password.value;
+    const body={password};
+    let route="/api/login";
+    if(mode==="register"){route="/api/register";body.confirmation=form.elements.confirmation.value;body.setupToken=form.elements.setupToken.value;if(password!==body.confirmation){status.textContent="Les deux mots de passe ne correspondent pas.";submit.disabled=false;return;}}
+    try{
+      const r=await fetch(route,{method:"POST",credentials:"same-origin",headers:{"Content-Type":"application/json","Accept":"application/json"},body:JSON.stringify(body)});
+      const data=await r.json().catch(()=>({}));
+      if(!r.ok)throw new Error(data.error||"Impossible de valider la demande.");
+      status.textContent=mode==="register"?"Mot de passe créé. Vous êtes connecté.":"Connexion réussie.";
+      form.reset();await refresh();
+    }catch(err){status.textContent=err.message;}
+    finally{submit.disabled=false;}
+  });
+  logout.addEventListener("click",async()=>{try{await fetch("/api/logout",{method:"POST",credentials:"same-origin"});form.reset();await refresh();}catch(e){status.textContent="Déconnexion impossible.";}}); 
+})();
+</script>
 
 <script>
 (function(){
