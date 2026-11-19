@@ -1656,10 +1656,17 @@ cards.forEach(function(card){card.addEventListener("click",function(){openModule
     var head=document.createElement("div");
     head.className="mg-module-page-head";
     head.innerHTML='<div><span class="mg-page-eyebrow">'+d[3].toUpperCase()+'</span><h2>'+d[0]+'</h2><p>'+d[1]+'</p></div>';
+    var actions=document.createElement("div");actions.className="mg-page-actions";
     var add=document.createElement("button");
     add.className="mg-page-add";add.type="button";add.textContent="＋ Ajouter";
     add.addEventListener("click",function(){window.dispatchEvent(new CustomEvent("mg:open-module",{detail:{id:route}}));});
-    head.appendChild(add);
+    actions.appendChild(add);
+    function toolButton(label,fn){var b=document.createElement("button");b.type="button";b.textContent=label;b.addEventListener("click",fn);actions.appendChild(b);}
+    toolButton("📋 Coller",function(){var t=window.prompt("Collez une fiche (JSON) ou un texte :");if(!t)return;var obj;try{obj=JSON.parse(t);if(!obj||typeof obj!=="object"||Array.isArray(obj))throw new Error();}catch(e){var f=modules[route],key=route==="devis-facture"?"nom":"nom";obj={};obj[key]=t;}var storeKey=route==="devis-facture"?"devis":"mg-preview-items:"+route;if(route==="devis-facture"){alert("Pour coller un devis ou une facture, ouvrez le module puis utilisez son bouton Coller.");return;}var a=[];try{a=JSON.parse(localStorage.getItem(storeKey)||"[]");if(!Array.isArray(a))a=[];}catch(e){}a.unshift(obj);localStorage.setItem(storeKey,JSON.stringify(a));renderModulePage(route,page,d);});
+    toolButton("⬇️ Exporter CSV",function(){if(route==="devis-facture"){alert("L’export des devis et factures est disponible dans le module.");return;}var a=[];try{a=JSON.parse(localStorage.getItem("mg-preview-items:"+route)||"[]");}catch(e){}var keys=Object.keys(a[0]||{}),csv=[keys].concat(a.map(function(x){return keys.map(function(k){return x[k]==null?"":String(x[k]);});})).map(function(row){return row.map(function(v){return '"'+String(v).replace(/"/g,'""')+'"';}).join(";");}).join("\\r\\n");var url=URL.createObjectURL(new Blob(["\\ufeff"+csv],{type:"text/csv;charset=utf-8"})),link=document.createElement("a");link.href=url;link.download=route+"-ma-gestion.csv";link.click();URL.revokeObjectURL(url);});
+    toolButton("🖨️ Imprimer",function(){if(route==="devis-facture"){alert("L’impression des devis et factures est disponible dans le module.");return;}var a=[];try{a=JSON.parse(localStorage.getItem("mg-preview-items:"+route)||"[]");}catch(e){}var w=window.open("","_blank");if(!w){alert("Autorisez les fenêtres contextuelles pour imprimer.");return;}w.document.write("<html lang='fr'><meta charset='utf-8'><title>"+d[0]+"</title><h1>"+d[0]+"</h1>"+a.map(function(x){return "<p>"+Object.keys(x).map(function(k){return "<b>"+k+":</b> "+String(x[k]||"");}).join(" · ")+"</p>";}).join("")+"<script>window.print()<\\/script></html>");w.document.close();});
+    toolButton("📤 Envoyer",function(){var a=[];try{a=JSON.parse(localStorage.getItem("mg-preview-items:"+route)||"[]");}catch(e){}var body=a.map(function(x){return Object.keys(x).map(function(k){return k+": "+x[k];}).join("\\n");}).join("\\n\\n---\\n\\n");if(navigator.share)navigator.share({title:d[0],text:body||"Aucune fiche."}).catch(function(){});else location.href="mailto:?subject="+encodeURIComponent(d[0])+"&body="+encodeURIComponent(body);});
+    head.appendChild(actions);
     var list=document.createElement("div");list.className="mg-page-list";
     var items=[];
     try{if(route==="devis-facture"){items=JSON.parse(localStorage.getItem("mg-preview-items:devis")||"[]").map(function(x){return Object.assign({docKind:"Devis"},x);}).concat(JSON.parse(localStorage.getItem("mg-preview-items:factures")||"[]").map(function(x){return Object.assign({docKind:"Facture"},x);}));}else{items=JSON.parse(localStorage.getItem("mg-preview-items:"+route)||"[]");}if(!Array.isArray(items))items=[];}catch(e){items=[];}
@@ -1675,7 +1682,14 @@ cards.forEach(function(card){card.addEventListener("click",function(){openModule
         title.textContent=(item.docKind?item.docKind+" · ":"")+(item.nom||item.titre||item.sujet||item.evenement||item.description||item.salarie||item.societe||item.article||item.client||"Élément enregistré");
         var detail=document.createElement("span");
         detail.textContent=Object.keys(item).filter(function(k){return item[k]&&k!=="createdAt"&&k!=="updatedAt";}).slice(1,4).map(function(k){return k.replace(/-/g," ")+": "+item[k];}).join(" · ");
-        main.appendChild(title);main.appendChild(detail);record.appendChild(main);list.appendChild(record);
+        main.appendChild(title);main.appendChild(detail);record.appendChild(main);
+        var rowActions=document.createElement("div");rowActions.className="mg-record-actions";
+        function rowButton(label,fn){var b=document.createElement("button");b.type="button";b.textContent=label;b.addEventListener("click",function(e){e.stopPropagation();fn();});rowActions.appendChild(b);}
+        var index=items.indexOf(item);
+        rowButton("Modifier",function(){window.dispatchEvent(new CustomEvent("mg:open-module",{detail:{id:route,editIndex:index}}));});
+        rowButton("Copier",function(){var raw=JSON.stringify(item,null,2);if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(raw).then(function(){alert("Fiche copiée.");}).catch(function(){window.prompt("Copiez la fiche :",raw);});else window.prompt("Copiez la fiche :",raw);});
+        rowButton("Supprimer",function(){if(!confirm("Supprimer cette fiche ?"))return;if(route==="devis-facture"){alert("La suppression des devis et factures se fait dans leur module.");return;}var a=[];try{a=JSON.parse(localStorage.getItem("mg-preview-items:"+route)||"[]");}catch(e){}a.splice(index,1);localStorage.setItem("mg-preview-items:"+route,JSON.stringify(a));renderModulePage(route,page,d);});
+        record.appendChild(rowActions);list.appendChild(record);
       });
     }
     page.replaceChildren(head,list);
