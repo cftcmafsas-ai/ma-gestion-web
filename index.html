@@ -17,7 +17,6 @@
   <nav aria-label="Navigation principale">
     <a class="brand-mark" href="#accueil" aria-label="Retour à l’accueil"><img src="/logos.jpg" alt="Logo R"></a>
     <a href="#app-dashboard">Tableau de bord</a>
-    <button class="btn" id="access-open" type="button" style="padding:6px 14px;font-size:14px">Accès</button>
   </nav>
 </header>
 
@@ -105,7 +104,7 @@
     <img class="herologo" src="/rodolphe.jpg" alt="Rodolphe Torres Tirado">
     <p class="lead">Votre activité, simplement organisée</p>
     <p class="intro">Retrouvez vos contacts, activités, documents, devis, factures et frais dans un espace clair, accessible depuis votre téléphone, tablette ou ordinateur.</p>
-    <a class="btn" href="#modules" data-open-access>Accéder à Ma Gestion</a>
+    <a class="btn" href="#app-dashboard">Accéder à Ma Gestion</a>
     <a class="btn" href="#apercu-modules">Découvrir les modules</a>
   </section>
 
@@ -182,72 +181,8 @@
   <p>Ma Gestion Web · Rodolphe Torres Tirado</p>
 </footer>
 
-<dialog id="access-dialog" aria-labelledby="access-title">
-  <form id="access-form">
-    <h2 id="access-title">Accès privé</h2>
-    <p id="access-description">Vérification de l’accès…</p>
-    <label for="access-password">Mot de passe</label>
-    <input id="access-password" name="password" type="password" autocomplete="new-password" minlength="12" required>
-    <div id="access-confirm-wrap">
-      <label for="access-confirm">Confirmer le mot de passe</label>
-      <input id="access-confirm" name="confirmation" type="password" autocomplete="new-password" minlength="12">
-    </div>
-    <div id="access-setup-wrap">
-      <label for="access-setup">Code propriétaire (configuration initiale)</label>
-      <input id="access-setup" name="setupToken" type="password" autocomplete="off">
-    </div>
-    <p class="access-status" id="access-status" role="status" aria-live="polite"></p>
-    <div class="access-actions">
-      <button class="space-btn" id="access-close" type="button">Fermer</button>
-      <button class="btn" id="access-submit" type="submit">Continuer</button>
-      <button class="space-btn" id="access-logout" type="button" hidden>Déconnexion</button>
-    </div>
-  </form>
 </dialog>
 
-<script>
-(function(){
-  const dialog=document.getElementById("access-dialog"), form=document.getElementById("access-form");
-  const status=document.getElementById("access-status"), desc=document.getElementById("access-description");
-  const confirmWrap=document.getElementById("access-confirm-wrap"), setupWrap=document.getElementById("access-setup-wrap");
-  const logout=document.getElementById("access-logout"), submit=document.getElementById("access-submit");
-  let mode="register";
-  async function refresh(){
-    status.textContent=""; submit.disabled=true;
-    try{
-      const r=await fetch("/api/session",{credentials:"same-origin",headers:{"Accept":"application/json"}});
-      if(!r.ok) throw new Error("Service d’authentification indisponible.");
-      const data=await r.json();
-      if(data.authenticated){window.dispatchEvent(new CustomEvent("mg:auth",{detail:{authenticated:true}}));mode="authenticated";desc.textContent="Vous êtes connecté.";form.querySelector("#access-password").hidden=true;confirmWrap.hidden=true;setupWrap.hidden=true;submit.hidden=true;logout.hidden=false;}
-      else if(data.initialized){window.dispatchEvent(new CustomEvent("mg:auth",{detail:{authenticated:false}}));mode="login";desc.textContent="Saisissez votre mot de passe pour accéder à votre espace.";form.querySelector("#access-password").hidden=false;form.querySelector("#access-password").autocomplete="current-password";confirmWrap.hidden=true;setupWrap.hidden=true;submit.hidden=false;logout.hidden=true;submit.textContent="Se connecter";}
-      else{window.dispatchEvent(new CustomEvent("mg:auth",{detail:{authenticated:false}}));mode="register";desc.textContent="Créez votre mot de passe personnel. La création initiale nécessite votre code propriétaire.";form.querySelector("#access-password").hidden=false;form.querySelector("#access-password").autocomplete="new-password";confirmWrap.hidden=false;setupWrap.hidden=false;submit.hidden=false;logout.hidden=true;submit.textContent="Créer mon mot de passe";}
-    }catch(e){
-      mode="register";desc.textContent="Créez votre mot de passe personnel. La configuration du service doit être terminée pour valider la création.";
-      form.querySelector("#access-password").hidden=false;form.querySelector("#access-password").autocomplete="new-password";
-      confirmWrap.hidden=false;setupWrap.hidden=false;submit.hidden=false;logout.hidden=true;submit.textContent="Créer mon mot de passe";
-      status.textContent=e.message;
-    }
-    finally{submit.disabled=false;}
-  }
-  document.getElementById("access-open").addEventListener("click",async()=>{form.reset();await refresh();dialog.showModal();});
-  document.getElementById("access-close").addEventListener("click",()=>dialog.close());
-  form.addEventListener("submit",async e=>{
-    e.preventDefault();status.textContent="";submit.disabled=true;
-    const password=form.elements.password.value;
-    const body={password};
-    let route="/api/login";
-    if(mode==="register"){route="/api/register";body.confirmation=form.elements.confirmation.value;body.setupToken=form.elements.setupToken.value;if(password!==body.confirmation){status.textContent="Les deux mots de passe ne correspondent pas.";submit.disabled=false;return;}}
-    try{
-      const r=await fetch(route,{method:"POST",credentials:"same-origin",headers:{"Content-Type":"application/json","Accept":"application/json"},body:JSON.stringify(body)});
-      const data=await r.json().catch(()=>({}));
-      if(!r.ok)throw new Error(data.error||"Impossible de valider la demande.");
-      status.textContent=mode==="register"?"Mot de passe créé. Vous êtes connecté.":"Connexion réussie.";
-      form.reset();await refresh();
-    }catch(err){status.textContent=err.message;}
-    finally{submit.disabled=false;}
-  });
-  logout.addEventListener("click",async()=>{try{await fetch("/api/logout",{method:"POST",credentials:"same-origin"});window.dispatchEvent(new CustomEvent("mg:auth",{detail:{authenticated:false}}));form.reset();await refresh();}catch(e){status.textContent="Déconnexion impossible.";}}); 
-})();
 </script>
 
 
@@ -336,8 +271,7 @@
 (function(){
 "use strict";
 var cards=[].slice.call(document.querySelectorAll(".module-card[data-module]"));
-var access=document.getElementById("access-dialog"),unlocked=false,active=null,editing=-1,docType="devis",lines=[];
-try{unlocked=sessionStorage.getItem("mg-preview-access")==="1";}catch(e){}
+var unlocked=true,active=null,editing=-1,docType="devis",lines=[];
 var defs={
   "prospection": {
     "title": "Prospection",
@@ -1556,8 +1490,7 @@ function key(id){return "mg-preview-items:"+id;}
 function read(id){try{var v=JSON.parse(localStorage.getItem(key(id))||"[]");return Array.isArray(v)?v:[];}catch(e){return [];}}
 function write(id,items){try{localStorage.setItem(key(id),JSON.stringify(items));window.dispatchEvent(new CustomEvent("mg:data-changed",{detail:{id:id}}));return true;}catch(e){alert("Enregistrement impossible : espace de stockage du navigateur insuffisant.");return false;}}
 function money(n){return (Math.round((Number(n)||0)*100)/100).toLocaleString("fr-FR",{minimumFractionDigits:2,maximumFractionDigits:2})+" €";}
-function openAccess(){if(access){var b=document.getElementById("access-open");if(b)b.click();else access.showModal();}}
-function openModule(id,editIndex){if(!unlocked){openAccess();return;}active=id;editing=Number.isInteger(editIndex)?editIndex:-1;docType="devis";overlay.hidden=false;document.body.classList.add("mg-modal-open");overlay.querySelector("#mg-module-title").textContent=defs[id].title;var w=overlay.querySelector(".mg-module-warning");w.hidden=!defs[id].warning;w.textContent=defs[id].warning||"";if(defs[id].special==="contacts")renderContacts();else if(defs[id].special==="documents")renderDocuments();else{tabs.hidden=true;tools.hidden=false;renderModuleTools();renderForm(editing>=0?read(id)[editing]||null:null);renderList();}overlay.querySelector(".mg-module-close").focus();}
+function openModule(id,editIndex){active=id;editing=Number.isInteger(editIndex)?editIndex:-1;docType="devis";overlay.hidden=false;document.body.classList.add("mg-modal-open");overlay.querySelector("#mg-module-title").textContent=defs[id].title;var w=overlay.querySelector(".mg-module-warning");w.hidden=!defs[id].warning;w.textContent=defs[id].warning||"";if(defs[id].special==="contacts")renderContacts();else if(defs[id].special==="documents")renderDocuments();else{tabs.hidden=true;tools.hidden=false;renderModuleTools();renderForm(editing>=0?read(id)[editing]||null:null);renderList();}overlay.querySelector(".mg-module-close").focus();}
 function setForm(html){form.innerHTML=html;}
 function renderForm(item){var d=defs[active];form.innerHTML=d.fields.map(function(f){var n=f[0],v=item&&item[n]!=null?item[n]:(active==="bulletins-salaire"&&payrollDefaults[n]!=null?payrollDefaults[n]:""),c;if(f[2]==="select")c='<select name="'+n+'" '+(f[3]?"required":"")+'><option value="">Choisir…</option>'+f[4].map(function(x){return '<option value="'+esc(x)+'" '+(v===x?"selected":"")+'>'+esc(x)+'</option>';}).join("")+'</select>';else if(f[2]==="textarea")c='<textarea name="'+n+'" rows="3">'+esc(v)+'</textarea>';else c='<input name="'+n+'" type="'+f[2]+'" value="'+esc(v)+'" '+(f[3]?"required":"")+(f[2]==="number"?' min="0" step="0.01"':"")+'>';return '<label class="mg-field"><span>'+esc(f[1])+(f[3]?' <i>*</i>':"")+'</span>'+c+'</label>';}).join("")+'<div class="mg-form-actions"><button class="btn" type="submit">'+(item?"Enregistrer les modifications":"Ajouter à la liste")+'</button><button type="button" class="mg-cancel-edit" '+(item?"":"hidden")+' >Annuler</button></div>';form.onsubmit=function(e){e.preventDefault();var data={};d.fields.forEach(function(f){var el=form.elements.namedItem(f[0]);data[f[0]]=el?el.value.trim():"";});var req=d.fields.find(function(f){return f[3];});if(req&&!data[req[0]]){form.reportValidity();return;}var a=read(active);if(editing>=0)a[editing]=Object.assign({},a[editing],data,{updatedAt:new Date().toISOString()});else{data.createdAt=new Date().toISOString();a.unshift(data);}if(write(active,a)){editing=-1;renderForm(null);renderList();}};var c=form.querySelector(".mg-cancel-edit");if(c)c.onclick=function(){editing=-1;renderForm(null);};}
 function summary(item,d){var names=["nom","titre","sujet","evenement","description","societe","information","article","client","numero"],first="";for(var i=0;i<names.length;i++)if(item[names[i]]){first=item[names[i]];break;}if(!first)first="Nouvel élément";var details=d.fields.filter(function(f){return item[f[0]]&&f[0]!==first;}).slice(0,3);return '<div class="mg-record-main"><b>'+esc(first)+'</b><span>'+details.map(function(f){return esc(f[1])+": "+esc(item[f[0]]);}).join(" · ")+'</span></div>';}
@@ -1692,8 +1625,6 @@ function close(){overlay.hidden=true;document.body.classList.remove("mg-modal-op
 overlay.querySelector(".mg-module-close").onclick=close;overlay.addEventListener("click",function(e){if(e.target===overlay)close();});document.addEventListener("keydown",function(e){if(e.key==="Escape"&&!overlay.hidden)close();});
 window.addEventListener("mg:open-module",function(e){if(e.detail&&e.detail.id)openModule(e.detail.id,e.detail.editIndex);});
 cards.forEach(function(card){card.addEventListener("click",function(){openModule(card.dataset.module);});card.addEventListener("keydown",function(e){if(e.key==="Enter"||e.key===" "){e.preventDefault();openModule(card.dataset.module);}});});
-document.querySelectorAll("[data-open-access]").forEach(function(b){b.addEventListener("click",function(e){e.preventDefault();openAccess();});});
-window.addEventListener("mg:auth",function(e){unlocked=!!(e.detail&&e.detail.authenticated);});
 })();
 </script>
 
@@ -1717,19 +1648,6 @@ window.addEventListener("mg:auth",function(e){unlocked=!!(e.detail&&e.detail.aut
   };
   var pages=[].slice.call(document.querySelectorAll(".mg-app-page"));
   var heading=document.getElementById("mg-page-heading");
-  var authenticated=false,pendingRoute=null;
-  function requestAccess(route){
-    pendingRoute=route;
-    location.hash="#app-dashboard";
-    var accessButton=document.getElementById("access-open");
-    if(accessButton)accessButton.click();
-  }
-  window.addEventListener("mg:auth",function(e){
-    authenticated=!!(e.detail&&e.detail.authenticated);
-    if(authenticated&&pendingRoute){
-      var next=pendingRoute;pendingRoute=null;location.hash="#module-"+next;
-    }
-  });
   var nav=[].slice.call(document.querySelectorAll("[data-app-route]"));
   var menu=document.getElementById("mg-mobile-menu");
   var scrim=document.getElementById("mg-mobile-scrim");
@@ -1766,10 +1684,6 @@ window.addEventListener("mg:auth",function(e){unlocked=!!(e.detail&&e.detail.aut
     var route=(location.hash||"#app-dashboard").replace(/^#/,"");
     if(route.indexOf("module-")===0)route=route.slice(7);
     if(route!=="dashboard"&&!modules[route])route="dashboard";
-    if(route!=="dashboard"&&!authenticated){
-      requestAccess(route);
-      route="dashboard";
-    }
     pages.forEach(function(p){p.hidden=p.dataset.page!==route;});
     nav.forEach(function(a){var active=a.dataset.appRoute===route;a.classList.toggle("is-active",active);if(active)a.setAttribute("aria-current","page");else a.removeAttribute("aria-current");});
     if(route==="dashboard"){heading.textContent="Tableau de bord";}
@@ -1790,7 +1704,7 @@ window.addEventListener("mg:auth",function(e){unlocked=!!(e.detail&&e.detail.aut
   var topHeader=document.querySelector("body > header.top");
   if(topHeader){
     var appStyle=document.createElement("style");
-    appStyle.textContent="body.mg-app-mode > header.top #access-open{display:none!important}.mg-page-list .mg-record[role=button]{cursor:pointer}.mg-page-list .mg-record[role=button]:focus-visible{outline:3px solid var(--site-accent,#b9dcf5);outline-offset:2px}";
+    appStyle.textContent=".mg-page-list .mg-record[role=button]{cursor:pointer}.mg-page-list .mg-record[role=button]:focus-visible{outline:3px solid var(--site-accent,#b9dcf5);outline-offset:2px}";
     document.head.appendChild(appStyle);
   }
   render();
