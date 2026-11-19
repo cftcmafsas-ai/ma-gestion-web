@@ -62,12 +62,20 @@
           <section class="mg-app-page" data-page="dashboard">
             <div class="mg-welcome-panel"><div><span class="mg-page-eyebrow">BIENVENUE</span><h2>Votre activité, bien organisée.</h2><p>Retrouvez vos outils dans un espace unique. Choisissez une rubrique pour commencer.</p></div><span class="mg-welcome-art" aria-hidden="true">✦</span></div>
             <div class="mg-dashboard-section"><div class="mg-section-heading"><div><h2>Vos espaces de travail</h2><p>13 modules classés par activité</p></div></div>
-              <div class="mg-dashboard-grid">
-                <a class="mg-dashboard-card" href="#module-prospection"><span>🎯</span><b>Clients</b><small>Prospection, contacts et comptes</small><em>3 modules</em></a>
-                <a class="mg-dashboard-card" href="#module-tache"><span>🗓</span><b>Organisation</b><small>Actions, tâches, réunions et agenda</small><em>4 modules</em></a>
-                <a class="mg-dashboard-card" href="#module-devis-facture"><span>🧾</span><b>Commercial</b><small>Devis, factures, ventes et achats</small><em>2 modules</em></a>
-                <a class="mg-dashboard-card" href="#module-frais"><span>📁</span><b>Administration</b><small>Frais, documents et protection</small><em>3 modules</em></a>
-                <a class="mg-dashboard-card" href="#module-bulletins-salaire"><span>💶</span><b>Ressources humaines</b><small>Salariés et bulletins de salaire</small><em>1 module</em></a>
+              <div class="mg-dashboard-grid mg-dashboard-modules">
+                <a class="mg-dashboard-card" href="#module-prospection"><span>🎯</span><b>Prospection</b><small>Suivi des prospects et relances</small><em>Clients</em></a>
+                <a class="mg-dashboard-card" href="#module-contact"><span>👤</span><b>Contacts</b><small>Coordonnées et échanges</small><em>Clients</em></a>
+                <a class="mg-dashboard-card" href="#module-compte"><span>🏢</span><b>Comptes</b><small>Clients, sociétés et fournisseurs</small><em>Clients</em></a>
+                <a class="mg-dashboard-card" href="#module-afaire"><span>📋</span><b>À faire</b><small>Actions à réaliser</small><em>Organisation</em></a>
+                <a class="mg-dashboard-card" href="#module-tache"><span>✓</span><b>Tâches</b><small>Suivi et avancement</small><em>Organisation</em></a>
+                <a class="mg-dashboard-card" href="#module-reunion"><span>👥</span><b>Réunions</b><small>Préparation et comptes rendus</small><em>Organisation</em></a>
+                <a class="mg-dashboard-card" href="#module-calendrier"><span>🗓</span><b>Calendrier</b><small>Événements et échéances</small><em>Organisation</em></a>
+                <a class="mg-dashboard-card" href="#module-devis-facture"><span>🧾</span><b>Devis et factures</b><small>Documents et facturation</small><em>Commercial</em></a>
+                <a class="mg-dashboard-card" href="#module-vente-achat"><span>🛒</span><b>Ventes et achats</b><small>Opérations commerciales</small><em>Commercial</em></a>
+                <a class="mg-dashboard-card" href="#module-frais"><span>🧮</span><b>Frais</b><small>Dépenses professionnelles</small><em>Administration</em></a>
+                <a class="mg-dashboard-card" href="#module-document"><span>📁</span><b>Documents</b><small>Documents de l’activité</small><em>Administration</em></a>
+                <a class="mg-dashboard-card" href="#module-protection"><span>🛡</span><b>Protection</b><small>Informations à protéger</small><em>Administration</em></a>
+                <a class="mg-dashboard-card" href="#module-bulletins-salaire"><span>💶</span><b>Bulletins de salaire</b><small>Salariés et paie</small><em>Ressources humaines</em></a>
               </div>
             </div>
             <div class="mg-dashboard-note"><span>✓</span><p><b>Votre espace est prêt à être organisé.</b><br>Les pages et les listes sont en place. La sauvegarde partagée sera connectée lors de la prochaine étape.</p></div>
@@ -139,7 +147,7 @@
         <button class="btn" type="button" data-open-access>Me connecter</button>
       </div>
       <h2 class="section-title" id="modules-title">Les 13 modules</h2>
-      <div class="grid module-grid" aria-label="Liste des douze modules">
+      <div class="grid module-grid" aria-label="Liste des treize modules">
         <article class="card module-card" data-module="prospection" role="button" tabindex="0" aria-label="Ouvrir le module Prospection"><span class="module-card-icon" aria-hidden="true">🎯</span><h3>Prospection</h3><span class="module-card-hint">Ouvrir le module →</span></article>
         <article class="card module-card" data-module="contact" role="button" tabindex="0" aria-label="Ouvrir le module Contact"><span class="module-card-icon" aria-hidden="true">👤</span><h3>Contact</h3><span class="module-card-hint">Ouvrir le module →</span></article>
         <article class="card module-card" data-module="compte" role="button" tabindex="0" aria-label="Ouvrir le module Compte"><span class="module-card-icon" aria-hidden="true">🏢</span><h3>Compte</h3><span class="module-card-hint">Ouvrir le module →</span></article>
@@ -364,7 +372,8 @@
     "frais":{title:"Frais",fields:[["description","Description","text",true],["type","Type de frais","select",false,["Transport","Carburant","Péage","Parking","Hôtel","Repas","Téléphone","Matériel","Formation","Autre"]],["date","Date de la dépense","date"],["envoi","Date d’envoi","date"],["remboursement","Date de remboursement","date"],["montant","Montant (€)","number",true],["statut","Statut","select",false,["À envoyer","Envoyée","Remboursée","Refusée"]],["projet","Client / projet","text"],["moyen","Moyen de paiement","select",false,["Carte","Espèces","Virement","Chèque","Autre"]],["notes","Notes","textarea"]]},
     "document":{title:"Document",fields:[["titre","Titre du document","text",true],["categorie","Catégorie","select",false,["Contrat","Facture","Devis","Identité","Plan","Photo","Autre"]],["client","Client lié","text"],["date","Date","date"],["url","Lien du document","url"],["notes","Notes","textarea"]]},
     "protection":{title:"Protection",warning:"Aperçu local uniquement : ne saisis pas de mot de passe, de coordonnées bancaires ni d’informations réellement sensibles avant la mise en place du stockage sécurisé.",fields:[["information","Nom de l’information","text",true],["detail","Détail","textarea"]]},
-    "vente-achat":{title:"Vente et achat",fields:[["article","Produit ou service","text",true],["type","Opération","select",false,["Vente","Achat"]],["categorie","Catégorie","select",false,["Produit","Service","Abonnement","Prestation","Autre"]],["partenaire","Client / fournisseur","text"],["date","Date","date"],["quantite","Quantité","number"],["prix","Prix unitaire (€)","number"],["montant","Total (€)","number"],["statut","Statut","select",false,["En attente","Payé","Livré"]],["notes","Notes","textarea"]]}
+    "vente-achat":{title:"Vente et achat",fields:[["article","Produit ou service","text",true],["type","Opération","select",false,["Vente","Achat"]],["categorie","Catégorie","select",false,["Produit","Service","Abonnement","Prestation","Autre"]],["partenaire","Client / fournisseur","text"],["date","Date","date"],["quantite","Quantité","number"],["prix","Prix unitaire (€)","number"],["montant","Total (€)","number"],["statut","Statut","select",false,["En attente","Payé","Livré"]],["notes","Notes","textarea"]]},
+    "bulletins-salaire":{title:"Bulletins de salaire",warning:"Aperçu local uniquement : n’ajoute aucune donnée personnelle ou de paie réelle avant la mise en place du stockage sécurisé.",fields:[["salarie","Nom du salarié","text",true],["periode","Période (mois)","month",true],["poste","Poste","text"],["heures","Heures travaillées","number"],["brut","Salaire brut (€)","number"],["net","Net à payer (€)","number"],["date-paiement","Date de paiement","date"],["statut","Statut","select",false,["À préparer","Émis","Payé"]],["document","Lien du bulletin","url"],["notes","Notes","textarea"]]}
   };
   var active=null,editing=-1;
   var overlay=document.createElement("div");
@@ -376,7 +385,7 @@
   function esc(s){return String(s==null?"":s).replace(/[&<>"']/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c];});}
   function key(id){return "mg-preview-items:"+id;}
   function read(id){try{return JSON.parse(localStorage.getItem(key(id))||"[]");}catch(e){return [];}}
-  function write(id,items){try{localStorage.setItem(key(id),JSON.stringify(items));}catch(e){alert("Le navigateur ne permet pas d’enregistrer ces données.");}}
+  function write(id,items){try{localStorage.setItem(key(id),JSON.stringify(items));window.dispatchEvent(new CustomEvent("mg:data-changed",{detail:{id:id}}));}catch(e){alert("Le navigateur ne permet pas d’enregistrer ces données.");}}
   function openAccess(){
     if(access){var b=document.getElementById("access-open");if(b)b.click();else access.showModal();}
   }
@@ -438,6 +447,7 @@
   overlay.querySelector(".mg-module-close").onclick=close;
   overlay.addEventListener("click",function(e){if(e.target===overlay)close();});
   document.addEventListener("keydown",function(e){if(e.key==="Escape"&&!overlay.hidden)close();});
+  window.addEventListener("mg:open-module",function(e){if(e.detail&&e.detail.id)openModule(e.detail.id);});
   cards.forEach(function(card){
     card.addEventListener("click",function(){openModule(card.dataset.module);});
     card.addEventListener("keydown",function(e){if(e.key==="Enter"||e.key===" "){e.preventDefault();openModule(card.dataset.module);}});
@@ -486,6 +496,32 @@
   var menu=document.getElementById("mg-mobile-menu");
   var scrim=document.getElementById("mg-mobile-scrim");
   function closeMenu(){document.body.classList.remove("mg-sidebar-open");if(menu)menu.setAttribute("aria-expanded","false");}
+  function renderModulePage(route,page,d){
+    var head=document.createElement("div");
+    head.className="mg-module-page-head";
+    head.innerHTML='<div><span class="mg-page-eyebrow">'+d[3].toUpperCase()+'</span><h2>'+d[0]+'</h2><p>'+d[1]+'</p></div>';
+    var add=document.createElement("button");
+    add.className="mg-page-add";add.type="button";add.textContent="＋ Ajouter";
+    add.addEventListener("click",function(){window.dispatchEvent(new CustomEvent("mg:open-module",{detail:{id:route}}));});
+    head.appendChild(add);
+    var list=document.createElement("div");list.className="mg-page-list";
+    var items=[];
+    try{items=JSON.parse(localStorage.getItem("mg-preview-items:"+route)||"[]");if(!Array.isArray(items))items=[];}catch(e){items=[];}
+    if(!items.length){
+      list.innerHTML='<div><div class="mg-page-empty-icon">'+d[2]+'</div><h3>Aucun élément pour le moment</h3><p>Utilisez « Ajouter » pour créer votre première fiche.</p></div>';
+    }else{
+      items.forEach(function(item){
+        var record=document.createElement("article");record.className="mg-record";
+        var main=document.createElement("div");main.className="mg-record-main";
+        var title=document.createElement("b");
+        title.textContent=item.nom||item.titre||item.sujet||item.evenement||item.description||item.salarie||item.societe||item.article||item.client||"Élément enregistré";
+        var detail=document.createElement("span");
+        detail.textContent=Object.keys(item).filter(function(k){return item[k]&&k!=="createdAt"&&k!=="updatedAt";}).slice(1,4).map(function(k){return k.replace(/-/g," ")+": "+item[k];}).join(" · ");
+        main.appendChild(title);main.appendChild(detail);record.appendChild(main);list.appendChild(record);
+      });
+    }
+    page.replaceChildren(head,list);
+  }
   function render(){
     var route=(location.hash||"#app-dashboard").replace(/^#/,"");
     if(route.indexOf("module-")===0)route=route.slice(7);
@@ -496,8 +532,7 @@
     else{
       var d=modules[route];heading.textContent=d[0];
       var page=document.querySelector('.mg-app-page[data-page="'+route+'"]');
-      page.innerHTML='<div class="mg-module-page-head"><div><span class="mg-page-eyebrow">'+d[3].toUpperCase()+'</span><h2>'+d[0]+'</h2><p>'+d[1]+'</p></div><button class="mg-page-add" type="button" data-add-module="'+route+'">＋ Ajouter</button></div><div class="mg-page-list"><div><div class="mg-page-empty-icon">'+d[2]+'</div><h3>Aucun élément pour le moment</h3><p>Votre liste apparaîtra ici lorsque vous ajouterez votre première fiche.</p></div></div>';
-      page.querySelector("[data-add-module]").addEventListener("click",function(){window.alert("Le formulaire de ce module sera activé lors de la prochaine étape.");});
+      renderModulePage(route,page,d);
     }
     document.body.classList.add("mg-app-mode");
     closeMenu();
@@ -509,6 +544,7 @@
   var access=document.getElementById("mg-top-access");
   if(access)access.addEventListener("click",function(){var trigger=document.getElementById("access-open");if(trigger)trigger.click();});
   window.addEventListener("hashchange",render);
+  window.addEventListener("mg:data-changed",function(e){var route=(location.hash||"").replace(/^#module-/,"");if(route&&modules[route]){var page=document.querySelector('.mg-app-page[data-page="'+route+'"]');if(page)renderModulePage(route,page,modules[route]);}});
   render();
 })();
 </script>
