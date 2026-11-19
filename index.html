@@ -56,7 +56,6 @@
       <div class="mg-main-column">
         <header class="mg-app-topbar">
           <div><span class="mg-topbar-kicker">VOTRE ESPACE</span><h1 id="mg-page-heading">Tableau de bord</h1></div>
-          <button class="btn mg-top-access" type="button" id="mg-top-access">Me connecter</button>
         </header>
         <div class="mg-page-content">
           <section class="mg-app-page" data-page="dashboard">
@@ -1780,6 +1779,8 @@ window.addEventListener("mg:auth",function(e){unlocked=!!(e.detail&&e.detail.aut
       var d=modules[route];heading.textContent=d[0];
       var page=document.querySelector('.mg-app-page[data-page="'+route+'"]');
       renderModulePage(route,page,d);
+      // Ouvre la vraie interface fonctionnelle du module depuis les cartes du tableau de bord.
+      window.dispatchEvent(new CustomEvent("mg:open-module",{detail:{id:route}}));
     }
     document.body.classList.add("mg-app-mode");
     closeMenu();
@@ -1788,8 +1789,6 @@ window.addEventListener("mg:auth",function(e){unlocked=!!(e.detail&&e.detail.aut
   document.querySelectorAll(".mg-dashboard-card").forEach(function(a){a.addEventListener("click",function(){closeMenu();});});
   if(menu)menu.addEventListener("click",function(){var open=!document.body.classList.contains("mg-sidebar-open");document.body.classList.toggle("mg-sidebar-open",open);menu.setAttribute("aria-expanded",String(open));});
   if(scrim)scrim.addEventListener("click",closeMenu);
-  var access=document.getElementById("mg-top-access");
-  if(access)access.addEventListener("click",function(){var trigger=document.getElementById("access-open");if(trigger)trigger.click();});
   window.addEventListener("hashchange",render);
   window.addEventListener("mg:data-changed",function(e){var route=(location.hash||"").replace(/^#module-/,"");if(route==="devis-facture"&&e.detail&&["devis","factures"].includes(e.detail.id)){var page=document.querySelector('.mg-app-page[data-page="'+route+'"]');if(page)renderModulePage(route,page,modules[route]);}else if(route&&modules[route]){var page=document.querySelector('.mg-app-page[data-page="'+route+'"]');if(page)renderModulePage(route,page,modules[route]);}});
   render();
