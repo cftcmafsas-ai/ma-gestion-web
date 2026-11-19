@@ -142,9 +142,6 @@
 
   <section class="wrap" id="modules" aria-labelledby="modules-title">
     <div class="band">
-      <div class="center module-login">
-        <button class="btn" type="button" data-open-access>Me connecter</button>
-      </div>
       <h2 class="section-title" id="modules-title">Les 13 modules</h2>
       <div class="grid module-grid" aria-label="Liste des treize modules">
         <article class="card module-card" data-module="prospection" role="button" tabindex="0" aria-label="Ouvrir le module Prospection"><span class="module-card-icon" aria-hidden="true">🎯</span><h3>Prospection</h3><span class="module-card-hint">Ouvrir le module →</span></article>
@@ -161,22 +158,6 @@
         <article class="card module-card" data-module="vente-achat" role="button" tabindex="0" aria-label="Ouvrir le module Vente et achat"><span class="module-card-icon" aria-hidden="true">🛒</span><h3>Vente et achat</h3><span class="module-card-hint">Ouvrir le module →</span></article>
       </div>
       <article class="card module-card" data-module="bulletins-salaire" role="button" tabindex="0" aria-label="Ouvrir le module Bulletins de salaire"><span class="module-card-icon" aria-hidden="true">💶</span><h3>Bulletins de salaire</h3><span class="module-card-hint">Ouvrir le module →</span></article>
-      <div class="center module-global-cta">
-        <button class="btn" type="button" data-open-access>Me connecter à mes 13 modules</button>
-      </div>
-    </div>
-  </section>
-
-  <section class="wrap" id="autres-sites">
-<div class="card">
-      <h2 class="section-title">Mes autres sites</h2>
-      <p class="section-intro">Retrouvez mes autres espaces en un clic.</p>
-      <div class="site-list">
-        <div class="site-item"><b>Guérisseur de l’Âme</b><span>Présentation des soins et accompagnements.</span><a class="space-btn" href="https://guerisseur-de-lame.vercel.app/" target="_blank" rel="noopener noreferrer">Accéder</a></div>
-        <div class="site-item"><b>BLEU PRO</b><span>Espace de présentation et d’accès à l’application.</span><a class="space-btn" href="https://transfert-bleu-pro.vercel.app/" target="_blank" rel="noopener noreferrer">Accéder</a></div>
-        <div class="site-item"><b>Mes Documents</b><span>Adresse en cours de préparation. Le lien sera activé lorsque l’adresse définitive sera disponible.</span><span class="unavailable" aria-disabled="true">Adresse à venir</span></div>
-        <div class="site-item"><b>Espace Créatif</b><span>Votre espace de création et de projets.</span><a class="space-btn" href="https://espace-creatif.vercel.app/" target="_blank" rel="noopener noreferrer">Accéder</a></div>
-      </div>
     </div>
   </section>
 
@@ -1577,7 +1558,7 @@ function read(id){try{var v=JSON.parse(localStorage.getItem(key(id))||"[]");retu
 function write(id,items){try{localStorage.setItem(key(id),JSON.stringify(items));window.dispatchEvent(new CustomEvent("mg:data-changed",{detail:{id:id}}));return true;}catch(e){alert("Enregistrement impossible : espace de stockage du navigateur insuffisant.");return false;}}
 function money(n){return (Math.round((Number(n)||0)*100)/100).toLocaleString("fr-FR",{minimumFractionDigits:2,maximumFractionDigits:2})+" €";}
 function openAccess(){if(access){var b=document.getElementById("access-open");if(b)b.click();else access.showModal();}}
-function openModule(id){if(!unlocked){openAccess();return;}active=id;editing=-1;docType="devis";overlay.hidden=false;document.body.classList.add("mg-modal-open");overlay.querySelector("#mg-module-title").textContent=defs[id].title;var w=overlay.querySelector(".mg-module-warning");w.hidden=!defs[id].warning;w.textContent=defs[id].warning||"";if(defs[id].special==="contacts")renderContacts();else if(defs[id].special==="documents")renderDocuments();else{tabs.hidden=true;tools.hidden=false;renderModuleTools();renderForm(null);renderList();}overlay.querySelector(".mg-module-close").focus();}
+function openModule(id,editIndex){if(!unlocked){openAccess();return;}active=id;editing=Number.isInteger(editIndex)?editIndex:-1;docType="devis";overlay.hidden=false;document.body.classList.add("mg-modal-open");overlay.querySelector("#mg-module-title").textContent=defs[id].title;var w=overlay.querySelector(".mg-module-warning");w.hidden=!defs[id].warning;w.textContent=defs[id].warning||"";if(defs[id].special==="contacts")renderContacts();else if(defs[id].special==="documents")renderDocuments();else{tabs.hidden=true;tools.hidden=false;renderModuleTools();renderForm(editing>=0?read(id)[editing]||null:null);renderList();}overlay.querySelector(".mg-module-close").focus();}
 function setForm(html){form.innerHTML=html;}
 function renderForm(item){var d=defs[active];form.innerHTML=d.fields.map(function(f){var n=f[0],v=item&&item[n]!=null?item[n]:(active==="bulletins-salaire"&&payrollDefaults[n]!=null?payrollDefaults[n]:""),c;if(f[2]==="select")c='<select name="'+n+'" '+(f[3]?"required":"")+'><option value="">Choisir…</option>'+f[4].map(function(x){return '<option value="'+esc(x)+'" '+(v===x?"selected":"")+'>'+esc(x)+'</option>';}).join("")+'</select>';else if(f[2]==="textarea")c='<textarea name="'+n+'" rows="3">'+esc(v)+'</textarea>';else c='<input name="'+n+'" type="'+f[2]+'" value="'+esc(v)+'" '+(f[3]?"required":"")+(f[2]==="number"?' min="0" step="0.01"':"")+'>';return '<label class="mg-field"><span>'+esc(f[1])+(f[3]?' <i>*</i>':"")+'</span>'+c+'</label>';}).join("")+'<div class="mg-form-actions"><button class="btn" type="submit">'+(item?"Enregistrer les modifications":"Ajouter à la liste")+'</button><button type="button" class="mg-cancel-edit" '+(item?"":"hidden")+' >Annuler</button></div>';form.onsubmit=function(e){e.preventDefault();var data={};d.fields.forEach(function(f){var el=form.elements.namedItem(f[0]);data[f[0]]=el?el.value.trim():"";});var req=d.fields.find(function(f){return f[3];});if(req&&!data[req[0]]){form.reportValidity();return;}var a=read(active);if(editing>=0)a[editing]=Object.assign({},a[editing],data,{updatedAt:new Date().toISOString()});else{data.createdAt=new Date().toISOString();a.unshift(data);}if(write(active,a)){editing=-1;renderForm(null);renderList();}};var c=form.querySelector(".mg-cancel-edit");if(c)c.onclick=function(){editing=-1;renderForm(null);};}
 function summary(item,d){var names=["nom","titre","sujet","evenement","description","societe","information","article","client","numero"],first="";for(var i=0;i<names.length;i++)if(item[names[i]]){first=item[names[i]];break;}if(!first)first="Nouvel élément";var details=d.fields.filter(function(f){return item[f[0]]&&f[0]!==first;}).slice(0,3);return '<div class="mg-record-main"><b>'+esc(first)+'</b><span>'+details.map(function(f){return esc(f[1])+": "+esc(item[f[0]]);}).join(" · ")+'</span></div>';}
@@ -1710,11 +1691,10 @@ function printDoc(r){var c=calcInvoice(r),win=window.open("","_blank");if(!win){
 function download(name,data,type){var a=document.createElement("a"),u=URL.createObjectURL(new Blob([data],{type:type||"text/plain"}));a.href=u;a.download=name;document.body.appendChild(a);a.click();a.remove();setTimeout(function(){URL.revokeObjectURL(u);},1000);}
 function close(){overlay.hidden=true;document.body.classList.remove("mg-modal-open");active=null;editing=-1;var q=overlay.querySelector("#contact-search");if(q)q.remove();}
 overlay.querySelector(".mg-module-close").onclick=close;overlay.addEventListener("click",function(e){if(e.target===overlay)close();});document.addEventListener("keydown",function(e){if(e.key==="Escape"&&!overlay.hidden)close();});
-window.addEventListener("mg:open-module",function(e){if(e.detail&&e.detail.id)openModule(e.detail.id);});
+window.addEventListener("mg:open-module",function(e){if(e.detail&&e.detail.id)openModule(e.detail.id,e.detail.editIndex);});
 cards.forEach(function(card){card.addEventListener("click",function(){openModule(card.dataset.module);});card.addEventListener("keydown",function(e){if(e.key==="Enter"||e.key===" "){e.preventDefault();openModule(card.dataset.module);}});});
 document.querySelectorAll("[data-open-access]").forEach(function(b){b.addEventListener("click",function(e){e.preventDefault();openAccess();});});
-if(access){var preview=document.createElement("button");preview.type="button";preview.className="space-btn mg-preview-access";preview.textContent="Accéder en mode aperçu";preview.title="Ouvre les formulaires de démonstration ; les données restent dans ce navigateur.";var actions=access.querySelector(".access-actions");if(actions)actions.insertBefore(preview,actions.firstChild);preview.addEventListener("click",function(){unlocked=true;try{sessionStorage.setItem("mg-preview-access","1");}catch(e){}access.close();document.getElementById("app-dashboard").scrollIntoView({behavior:"smooth"});});}
-window.addEventListener("mg:auth",function(e){unlocked=!!(e.detail&&e.detail.authenticated);if(!unlocked){try{sessionStorage.removeItem("mg-preview-access");}catch(err){}}});
+window.addEventListener("mg:auth",function(e){unlocked=!!(e.detail&&e.detail.authenticated);});
 })();
 </script>
 
@@ -1738,6 +1718,19 @@ window.addEventListener("mg:auth",function(e){unlocked=!!(e.detail&&e.detail.aut
   };
   var pages=[].slice.call(document.querySelectorAll(".mg-app-page"));
   var heading=document.getElementById("mg-page-heading");
+  var authenticated=false,pendingRoute=null;
+  function requestAccess(route){
+    pendingRoute=route;
+    location.hash="#app-dashboard";
+    var accessButton=document.getElementById("access-open");
+    if(accessButton)accessButton.click();
+  }
+  window.addEventListener("mg:auth",function(e){
+    authenticated=!!(e.detail&&e.detail.authenticated);
+    if(authenticated&&pendingRoute){
+      var next=pendingRoute;pendingRoute=null;location.hash="#module-"+next;
+    }
+  });
   var nav=[].slice.call(document.querySelectorAll("[data-app-route]"));
   var menu=document.getElementById("mg-mobile-menu");
   var scrim=document.getElementById("mg-mobile-scrim");
@@ -1757,7 +1750,9 @@ window.addEventListener("mg:auth",function(e){unlocked=!!(e.detail&&e.detail.aut
       list.innerHTML='<div><div class="mg-page-empty-icon">'+d[2]+'</div><h3>Aucun élément pour le moment</h3><p>Utilisez « Ajouter » pour créer votre première fiche.</p></div>';
     }else{
       items.forEach(function(item){
-        var record=document.createElement("article");record.className="mg-record";
+        var record=document.createElement("article");record.className="mg-record";record.tabIndex=0;record.setAttribute("role","button");record.setAttribute("aria-label","Ouvrir et modifier cette fiche");
+        record.addEventListener("click",function(){window.dispatchEvent(new CustomEvent("mg:open-module",{detail:{id:route,editIndex:items.indexOf(item)}}));});
+        record.addEventListener("keydown",function(e){if(e.key==="Enter"||e.key===" "){e.preventDefault();window.dispatchEvent(new CustomEvent("mg:open-module",{detail:{id:route,editIndex:items.indexOf(item)}}));}});
         var main=document.createElement("div");main.className="mg-record-main";
         var title=document.createElement("b");
         title.textContent=(item.docKind?item.docKind+" · ":"")+(item.nom||item.titre||item.sujet||item.evenement||item.description||item.salarie||item.societe||item.article||item.client||"Élément enregistré");
@@ -1772,6 +1767,10 @@ window.addEventListener("mg:auth",function(e){unlocked=!!(e.detail&&e.detail.aut
     var route=(location.hash||"#app-dashboard").replace(/^#/,"");
     if(route.indexOf("module-")===0)route=route.slice(7);
     if(route!=="dashboard"&&!modules[route])route="dashboard";
+    if(route!=="dashboard"&&!authenticated){
+      requestAccess(route);
+      route="dashboard";
+    }
     pages.forEach(function(p){p.hidden=p.dataset.page!==route;});
     nav.forEach(function(a){var active=a.dataset.appRoute===route;a.classList.toggle("is-active",active);if(active)a.setAttribute("aria-current","page");else a.removeAttribute("aria-current");});
     if(route==="dashboard"){heading.textContent="Tableau de bord";}
@@ -1789,6 +1788,12 @@ window.addEventListener("mg:auth",function(e){unlocked=!!(e.detail&&e.detail.aut
   if(scrim)scrim.addEventListener("click",closeMenu);
   window.addEventListener("hashchange",render);
   window.addEventListener("mg:data-changed",function(e){var route=(location.hash||"").replace(/^#module-/,"");if(route==="devis-facture"&&e.detail&&["devis","factures"].includes(e.detail.id)){var page=document.querySelector('.mg-app-page[data-page="'+route+'"]');if(page)renderModulePage(route,page,modules[route]);}else if(route&&modules[route]){var page=document.querySelector('.mg-app-page[data-page="'+route+'"]');if(page)renderModulePage(route,page,modules[route]);}});
+  var topHeader=document.querySelector("body > header.top");
+  if(topHeader){
+    var appStyle=document.createElement("style");
+    appStyle.textContent="body.mg-app-mode > header.top{display:none!important}";
+    document.head.appendChild(appStyle);
+  }
   render();
 })();
 </script>
