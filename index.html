@@ -297,7 +297,7 @@
     "a{color:var(--site-text)} .btn,.space-btn{background:var(--site-accent)!important;color:var(--site-text)!important;border-color:var(--site-border)!important}"+
     ".top nav a{background:var(--site-soft)!important;color:var(--site-text)!important}"+
     "body{--bg:var(--site-bg);--card:var(--site-card);--tx:var(--site-text);--mu:var(--site-muted);--bd:var(--site-border);--p1:var(--site-soft);--p2:var(--site-soft);--p3:var(--site-accent);--dk:var(--site-text)}";
-  document.head.appendChild(style);
+  document.head.appendChild(style);style.textContent+=".mg-record-detail{display:block;border:1px solid var(--site-border,#dceaf4);border-radius:14px;padding:14px;margin:10px 0;background:#fff}.mg-record-detail-head{display:flex;justify-content:space-between;gap:10px;align-items:center}.mg-record-detail-field{padding:9px 0;border-bottom:1px solid #edf1f5}.mg-record-detail-field small{display:block;color:#728596;margin-bottom:3px}.mg-record-detail .mg-record-actions button{margin:3px 4px 3px 0}.mg-module-tools button{flex:1 1 auto}@media(max-width:600px){.mg-record-actions button{font-size:12px;padding:8px}.mg-record-detail-head{align-items:flex-start;flex-direction:column}}";
   function renderButtons(){
     document.querySelectorAll("#pastel-theme-panel [data-theme]").forEach(function(b){b.setAttribute("aria-pressed",String(b.dataset.theme===current));});
     document.getElementById("pastel-theme-reset").setAttribute("aria-pressed",String(current==="ciel"));
@@ -360,19 +360,1210 @@ var cards=[].slice.call(document.querySelectorAll(".module-card[data-module]"));
 var access=document.getElementById("access-dialog"),unlocked=false,active=null,editing=-1,docType="devis",lines=[];
 try{unlocked=sessionStorage.getItem("mg-preview-access")==="1";}catch(e){}
 var defs={
-"prospection":{title:"Prospection",fields:[["nom","Nom du prospect","text",true],["societe","Société","text"],["email","E-mail","email"],["telephone","Téléphone","tel"],["etape","Étape","select",false,["Nouveau","Contacté","Rendez-vous pris","Devis envoyé","Gagné","Perdu"]],["relance","Prochaine relance","date"],["budget","Budget estimé (€)","number"],["notes","Notes","textarea"]]},
-"contact":{title:"Contacts",special:"contacts"},
-"compte":{title:"Compte",fields:[["societe","Nom de la société","text",true],["type","Type","select",false,["Client","Fournisseur","Partenaire","Autre"]],["siret","SIRET","text"],["contact","Contact principal","text"],["email","E-mail","email"],["telephone","Téléphone","tel"],["adresse","Adresse","text"],["notes","Notes","textarea"]]},
-"afaire":{title:"À faire",fields:[["titre","Élément à faire","text",true],["echeance","Échéance","date"],["priorite","Priorité","select",false,["Basse","Normale","Haute"]],["statut","Statut","select",false,["À faire","En cours","Terminée"]],["notes","Détails","textarea"]]},
-"tache":{title:"Tâche",fields:[["titre","Nom de la tâche","text",true],["contact","Contact lié","text"],["debut","Date de début","date"],["echeance","Échéance","date"],["heure","Heure","time"],["rappel","Rappel","select",false,["Aucun","À l’heure","15 minutes avant","1 heure avant","1 jour avant"]],["statut","Statut","select",false,["À faire","En cours","Terminée"]],["priorite","Priorité","select",false,["Basse","Normale","Haute"]],["avancement","Avancement (%)","number"],["details","Détails","textarea"]]},
-"reunion":{title:"Réunion",fields:[["sujet","Sujet","text",true],["date","Date","date"],["heure","Heure","time"],["duree","Durée","select",false,["30 minutes","1 heure","1 h 30","2 heures","Demi-journée"]],["lieu","Lieu","text"],["invites","Invités","text"],["ordre","Ordre du jour","textarea"]]},
-"calendrier":{title:"Calendrier",fields:[["evenement","Événement","text",true],["agenda","Agenda","select",false,["Personnel","Travail","Clients","Famille"]],["debut","Début","date"],["fin","Fin","date"],["heure","Heure","time"],["lieu","Lieu","text"],["rappel","Rappel","select",false,["Aucun","15 minutes avant","1 heure avant","1 jour avant"]],["repetition","Répétition","select",false,["Jamais","Chaque jour","Chaque semaine","Chaque mois","Chaque année"]],["notes","Notes","textarea"]]},
-"devis-facture":{title:"Devis et factures",special:"documents"},
-"frais":{title:"Frais",fields:[["description","Description","text",true],["type","Type de frais","select",false,["Transport","Carburant","Péage","Parking","Hôtel","Repas","Téléphone","Matériel","Formation","Autre"]],["date","Date de la dépense","date"],["envoi","Date d’envoi","date"],["remboursement","Date de remboursement","date"],["montant","Montant (€)","number",true],["statut","Statut","select",false,["À envoyer","Envoyée","Remboursée","Refusée"]],["projet","Client / projet","text"],["moyen","Moyen de paiement","select",false,["Carte","Espèces","Virement","Chèque","Autre"]],["notes","Notes","textarea"]]},
-"document":{title:"Document",fields:[["titre","Titre du document","text",true],["categorie","Catégorie","select",false,["Contrat","Facture","Devis","Identité","Plan","Photo","Autre"]],["client","Client lié","text"],["date","Date","date"],["url","Lien du document","url"],["notes","Notes","textarea"]]},
-"protection":{title:"Protection",warning:"Aperçu local uniquement : ne saisis pas d’informations réellement sensibles avant la mise en place du stockage sécurisé.",fields:[["information","Nom de l’information","text",true],["detail","Détail","textarea"]]},
-"vente-achat":{title:"Vente et achat",fields:[["article","Produit ou service","text",true],["type","Opération","select",false,["Vente","Achat"]],["categorie","Catégorie","select",false,["Produit","Service","Abonnement","Prestation","Autre"]],["partenaire","Client / fournisseur","text"],["date","Date","date"],["quantite","Quantité","number"],["prix","Prix unitaire (€)","number"],["montant","Total (€)","number"],["statut","Statut","select",false,["En attente","Payé","Livré"]],["notes","Notes","textarea"]]},
-"bulletins-salaire":{title:"Bulletins de salaire",warning:"Aperçu local uniquement : n’ajoute aucune donnée personnelle ou de paie réelle avant la mise en place du stockage sécurisé.",fields:[["salarie","Nom du salarié","text",true],["periode","Période (mois)","month",true],["poste","Poste","text"],["heures","Heures travaillées","number"],["brut","Salaire brut (€)","number"],["net","Net à payer (€)","number"],["date-paiement","Date de paiement","date"],["statut","Statut","select",false,["À préparer","Émis","Payé"]],["document","Lien du bulletin","url"],["notes","Notes","textarea"]]}
+  "prospection": {
+    "title": "Prospection",
+    "fields": [
+      [
+        "nom",
+        "Nom du prospect",
+        "text",
+        true
+      ],
+      [
+        "societe",
+        "Société",
+        "text"
+      ],
+      [
+        "type",
+        "Type de prospect",
+        "select",
+        false,
+        [
+          "Client potentiel",
+          "Partenaire",
+          "Fournisseur",
+          "Recrutement"
+        ]
+      ],
+      [
+        "poste",
+        "Interlocuteur / fonction",
+        "text"
+      ],
+      [
+        "telephone",
+        "Téléphone",
+        "tel"
+      ],
+      [
+        "email",
+        "E-mail",
+        "email"
+      ],
+      [
+        "source",
+        "Source",
+        "select",
+        false,
+        [
+          "Recommandation",
+          "Site internet",
+          "Réseaux sociaux",
+          "Appel entrant",
+          "Salon",
+          "Autre"
+        ]
+      ],
+      [
+        "etape",
+        "Étape commerciale",
+        "select",
+        false,
+        [
+          "Nouveau",
+          "À contacter",
+          "Contacté",
+          "Qualification",
+          "Rendez-vous pris",
+          "Proposition envoyée",
+          "Négociation",
+          "Gagné",
+          "Perdu"
+        ]
+      ],
+      [
+        "relance",
+        "Prochaine relance",
+        "date"
+      ],
+      [
+        "budget",
+        "Budget estimé (€)",
+        "number"
+      ],
+      [
+        "probabilite",
+        "Probabilité (%)",
+        "number"
+      ],
+      [
+        "notes",
+        "Compte rendu / notes",
+        "textarea"
+      ]
+    ]
+  },
+  "contact": {
+    "title": "Contacts",
+    "special": "contacts"
+  },
+  "compte": {
+    "title": "Comptes",
+    "fields": [
+      [
+        "societe",
+        "Raison sociale",
+        "text",
+        true
+      ],
+      [
+        "type",
+        "Type de compte",
+        "select",
+        false,
+        [
+          "Client",
+          "Fournisseur",
+          "Partenaire",
+          "Autre"
+        ]
+      ],
+      [
+        "secteur",
+        "Secteur d’activité",
+        "text"
+      ],
+      [
+        "siret",
+        "SIRET",
+        "text"
+      ],
+      [
+        "ape",
+        "Code APE / NAF",
+        "text"
+      ],
+      [
+        "tva",
+        "N° TVA intracommunautaire",
+        "text"
+      ],
+      [
+        "contact",
+        "Contact principal",
+        "text"
+      ],
+      [
+        "fonction",
+        "Fonction du contact",
+        "text"
+      ],
+      [
+        "email",
+        "E-mail",
+        "email"
+      ],
+      [
+        "telephone",
+        "Téléphone",
+        "tel"
+      ],
+      [
+        "site",
+        "Site internet",
+        "url"
+      ],
+      [
+        "adresse",
+        "Adresse du siège",
+        "text"
+      ],
+      [
+        "cp",
+        "Code postal",
+        "text"
+      ],
+      [
+        "ville",
+        "Ville",
+        "text"
+      ],
+      [
+        "adresseFacturation",
+        "Adresse de facturation",
+        "textarea"
+      ],
+      [
+        "effectif",
+        "Effectif",
+        "select",
+        false,
+        [
+          "Moins de 11",
+          "11 à 49",
+          "50 à 249",
+          "250 et plus"
+        ]
+      ],
+      [
+        "conditions",
+        "Conditions de règlement",
+        "text"
+      ],
+      [
+        "notes",
+        "Notes",
+        "textarea"
+      ]
+    ]
+  },
+  "afaire": {
+    "title": "À faire",
+    "fields": [
+      [
+        "titre",
+        "Action à réaliser",
+        "text",
+        true
+      ],
+      [
+        "categorie",
+        "Catégorie",
+        "select",
+        false,
+        [
+          "Administratif",
+          "Commercial",
+          "Comptabilité",
+          "Client",
+          "Personnel",
+          "Autre"
+        ]
+      ],
+      [
+        "contact",
+        "Contact / société lié(e)",
+        "text"
+      ],
+      [
+        "dateCreation",
+        "Date de création",
+        "date"
+      ],
+      [
+        "echeance",
+        "Échéance",
+        "date"
+      ],
+      [
+        "priorite",
+        "Priorité",
+        "select",
+        false,
+        [
+          "Basse",
+          "Normale",
+          "Haute",
+          "Urgente"
+        ]
+      ],
+      [
+        "statut",
+        "Statut",
+        "select",
+        false,
+        [
+          "À faire",
+          "En cours",
+          "En attente",
+          "Terminée",
+          "Annulée"
+        ]
+      ],
+      [
+        "rappel",
+        "Rappel",
+        "select",
+        false,
+        [
+          "Aucun",
+          "À la date",
+          "15 minutes avant",
+          "1 heure avant",
+          "1 jour avant"
+        ]
+      ],
+      [
+        "notes",
+        "Détails / consignes",
+        "textarea"
+      ]
+    ]
+  },
+  "tache": {
+    "title": "Tâches",
+    "fields": [
+      [
+        "titre",
+        "Intitulé de la tâche",
+        "text",
+        true
+      ],
+      [
+        "projet",
+        "Projet / dossier",
+        "text"
+      ],
+      [
+        "contact",
+        "Contact lié",
+        "text"
+      ],
+      [
+        "responsable",
+        "Responsable",
+        "text"
+      ],
+      [
+        "debut",
+        "Date de début",
+        "date"
+      ],
+      [
+        "echeance",
+        "Date de fin / échéance",
+        "date"
+      ],
+      [
+        "heure",
+        "Heure",
+        "time"
+      ],
+      [
+        "duree",
+        "Durée estimée (heures)",
+        "number"
+      ],
+      [
+        "rappel",
+        "Rappel",
+        "select",
+        false,
+        [
+          "Aucun",
+          "À l’heure",
+          "15 minutes avant",
+          "1 heure avant",
+          "1 jour avant"
+        ]
+      ],
+      [
+        "statut",
+        "Avancement",
+        "select",
+        false,
+        [
+          "À faire",
+          "En cours",
+          "En attente",
+          "Terminée"
+        ]
+      ],
+      [
+        "priorite",
+        "Priorité",
+        "select",
+        false,
+        [
+          "Basse",
+          "Normale",
+          "Haute",
+          "Urgente"
+        ]
+      ],
+      [
+        "avancement",
+        "Progression (%)",
+        "number"
+      ],
+      [
+        "details",
+        "Description / compte rendu",
+        "textarea"
+      ]
+    ]
+  },
+  "reunion": {
+    "title": "Réunions",
+    "fields": [
+      [
+        "sujet",
+        "Sujet de la réunion",
+        "text",
+        true
+      ],
+      [
+        "type",
+        "Type",
+        "select",
+        false,
+        [
+          "Client",
+          "Équipe",
+          "Fournisseur",
+          "Partenaire",
+          "Autre"
+        ]
+      ],
+      [
+        "date",
+        "Date",
+        "date"
+      ],
+      [
+        "heure",
+        "Heure de début",
+        "time"
+      ],
+      [
+        "fin",
+        "Heure de fin",
+        "time"
+      ],
+      [
+        "lieu",
+        "Lieu / lien visioconférence",
+        "text"
+      ],
+      [
+        "organisateur",
+        "Organisateur",
+        "text"
+      ],
+      [
+        "invites",
+        "Participants / e-mails",
+        "textarea"
+      ],
+      [
+        "ordre",
+        "Ordre du jour",
+        "textarea"
+      ],
+      [
+        "decisions",
+        "Décisions prises",
+        "textarea"
+      ],
+      [
+        "actions",
+        "Actions à suivre",
+        "textarea"
+      ],
+      [
+        "statut",
+        "Statut",
+        "select",
+        false,
+        [
+          "Prévue",
+          "Confirmée",
+          "Réalisée",
+          "Annulée"
+        ]
+      ]
+    ]
+  },
+  "calendrier": {
+    "title": "Calendrier",
+    "fields": [
+      [
+        "evenement",
+        "Titre de l’événement",
+        "text",
+        true
+      ],
+      [
+        "agenda",
+        "Agenda",
+        "select",
+        false,
+        [
+          "Personnel",
+          "Travail",
+          "Clients",
+          "Famille",
+          "Autre"
+        ]
+      ],
+      [
+        "debut",
+        "Date de début",
+        "date"
+      ],
+      [
+        "heureDebut",
+        "Heure de début",
+        "time"
+      ],
+      [
+        "fin",
+        "Date de fin",
+        "date"
+      ],
+      [
+        "heureFin",
+        "Heure de fin",
+        "time"
+      ],
+      [
+        "lieu",
+        "Lieu",
+        "text"
+      ],
+      [
+        "contact",
+        "Contact lié",
+        "text"
+      ],
+      [
+        "rappel",
+        "Rappel",
+        "select",
+        false,
+        [
+          "Aucun",
+          "5 minutes avant",
+          "15 minutes avant",
+          "1 heure avant",
+          "1 jour avant"
+        ]
+      ],
+      [
+        "repetition",
+        "Répétition",
+        "select",
+        false,
+        [
+          "Jamais",
+          "Chaque jour",
+          "Chaque semaine",
+          "Chaque mois",
+          "Chaque année"
+        ]
+      ],
+      [
+        "statut",
+        "Statut",
+        "select",
+        false,
+        [
+          "Prévu",
+          "Confirmé",
+          "Terminé",
+          "Annulé"
+        ]
+      ],
+      [
+        "notes",
+        "Notes",
+        "textarea"
+      ]
+    ]
+  },
+  "devis-facture": {
+    "title": "Devis et factures",
+    "special": "documents"
+  },
+  "vente-achat": {
+    "title": "Ventes et achats",
+    "fields": [
+      [
+        "type",
+        "Opération",
+        "select",
+        true,
+        [
+          "Vente",
+          "Achat"
+        ]
+      ],
+      [
+        "nom",
+        "Produit / prestation",
+        "text",
+        true
+      ],
+      [
+        "reference",
+        "Référence / SKU",
+        "text"
+      ],
+      [
+        "client",
+        "Client / fournisseur",
+        "text"
+      ],
+      [
+        "date",
+        "Date de l’opération",
+        "date"
+      ],
+      [
+        "quantite",
+        "Quantité",
+        "number"
+      ],
+      [
+        "unite",
+        "Unité",
+        "select",
+        false,
+        [
+          "Unité",
+          "Heure",
+          "Jour",
+          "Forfait",
+          "Kg",
+          "Litre",
+          "Autre"
+        ]
+      ],
+      [
+        "prixUnitaire",
+        "Prix unitaire HT (€)",
+        "number"
+      ],
+      [
+        "tva",
+        "TVA (%)",
+        "select",
+        false,
+        [
+          "0",
+          "5.5",
+          "10",
+          "20"
+        ]
+      ],
+      [
+        "remise",
+        "Remise (%)",
+        "number"
+      ],
+      [
+        "montant",
+        "Montant HT (€)",
+        "number"
+      ],
+      [
+        "totalTTC",
+        "Total TTC (€)",
+        "number"
+      ],
+      [
+        "paiement",
+        "Mode de règlement",
+        "select",
+        false,
+        [
+          "Virement",
+          "Carte",
+          "Chèque",
+          "Espèces",
+          "Prélèvement",
+          "Autre"
+        ]
+      ],
+      [
+        "statut",
+        "Statut",
+        "select",
+        false,
+        [
+          "À préparer",
+          "Commandé",
+          "Livré",
+          "Facturé",
+          "Payé",
+          "Annulé"
+        ]
+      ],
+      [
+        "notes",
+        "Notes",
+        "textarea"
+      ]
+    ]
+  },
+  "frais": {
+    "title": "Frais",
+    "fields": [
+      [
+        "description",
+        "Description du frais",
+        "text",
+        true
+      ],
+      [
+        "type",
+        "Catégorie",
+        "select",
+        false,
+        [
+          "Transport",
+          "Carburant",
+          "Péage",
+          "Parking",
+          "Hôtel",
+          "Repas",
+          "Téléphone",
+          "Matériel",
+          "Logiciels",
+          "Formation",
+          "Autre"
+        ]
+      ],
+      [
+        "date",
+        "Date de la dépense",
+        "date"
+      ],
+      [
+        "montant",
+        "Montant TTC (€)",
+        "number",
+        true
+      ],
+      [
+        "tva",
+        "TVA récupérable (€)",
+        "number"
+      ],
+      [
+        "paiement",
+        "Moyen de paiement",
+        "select",
+        false,
+        [
+          "Carte professionnelle",
+          "Carte personnelle",
+          "Espèces",
+          "Virement",
+          "Autre"
+        ]
+      ],
+      [
+        "demandeur",
+        "Personne ayant engagé le frais",
+        "text"
+      ],
+      [
+        "client",
+        "Client / projet",
+        "text"
+      ],
+      [
+        "justificatif",
+        "Lien du justificatif",
+        "url"
+      ],
+      [
+        "dateEnvoi",
+        "Date d’envoi de la note",
+        "date"
+      ],
+      [
+        "dateRemboursement",
+        "Date de remboursement",
+        "date"
+      ],
+      [
+        "statut",
+        "Statut",
+        "select",
+        false,
+        [
+          "À compléter",
+          "À envoyer",
+          "Envoyée",
+          "À valider",
+          "Remboursée",
+          "Refusée"
+        ]
+      ],
+      [
+        "commentaire",
+        "Commentaire / motif",
+        "textarea"
+      ]
+    ]
+  },
+  "document": {
+    "title": "Documents",
+    "fields": [
+      [
+        "titre",
+        "Nom du document",
+        "text",
+        true
+      ],
+      [
+        "categorie",
+        "Catégorie",
+        "select",
+        false,
+        [
+          "Contrat",
+          "Administratif",
+          "Comptabilité",
+          "Facture",
+          "Devis",
+          "Identité",
+          "Assurance",
+          "RH",
+          "Photo",
+          "Plan",
+          "Autre"
+        ]
+      ],
+      [
+        "client",
+        "Client / société lié(e)",
+        "text"
+      ],
+      [
+        "reference",
+        "Référence",
+        "text"
+      ],
+      [
+        "date",
+        "Date du document",
+        "date"
+      ],
+      [
+        "expiration",
+        "Date d’expiration / renouvellement",
+        "date"
+      ],
+      [
+        "url",
+        "Lien du fichier",
+        "url"
+      ],
+      [
+        "version",
+        "Version",
+        "text"
+      ],
+      [
+        "confidentialite",
+        "Confidentialité",
+        "select",
+        false,
+        [
+          "Standard",
+          "Interne",
+          "Confidentiel"
+        ]
+      ],
+      [
+        "notes",
+        "Description / notes",
+        "textarea"
+      ]
+    ]
+  },
+  "protection": {
+    "title": "Protection",
+    "warning": "Mode démonstration local uniquement. Ne saisis aucune donnée réellement sensible, aucun mot de passe, code bancaire ou secret avant la mise en place d’un stockage chiffré et d’un contrôle d’accès adapté.",
+    "fields": [
+      [
+        "information",
+        "Intitulé de l’information",
+        "text",
+        true
+      ],
+      [
+        "categorie",
+        "Catégorie",
+        "select",
+        false,
+        [
+          "Assurance",
+          "Contrat",
+          "Garantie",
+          "Protection juridique",
+          "Sécurité",
+          "Données à protéger",
+          "Autre"
+        ]
+      ],
+      [
+        "organisme",
+        "Organisme / interlocuteur",
+        "text"
+      ],
+      [
+        "reference",
+        "Référence de dossier (non secrète)",
+        "text"
+      ],
+      [
+        "dateDebut",
+        "Date de début",
+        "date"
+      ],
+      [
+        "dateFin",
+        "Date d’échéance",
+        "date"
+      ],
+      [
+        "contactUrgence",
+        "Contact à joindre",
+        "text"
+      ],
+      [
+        "telephone",
+        "Téléphone de contact",
+        "tel"
+      ],
+      [
+        "url",
+        "Lien vers le document sécurisé",
+        "url"
+      ],
+      [
+        "consigne",
+        "Consignes non confidentielles",
+        "textarea"
+      ],
+      [
+        "statut",
+        "Statut",
+        "select",
+        false,
+        [
+          "Actif",
+          "À renouveler",
+          "En attente",
+          "Clos"
+        ]
+      ]
+    ]
+  },
+  "bulletins-salaire": {
+    "title": "Bulletins de salaire",
+    "warning": "Maquette de bulletin de paie : les taux, assiettes, exonérations, convention collective et mentions propres à l’entreprise doivent être vérifiés avant toute remise officielle. N’utilise pas ce calcul comme substitut à un logiciel de paie ou à un gestionnaire de paie.",
+    "fields": [
+      [
+        "periode",
+        "Période de paie (AAAA-MM)",
+        "text",
+        true
+      ],
+      [
+        "datePaiement",
+        "Date de paiement",
+        "date"
+      ],
+      [
+        "employeurNom",
+        "Entreprise — raison sociale",
+        "text",
+        true
+      ],
+      [
+        "employeurAdresse",
+        "Entreprise — adresse complète",
+        "textarea"
+      ],
+      [
+        "employeurSiret",
+        "SIRET de l’établissement",
+        "text"
+      ],
+      [
+        "employeurApe",
+        "Code APE / NAF",
+        "text"
+      ],
+      [
+        "employeurUrssaf",
+        "Organisme / n° cotisant URSSAF",
+        "text"
+      ],
+      [
+        "employeurConvention",
+        "Convention collective applicable",
+        "text"
+      ],
+      [
+        "employeurLogo",
+        "URL du logo de l’entreprise",
+        "url"
+      ],
+      [
+        "salarie",
+        "Salarié — nom et prénom",
+        "text",
+        true
+      ],
+      [
+        "matricule",
+        "Matricule salarié",
+        "text"
+      ],
+      [
+        "emploi",
+        "Emploi / poste occupé",
+        "text"
+      ],
+      [
+        "classification",
+        "Classification / niveau / coefficient",
+        "text"
+      ],
+      [
+        "statut",
+        "Statut",
+        "select",
+        false,
+        [
+          "Non-cadre",
+          "Cadre",
+          "Agent de maîtrise",
+          "Autre"
+        ]
+      ],
+      [
+        "numeroSecu",
+        "N° de sécurité sociale",
+        "text"
+      ],
+      [
+        "dateEntree",
+        "Date d’entrée",
+        "date"
+      ],
+      [
+        "typeContrat",
+        "Type de contrat",
+        "select",
+        false,
+        [
+          "CDI",
+          "CDD",
+          "Apprentissage",
+          "Professionnalisation",
+          "Autre"
+        ]
+      ],
+      [
+        "heuresBase",
+        "Heures normales rémunérées",
+        "number"
+      ],
+      [
+        "salaireBase",
+        "Salaire brut de base (€)",
+        "number"
+      ],
+      [
+        "tauxHoraire",
+        "Taux horaire brut (€)",
+        "number"
+      ],
+      [
+        "heuresSup25",
+        "Heures supplémentaires à 25 %",
+        "number"
+      ],
+      [
+        "heuresSup50",
+        "Heures supplémentaires à 50 %",
+        "number"
+      ],
+      [
+        "primes",
+        "Primes et compléments bruts (€)",
+        "number"
+      ],
+      [
+        "avantages",
+        "Avantages en nature (€)",
+        "number"
+      ],
+      [
+        "absence",
+        "Retenues pour absence (€)",
+        "number"
+      ],
+      [
+        "indemnites",
+        "Indemnités non soumises (€)",
+        "number"
+      ],
+      [
+        "vieillesseSalPlaf",
+        "Vieillesse plafonnée — salarié (%)",
+        "number"
+      ],
+      [
+        "vieillessePatPlaf",
+        "Vieillesse plafonnée — employeur (%)",
+        "number"
+      ],
+      [
+        "vieillesseSalDeplaf",
+        "Vieillesse déplafonnée — salarié (%)",
+        "number"
+      ],
+      [
+        "vieillessePatDeplaf",
+        "Vieillesse déplafonnée — employeur (%)",
+        "number"
+      ],
+      [
+        "retraiteSal",
+        "Retraite complémentaire — salarié (%)",
+        "number"
+      ],
+      [
+        "retraitePat",
+        "Retraite complémentaire — employeur (%)",
+        "number"
+      ],
+      [
+        "csgDed",
+        "CSG déductible — salarié (%)",
+        "number"
+      ],
+      [
+        "csgNonDed",
+        "CSG non déductible — salarié (%)",
+        "number"
+      ],
+      [
+        "crds",
+        "CRDS — salarié (%)",
+        "number"
+      ],
+      [
+        "maladiePat",
+        "Maladie / maternité — employeur (%)",
+        "number"
+      ],
+      [
+        "famillePat",
+        "Allocations familiales — employeur (%)",
+        "number"
+      ],
+      [
+        "chomagePat",
+        "Assurance chômage — employeur (%)",
+        "number"
+      ],
+      [
+        "agsPat",
+        "AGS — employeur (%)",
+        "number"
+      ],
+      [
+        "fnalPat",
+        "FNAL — employeur (%)",
+        "number"
+      ],
+      [
+        "atmpPat",
+        "Accidents du travail — employeur (%)",
+        "number"
+      ],
+      [
+        "mutuelleSal",
+        "Mutuelle — part salarié (€)",
+        "number"
+      ],
+      [
+        "mutuellePat",
+        "Mutuelle — part employeur (€)",
+        "number"
+      ],
+      [
+        "pasTaux",
+        "Prélèvement à la source (%)",
+        "number"
+      ],
+      [
+        "acompte",
+        "Acompte déjà versé (€)",
+        "number"
+      ],
+      [
+        "netSocialSaisi",
+        "Montant net social (si validé par la paie) (€)",
+        "number"
+      ],
+      [
+        "notes",
+        "Notes / mentions complémentaires",
+        "textarea"
+      ]
+    ]
+  }
 };
 var overlay=document.createElement("div");overlay.className="mg-module-overlay";overlay.hidden=true;
 overlay.innerHTML='<section class="mg-module-dialog" role="dialog" aria-modal="true" aria-labelledby="mg-module-title"><button class="mg-module-close" type="button" aria-label="Fermer">×</button><div class="mg-module-head"><p class="mg-module-eyebrow">MA GESTION WEB · ESPACE DE TRAVAIL</p><h2 id="mg-module-title"></h2><p class="mg-module-subtitle">Applications reprises de votre site Wix — prototype de validation.</p></div><div class="mg-module-warning" hidden></div><div class="mg-special-tabs" hidden></div><div class="mg-module-tools" hidden></div><form class="mg-module-form"></form><div class="mg-module-list-head"><h3>Éléments enregistrés</h3><span class="mg-module-count">0 élément</span></div><div class="mg-module-list"></div><p class="mg-module-storage">Données conservées dans ce navigateur uniquement. La synchronisation et les fichiers partagés seront traités à l’étape 3.</p></section>';
@@ -387,11 +1578,122 @@ function read(id){try{var v=JSON.parse(localStorage.getItem(key(id))||"[]");retu
 function write(id,items){try{localStorage.setItem(key(id),JSON.stringify(items));window.dispatchEvent(new CustomEvent("mg:data-changed",{detail:{id:id}}));return true;}catch(e){alert("Enregistrement impossible : espace de stockage du navigateur insuffisant.");return false;}}
 function money(n){return (Math.round((Number(n)||0)*100)/100).toLocaleString("fr-FR",{minimumFractionDigits:2,maximumFractionDigits:2})+" €";}
 function openAccess(){if(access){var b=document.getElementById("access-open");if(b)b.click();else access.showModal();}}
-function openModule(id){if(!unlocked){openAccess();return;}active=id;editing=-1;docType="devis";overlay.hidden=false;document.body.classList.add("mg-modal-open");overlay.querySelector("#mg-module-title").textContent=defs[id].title;var w=overlay.querySelector(".mg-module-warning");w.hidden=!defs[id].warning;w.textContent=defs[id].warning||"";if(defs[id].special==="contacts")renderContacts();else if(defs[id].special==="documents")renderDocuments();else{tabs.hidden=true;tools.hidden=true;renderForm(null);renderList();}overlay.querySelector(".mg-module-close").focus();}
+function openModule(id){if(!unlocked){openAccess();return;}active=id;editing=-1;docType="devis";overlay.hidden=false;document.body.classList.add("mg-modal-open");overlay.querySelector("#mg-module-title").textContent=defs[id].title;var w=overlay.querySelector(".mg-module-warning");w.hidden=!defs[id].warning;w.textContent=defs[id].warning||"";if(defs[id].special==="contacts")renderContacts();else if(defs[id].special==="documents")renderDocuments();else{tabs.hidden=true;tools.hidden=false;renderModuleTools();renderForm(null);renderList();}overlay.querySelector(".mg-module-close").focus();}
 function setForm(html){form.innerHTML=html;}
-function renderForm(item){var d=defs[active];form.innerHTML=d.fields.map(function(f){var n=f[0],v=item&&item[n]!=null?item[n]:"",c;if(f[2]==="select")c='<select name="'+n+'" '+(f[3]?"required":"")+'><option value="">Choisir…</option>'+f[4].map(function(x){return '<option value="'+esc(x)+'" '+(v===x?"selected":"")+'>'+esc(x)+'</option>';}).join("")+'</select>';else if(f[2]==="textarea")c='<textarea name="'+n+'" rows="3">'+esc(v)+'</textarea>';else c='<input name="'+n+'" type="'+f[2]+'" value="'+esc(v)+'" '+(f[3]?"required":"")+(f[2]==="number"?' min="0" step="0.01"':"")+'>';return '<label class="mg-field"><span>'+esc(f[1])+(f[3]?' <i>*</i>':"")+'</span>'+c+'</label>';}).join("")+'<div class="mg-form-actions"><button class="btn" type="submit">'+(item?"Enregistrer les modifications":"Ajouter à la liste")+'</button><button type="button" class="mg-cancel-edit" '+(item?"":"hidden")+' >Annuler</button></div>';form.onsubmit=function(e){e.preventDefault();var data={};d.fields.forEach(function(f){var el=form.elements.namedItem(f[0]);data[f[0]]=el?el.value.trim():"";});var req=d.fields.find(function(f){return f[3];});if(req&&!data[req[0]]){form.reportValidity();return;}var a=read(active);if(editing>=0)a[editing]=Object.assign({},a[editing],data,{updatedAt:new Date().toISOString()});else{data.createdAt=new Date().toISOString();a.unshift(data);}if(write(active,a)){editing=-1;renderForm(null);renderList();}};var c=form.querySelector(".mg-cancel-edit");if(c)c.onclick=function(){editing=-1;renderForm(null);};}
+function renderForm(item){var d=defs[active];form.innerHTML=d.fields.map(function(f){var n=f[0],v=item&&item[n]!=null?item[n]:(active==="bulletins-salaire"&&payrollDefaults[n]!=null?payrollDefaults[n]:""),c;if(f[2]==="select")c='<select name="'+n+'" '+(f[3]?"required":"")+'><option value="">Choisir…</option>'+f[4].map(function(x){return '<option value="'+esc(x)+'" '+(v===x?"selected":"")+'>'+esc(x)+'</option>';}).join("")+'</select>';else if(f[2]==="textarea")c='<textarea name="'+n+'" rows="3">'+esc(v)+'</textarea>';else c='<input name="'+n+'" type="'+f[2]+'" value="'+esc(v)+'" '+(f[3]?"required":"")+(f[2]==="number"?' min="0" step="0.01"':"")+'>';return '<label class="mg-field"><span>'+esc(f[1])+(f[3]?' <i>*</i>':"")+'</span>'+c+'</label>';}).join("")+'<div class="mg-form-actions"><button class="btn" type="submit">'+(item?"Enregistrer les modifications":"Ajouter à la liste")+'</button><button type="button" class="mg-cancel-edit" '+(item?"":"hidden")+' >Annuler</button></div>';form.onsubmit=function(e){e.preventDefault();var data={};d.fields.forEach(function(f){var el=form.elements.namedItem(f[0]);data[f[0]]=el?el.value.trim():"";});var req=d.fields.find(function(f){return f[3];});if(req&&!data[req[0]]){form.reportValidity();return;}var a=read(active);if(editing>=0)a[editing]=Object.assign({},a[editing],data,{updatedAt:new Date().toISOString()});else{data.createdAt=new Date().toISOString();a.unshift(data);}if(write(active,a)){editing=-1;renderForm(null);renderList();}};var c=form.querySelector(".mg-cancel-edit");if(c)c.onclick=function(){editing=-1;renderForm(null);};}
 function summary(item,d){var names=["nom","titre","sujet","evenement","description","societe","information","article","client","numero"],first="";for(var i=0;i<names.length;i++)if(item[names[i]]){first=item[names[i]];break;}if(!first)first="Nouvel élément";var details=d.fields.filter(function(f){return item[f[0]]&&f[0]!==first;}).slice(0,3);return '<div class="mg-record-main"><b>'+esc(first)+'</b><span>'+details.map(function(f){return esc(f[1])+": "+esc(item[f[0]]);}).join(" · ")+'</span></div>';}
-function renderList(){var a=read(active),d=defs[active];overlay.querySelector(".mg-module-count").textContent=a.length+" élément"+(a.length>1?"s":"");if(!a.length){list.innerHTML='<div class="mg-empty"><b>Aucun élément pour le moment</b><p>Utilisez le formulaire pour créer votre première fiche.</p></div>';return;}list.innerHTML=a.map(function(x,i){return '<article class="mg-record">'+summary(x,d)+'<div class="mg-record-actions"><button type="button" data-edit="'+i+'">Modifier</button><button type="button" data-delete="'+i+'">Supprimer</button></div></article>';}).join("");list.querySelectorAll("[data-edit]").forEach(function(b){b.onclick=function(){editing=+b.dataset.edit;renderForm(a[editing]);form.scrollIntoView({behavior:"smooth",block:"start"});};});list.querySelectorAll("[data-delete]").forEach(function(b){b.onclick=function(){var i=+b.dataset.delete;if(confirm("Supprimer cette fiche ?")){a.splice(i,1);write(active,a);renderList();}};});}
+var payrollDefaults={
+  vieillesseSalPlaf:"6.90",vieillessePatPlaf:"8.55",vieillesseSalDeplaf:"0.40",vieillessePatDeplaf:"2.11",
+  retraiteSal:"3.15",retraitePat:"4.72",csgDed:"6.80",csgNonDed:"2.40",crds:"0.50",
+  maladiePat:"13.00",famillePat:"5.25",chomagePat:"4.00",agsPat:"0.25",fnalPat:"0.10"
+};
+function recordPlain(item,d){
+  return d.fields.filter(function(f){return item[f[0]]!==undefined&&item[f[0]]!=="";}).map(function(f){return f[1]+": "+item[f[0]];}).join("\n");
+}
+function copyText(text){
+  if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(text).then(function(){alert("Copié.");}).catch(function(){window.prompt("Copiez le contenu :",text);});}
+  else window.prompt("Copiez le contenu :",text);
+}
+function copyRecord(i){var a=read(active);if(a[i])copyText(JSON.stringify(a[i],null,2));}
+function pasteRecord(){
+  var apply=function(t){try{var o=JSON.parse(t);if(!o||typeof o!=="object"||Array.isArray(o))throw new Error("format");editing=-1;renderForm(o);form.scrollIntoView({behavior:"smooth",block:"start"});alert("Fiche collée dans le formulaire. Vérifiez puis enregistrez.");}catch(e){var first=defs[active].fields[0];if(first){var o={};o[first[0]]=t;editing=-1;renderForm(o);alert("Texte collé dans le premier champ. Complétez la fiche puis enregistrez.");}}};
+  if(navigator.clipboard&&navigator.clipboard.readText)navigator.clipboard.readText().then(apply).catch(function(){var t=window.prompt("Collez une fiche JSON ou un texte :");if(t)apply(t);});
+  else{var t=window.prompt("Collez une fiche JSON ou un texte :");if(t)apply(t);}
+}
+function exportModuleCsv(){
+  var d=defs[active],a=read(active),head=d.fields.map(function(f){return f[1];});
+  var rows=a.map(function(x){return d.fields.map(function(f){return String(x[f[0]]==null?"":x[f[0]]).replace(/"/g,'""');});});
+  var csv=[head].concat(rows).map(function(row){return row.map(function(v){return '"'+v+'"';}).join(";");}).join("\r\n");
+  download(active+"-ma-gestion.csv","\ufeff"+csv,"text/csv;charset=utf-8");
+}
+function renderModuleTools(){
+  tools.innerHTML='<button type="button" id="mg-module-new">＋ Nouvelle fiche</button><button type="button" id="mg-module-paste">📋 Coller</button><button type="button" id="mg-module-export">⬇️ Exporter CSV</button><button type="button" id="mg-module-print">🖨️ Imprimer la liste</button><button type="button" id="mg-module-send">📤 Envoyer la liste</button>';
+  tools.querySelector("#mg-module-new").onclick=function(){editing=-1;renderForm(null);form.scrollIntoView({behavior:"smooth",block:"start"});};
+  tools.querySelector("#mg-module-paste").onclick=pasteRecord;
+  tools.querySelector("#mg-module-export").onclick=exportModuleCsv;
+  tools.querySelector("#mg-module-print").onclick=function(){printModuleList();};
+  tools.querySelector("#mg-module-send").onclick=function(){var a=read(active),txt=a.map(function(x){return recordPlain(x,defs[active]);}).join("\n\n---\n\n");shareText(defs[active].title,txt||"Aucune fiche.");};
+}
+function shareText(title,body){
+  if(navigator.share){navigator.share({title:title,text:body}).catch(function(){});}
+  else{window.location.href="mailto:?subject="+encodeURIComponent(title)+"&body="+encodeURIComponent(body);}
+}
+function shareRecord(i){var a=read(active),d=defs[active],r=a[i];if(r)shareText(d.title+" — "+(r.salarie||r.nom||r.titre||r.sujet||r.evenement||r.description||""),recordPlain(r,d));}
+function printModuleList(){
+  var a=read(active),d=defs[active],w=window.open("","_blank");
+  if(!w){alert("Autorisez les fenêtres contextuelles pour imprimer.");return;}
+  var body=a.map(function(r){return "<tr>"+d.fields.filter(function(f){return r[f[0]]!==undefined&&r[f[0]]!=="";}).map(function(f){return "<td><b>"+esc(f[1])+"</b><br>"+esc(r[f[0]])+"</td>";}).join("")+"</tr>";}).join("");
+  w.document.open();w.document.write('<!doctype html><html lang="fr"><meta charset="utf-8"><title>'+esc(d.title)+'</title><style>body{font:12px Arial;margin:24px;color:#243b50}h1{font-size:20px}table{width:100%;border-collapse:collapse}td{border:1px solid #ccd6df;padding:7px;vertical-align:top}tr{break-inside:avoid}@media print{button{display:none}}</style><h1>'+esc(d.title)+'</h1><p>Liste exportée le '+new Date().toLocaleDateString("fr-FR")+'</p><table>'+body+'</table><button onclick="window.print()">Imprimer / PDF</button></html>');w.document.close();
+}
+function calcPayroll(r){
+  var n=function(k){return Number(String(r[k]||"").replace(",","."))||0;},round=function(x){return Math.round(x*100)/100;};
+  var pmss=4005,base=n("salaireBase"),hourly=n("tauxHoraire"),hours=n("heuresBase");
+  if(!base&&hourly&&hours)base=hourly*hours;
+  var hourlyRate=hourly||(hours?base/hours:base/151.67);
+  var overtime=hourlyRate*1.25*n("heuresSup25")+hourlyRate*1.5*n("heuresSup50");
+  var gross=Math.max(0,base+overtime+n("primes")+n("avantages")-n("absence"));
+  var plaf=Math.min(gross,pmss),csgBase=gross*0.9825,lines=[];
+  function line(label,assiette,salRate,patRate,mode){var s=round(assiette*salRate/100),p=round(assiette*patRate/100);lines.push({label:label,base:round(assiette),salRate:salRate,patRate:patRate,sal:s,pat:p});return s;}
+  var sal=0,pat=0;
+  sal+=line("Assurance vieillesse plafonnée",plaf,n("vieillesseSalPlaf")||6.9,n("vieillessePatPlaf")||8.55);
+  sal+=line("Assurance vieillesse déplafonnée",gross,n("vieillesseSalDeplaf")||0.4,n("vieillessePatDeplaf")||2.11);
+  sal+=line("Retraite complémentaire (taux indicatifs à confirmer)",plaf,n("retraiteSal")||3.15,n("retraitePat")||4.72);
+  sal+=line("CSG déductible",csgBase,n("csgDed")||6.8,0);
+  sal+=line("CSG non déductible",csgBase,n("csgNonDed")||2.4,0);
+  sal+=line("CRDS",csgBase,n("crds")||0.5,0);
+  pat+=line("Assurance maladie / maternité",gross,0,n("maladiePat")||13);
+  pat+=line("Allocations familiales",gross,0,n("famillePat")||5.25);
+  pat+=line("Assurance chômage",gross,0,n("chomagePat")||4);
+  pat+=line("AGS",gross,0,n("agsPat")||0.25);
+  pat+=line("FNAL",plaf,0,n("fnalPat")||0.1);
+  pat+=line("Accidents du travail et maladies professionnelles",gross,0,n("atmpPat"));
+  var mutSal=n("mutuelleSal"),mutPat=n("mutuellePat");
+  if(mutSal||mutPat)lines.push({label:"Complémentaire santé (mutuelle)",base:0,salRate:0,patRate:0,sal:round(mutSal),pat:round(mutPat)});
+  var employeeTotal=round(sal+mutSal),employerTotal=round(pat+mutPat);
+  var netBefore=round(gross-employeeTotal-n("avantages")+n("indemnites"));
+  var nonDed=round(csgBase*((n("csgNonDed")||2.4)+(n("crds")||0.5))/100);
+  var netTaxable=round(netBefore+nonDed+mutPat);
+  var pas=round(netTaxable*n("pasTaux")/100),net=round(netBefore-pas-n("acompte"));
+  return {base:round(base),overtime:round(overtime),gross:round(gross),lines:lines,employeeTotal:employeeTotal,employerTotal:employerTotal,netBefore:netBefore,netTaxable:netTaxable,netSocial:n("netSocialSaisi")||netBefore,pas:pas,net:net,employerCost:round(gross+employerTotal)};
+}
+function printPayroll(r){
+  var p=calcPayroll(r),w=window.open("","_blank");if(!w){alert("Autorisez les fenêtres contextuelles pour imprimer le bulletin.");return;}
+  var logo=r.employeurLogo?'<img class="logo" src="'+esc(r.employeurLogo)+'" alt="Logo entreprise">':'<div class="logo-fallback">'+esc((r.employeurNom||"Entreprise").slice(0,2).toUpperCase())+'</div>';
+  var lines=p.lines.map(function(x){return "<tr><td>"+esc(x.label)+"</td><td class='num'>"+money(x.base)+"</td><td class='num'>"+(x.salRate?x.salRate.toFixed(2)+" %":"—")+"</td><td class='num'>"+money(x.sal)+"</td><td class='num'>"+(x.patRate?x.patRate.toFixed(2)+" %":"—")+"</td><td class='num'>"+money(x.pat)+"</td></tr>";}).join("");
+  var html='<!doctype html><html lang="fr"><head><meta charset="utf-8"><title>Bulletin de paie — '+esc(r.salarie||"Salarié")+'</title><style>*{box-sizing:border-box}body{font:11px Arial,sans-serif;color:#182b3a;margin:22px}.top{display:flex;justify-content:space-between;align-items:center;border-bottom:3px solid #294e68;padding-bottom:12px}.logo{max-width:110px;max-height:65px;object-fit:contain}.logo-fallback{width:58px;height:58px;background:#e8f0f5;border-radius:8px;display:grid;place-items:center;font-size:20px;font-weight:bold;color:#294e68}.title{text-align:right}.title h1{font-size:21px;margin:0 0 6px}.title strong{font-size:13px}.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:14px 0}.panel{border:1px solid #c8d4de;border-radius:6px;padding:10px;min-height:95px}.panel h2{font-size:11px;text-transform:uppercase;color:#4b6579;margin:0 0 8px}.panel p{margin:3px 0;line-height:1.35}table{width:100%;border-collapse:collapse;margin:12px 0;font-size:10px}th{background:#e9f0f5;text-align:left}th,td{border:1px solid #cbd5de;padding:6px 5px}.num{text-align:right;white-space:nowrap}.section{background:#f2f6f9;font-weight:bold}.totals{margin:12px 0 0 auto;width:330px}.totals p{display:flex;justify-content:space-between;margin:5px 0;padding:4px;border-bottom:1px solid #d8e0e6}.net{background:#e7f0f6;padding:11px!important;font-size:16px;font-weight:bold;border:2px solid #294e68!important}.legal{font-size:9px;color:#526474;margin-top:18px;border-top:1px solid #ccd5dc;padding-top:9px}.warning{font-size:9px;color:#8a3d26;background:#fff5ef;border:1px solid #edc9b8;padding:8px;margin-top:12px}@media print{body{margin:12mm}button{display:none}}</style></head><body><div class="top">'+logo+'<div class="title"><h1>BULLETIN DE PAIE</h1><strong>Période : '+esc(r.periode||"À compléter")+'</strong><p>Date de paiement : '+esc(r.datePaiement||"À compléter")+'</p></div></div><div class="grid"><section class="panel"><h2>Employeur</h2><p><b>'+esc(r.employeurNom||"Raison sociale à renseigner")+'</b></p><p>'+esc(r.employeurAdresse||"Adresse à renseigner").replace(/\n/g,"<br>")+'</p><p>SIRET : '+esc(r.employeurSiret||"À renseigner")+' · APE/NAF : '+esc(r.employeurApe||"À renseigner")+'</p><p>URSSAF : '+esc(r.employeurUrssaf||"À renseigner")+'</p><p>Convention collective : '+esc(r.employeurConvention||"À renseigner")+'</p></section><section class="panel"><h2>Salarié</h2><p><b>'+esc(r.salarie||"Nom à renseigner")+'</b> · Matricule : '+esc(r.matricule||"—")+'</p><p>Emploi : '+esc(r.emploi||"À renseigner")+'</p><p>Classification : '+esc(r.classification||"À renseigner")+' · Statut : '+esc(r.statut||"—")+'</p><p>N° sécurité sociale : '+esc(r.numeroSecu||"À renseigner")+'</p><p>Entrée : '+esc(r.dateEntree||"—")+' · Contrat : '+esc(r.typeContrat||"—")+'</p></section></div><table><thead><tr><th>Rubriques de rémunération</th><th class="num">Base</th><th class="num">Taux</th><th class="num">Montant</th></tr></thead><tbody><tr><td>Salaire brut de base</td><td class="num">'+money(p.base)+'</td><td class="num">—</td><td class="num">'+money(p.base)+'</td></tr><tr><td>Heures supplémentaires et majorations</td><td class="num">'+esc(r.heuresSup25||"0")+' h à 25 % · '+esc(r.heuresSup50||"0")+' h à 50 %</td><td class="num">—</td><td class="num">'+money(p.overtime)+'</td></tr><tr><td>Primes et compléments</td><td class="num">—</td><td class="num">—</td><td class="num">'+money(r.primes)+'</td></tr><tr><td>Avantages en nature</td><td class="num">—</td><td class="num">—</td><td class="num">'+money(r.avantages)+'</td></tr><tr><td>Retenues pour absence</td><td class="num">—</td><td class="num">—</td><td class="num">− '+money(r.absence)+'</td></tr><tr class="section"><td colspan="3">RÉMUNÉRATION BRUTE</td><td class="num">'+money(p.gross)+'</td></tr></tbody></table><table><thead><tr><th>Cotisations et contributions sociales</th><th class="num">Base</th><th class="num">Taux sal.</th><th class="num">Part salarié</th><th class="num">Taux empl.</th><th class="num">Part employeur</th></tr></thead><tbody>'+lines+'<tr class="section"><td colspan="3">Total des cotisations</td><td class="num">'+money(p.employeeTotal)+'</td><td></td><td class="num">'+money(p.employerTotal)+'</td></tr></tbody></table><div class="totals"><p><span>Net à payer avant impôt</span><b>'+money(p.netBefore)+'</b></p><p><span>Net imposable (base PAS)</span><b>'+money(p.netTaxable)+'</b></p><p><span>Prélèvement à la source ('+esc(r.pasTaux||"0")+' %)</span><b>− '+money(p.pas)+'</b></p><p><span>Acompte déjà versé</span><b>− '+money(r.acompte)+'</b></p><p><span>Montant net social (à confirmer)</span><b>'+money(p.netSocial)+'</b></p><p class="net"><span>NET À PAYER</span><b>'+money(p.net)+'</b></p><p><span>Total versé par l’employeur (estimation)</span><b>'+money(p.employerCost)+'</b></p></div><p>Heures normales : '+esc(r.heuresBase||"—")+' · Indemnités non soumises : '+money(r.indemnites)+'</p><p>Congés payés / repos : à compléter selon le compteur de paie applicable.</p><p>'+esc(r.notes||"")+'</p><div class="warning"><b>Maquette de prévisualisation.</b> Les taux et assiettes affichés sont des paramètres indicatifs à contrôler selon l’effectif, la convention collective, le statut, la mutuelle, les plafonds, les réductions et la situation du salarié. Ce document ne doit pas être remis comme bulletin officiel sans validation complète par le gestionnaire de paie.</div><div class="legal">Conservez ce bulletin sans limitation de durée. Pour vos démarches, le montant net social figure ci-dessus sous réserve de validation. Les informations manquantes doivent être complétées avant toute édition définitive.</div><button onclick="window.print()">Imprimer / Enregistrer en PDF</button></body></html>';
+  w.document.open();w.document.write(html);w.document.close();
+}
+function printRecord(i){
+  var a=read(active),d=defs[active],r=a[i];if(!r)return;
+  if(active==="bulletins-salaire"){printPayroll(r);return;}
+  var w=window.open("","_blank");if(!w){alert("Autorisez les fenêtres contextuelles pour imprimer.");return;}
+  var rows=d.fields.filter(function(f){return r[f[0]]!==undefined&&r[f[0]]!=="";}).map(function(f){return "<tr><th>"+esc(f[1])+"</th><td>"+esc(r[f[0]])+"</td></tr>";}).join("");
+  w.document.open();w.document.write('<!doctype html><html lang="fr"><meta charset="utf-8"><title>'+esc(d.title)+'</title><style>body{font:13px Arial;margin:28px;color:#243b50}h1{font-size:21px}table{width:100%;border-collapse:collapse}th,td{border:1px solid #ccd6df;padding:8px;text-align:left}th{width:30%;background:#f1f5f8}@media print{button{display:none}}</style><h1>'+esc(d.title)+'</h1><p>Édité le '+new Date().toLocaleDateString("fr-FR")+'</p><table>'+rows+'</table><button onclick="window.print()">Imprimer / PDF</button></html>');w.document.close();
+}
+function viewRecord(i){
+  var a=read(active),d=defs[active],r=a[i];if(!r)return;
+  editing=i;
+  form.innerHTML='<div class="mg-record-detail"><div class="mg-record-detail-head"><h3>'+esc(r.salarie||r.nom||r.titre||r.sujet||r.evenement||r.description||r.societe||d.title)+'</h3><button type="button" id="mg-back-list">Retour à la liste</button></div>'+d.fields.filter(function(f){return r[f[0]]!==undefined&&r[f[0]]!=="";}).map(function(f){return '<div class="mg-record-detail-field"><small>'+esc(f[1])+'</small><div>'+esc(r[f[0]])+'</div></div>';}).join("")+'<div class="mg-record-actions"><button type="button" id="mg-detail-edit">Modifier</button><button type="button" id="mg-detail-copy">Copier</button><button type="button" id="mg-detail-print">Imprimer</button><button type="button" id="mg-detail-pdf">PDF</button><button type="button" id="mg-detail-send">Envoyer</button><button type="button" id="mg-detail-delete">Supprimer</button></div></div>';
+  form.querySelector("#mg-back-list").onclick=function(){renderForm(null);renderList();};
+  form.querySelector("#mg-detail-edit").onclick=function(){renderForm(a[i]);};
+  form.querySelector("#mg-detail-copy").onclick=function(){copyRecord(i);};
+  form.querySelector("#mg-detail-print").onclick=function(){printRecord(i);};
+  form.querySelector("#mg-detail-pdf").onclick=function(){printRecord(i);};
+  form.querySelector("#mg-detail-send").onclick=function(){shareRecord(i);};
+  form.querySelector("#mg-detail-delete").onclick=function(){if(confirm("Supprimer cette fiche ?")){a.splice(i,1);write(active,a);editing=-1;renderForm(null);renderList();}};
+}
+function renderList(){
+  var a=read(active),d=defs[active];
+  overlay.querySelector(".mg-module-count").textContent=a.length+" élément"+(a.length>1?"s":"");
+  if(!a.length){list.innerHTML='<div class="mg-empty"><b>Aucun élément pour le moment</b><p>Créez une fiche, puis gérez-la depuis la liste ou sa fiche détaillée.</p></div>';return;}
+  list.innerHTML=a.map(function(x,i){return '<article class="mg-record">'+summary(x,d)+'<div class="mg-record-actions"><button type="button" data-view="'+i+'">Voir la fiche</button><button type="button" data-edit="'+i+'">Modifier</button><button type="button" data-copy="'+i+'">Copier</button><button type="button" data-print="'+i+'">Imprimer</button><button type="button" data-pdf="'+i+'">PDF</button><button type="button" data-send="'+i+'">Envoyer</button><button type="button" data-delete="'+i+'">Supprimer</button></div></article>';}).join("");
+  list.querySelectorAll("[data-view]").forEach(function(b){b.onclick=function(){viewRecord(+b.dataset.view);form.scrollIntoView({behavior:"smooth",block:"start"});};});
+  list.querySelectorAll("[data-edit]").forEach(function(b){b.onclick=function(){editing=+b.dataset.edit;renderForm(a[editing]);form.scrollIntoView({behavior:"smooth",block:"start"});};});
+  list.querySelectorAll("[data-copy]").forEach(function(b){b.onclick=function(){copyRecord(+b.dataset.copy);};});
+  list.querySelectorAll("[data-print],[data-pdf]").forEach(function(b){b.onclick=function(){printRecord(+(b.dataset.print||b.dataset.pdf));};});
+  list.querySelectorAll("[data-send]").forEach(function(b){b.onclick=function(){shareRecord(+b.dataset.send);};});
+  list.querySelectorAll("[data-delete]").forEach(function(b){b.onclick=function(){var i=+b.dataset.delete;if(confirm("Supprimer cette fiche ?")){a.splice(i,1);write(active,a);renderList();}};});
+}
 function contactName(c){return [c.prenom,c.nom].filter(Boolean).join(" ").trim()||c.societe||c.mail||"Contact";}
 function allContacts(){return read("contact");}
 function contactFields(c){return [["prenom","Prénom","text"],["nom","Nom","text"],["societe","Société","text"],["poste","Poste / fonction","text"],["tel","Mobile","tel"],["wa","WhatsApp","tel"],["fixe","Téléphone fixe","tel"],["telpro","Téléphone professionnel","tel"],["mail","E-mail personnel","email"],["mailpro","E-mail professionnel","email"],["adresse","Adresse personnelle","text"],["adresse_cp","Code postal personnel","text"],["adresse_v","Ville personnelle","text"],["adrpro","Adresse professionnelle","text"],["adrpro_cp","Code postal professionnel","text"],["adrpro_v","Ville professionnelle","text"],["site","Site web","url"],["fb","Facebook","text"],["ig","Instagram","text"],["li","LinkedIn","text"],["xx","X (Twitter)","text"],["tk","TikTok","text"],["sc","Snapchat","text"],["yt","YouTube","text"],["tg","Telegram","text"],["anniv","Anniversaire","date"],["langue","Langue du client","select",["Français","Anglais","Espagnol","Allemand","Italien","Portugais","Arabe","Chinois","Russe","Néerlandais","Turc"]],["note","Notes","textarea"]];}
