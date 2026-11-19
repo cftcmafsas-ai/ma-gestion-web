@@ -1672,7 +1672,7 @@ cards.forEach(function(card){card.addEventListener("click",function(){openModule
       modeButton.textContent=selectionMode?"✓ Terminer la sélection":"☑ Sélectionner plusieurs";
       bulkButtons.forEach(function(b){b.hidden=!selectionMode;});
       bulk.querySelector("[data-all]").textContent=ids.length===items.length&&items.length?"Désélectionner tout":"Tout sélectionner";
-      list.querySelectorAll("[data-select-index]").forEach(function(cb){cb.checked=!!selected[cb.dataset.selectIndex];});
+      list.querySelectorAll("[data-select-index]").forEach(function(cb){cb.checked=!!selected[cb.dataset.selectIndex];cb.hidden=!selectionMode;});
       list.querySelectorAll(".mg-record").forEach(function(card){card.classList.toggle("mg-record-selectable",selectionMode);});
     }
     modeButton.addEventListener("click",function(){selectionMode=!selectionMode;if(!selectionMode)selected={};refreshSelection();});
