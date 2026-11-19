@@ -1633,20 +1633,20 @@ function calcPayroll(r){
   var overtime=hourlyRate*1.25*n("heuresSup25")+hourlyRate*1.5*n("heuresSup50");
   var gross=Math.max(0,base+overtime+n("primes")+n("avantages")-n("absence"));
   var plaf=Math.min(gross,pmss),csgBase=gross*0.9825,lines=[];
-  function line(label,assiette,salRate,patRate,mode){var s=round(assiette*salRate/100),p=round(assiette*patRate/100);lines.push({label:label,base:round(assiette),salRate:salRate,patRate:patRate,sal:s,pat:p});return s;}
+  function line(label,assiette,salRate,patRate,mode){var s=round(assiette*salRate/100),p=round(assiette*patRate/100);lines.push({label:label,base:round(assiette),salRate:salRate,patRate:patRate,sal:s,pat:p});sal+=s;pat+=p;}
   var sal=0,pat=0;
-  sal+=line("Assurance vieillesse plafonnée",plaf,n("vieillesseSalPlaf")||6.9,n("vieillessePatPlaf")||8.55);
-  sal+=line("Assurance vieillesse déplafonnée",gross,n("vieillesseSalDeplaf")||0.4,n("vieillessePatDeplaf")||2.11);
-  sal+=line("Retraite complémentaire (taux indicatifs à confirmer)",plaf,n("retraiteSal")||3.15,n("retraitePat")||4.72);
-  sal+=line("CSG déductible",csgBase,n("csgDed")||6.8,0);
-  sal+=line("CSG non déductible",csgBase,n("csgNonDed")||2.4,0);
-  sal+=line("CRDS",csgBase,n("crds")||0.5,0);
-  pat+=line("Assurance maladie / maternité",gross,0,n("maladiePat")||13);
-  pat+=line("Allocations familiales",gross,0,n("famillePat")||5.25);
-  pat+=line("Assurance chômage",gross,0,n("chomagePat")||4);
-  pat+=line("AGS",gross,0,n("agsPat")||0.25);
-  pat+=line("FNAL",plaf,0,n("fnalPat")||0.1);
-  pat+=line("Accidents du travail et maladies professionnelles",gross,0,n("atmpPat"));
+  line("Assurance vieillesse plafonnée",plaf,n("vieillesseSalPlaf")||6.9,n("vieillessePatPlaf")||8.55);
+  line("Assurance vieillesse déplafonnée",gross,n("vieillesseSalDeplaf")||0.4,n("vieillessePatDeplaf")||2.11);
+  line("Retraite complémentaire (taux indicatifs à confirmer)",plaf,n("retraiteSal")||3.15,n("retraitePat")||4.72);
+  line("CSG déductible",csgBase,n("csgDed")||6.8,0);
+  line("CSG non déductible",csgBase,n("csgNonDed")||2.4,0);
+  line("CRDS",csgBase,n("crds")||0.5,0);
+  line("Assurance maladie / maternité",gross,0,n("maladiePat")||13);
+  line("Allocations familiales",gross,0,n("famillePat")||5.25);
+  line("Assurance chômage",gross,0,n("chomagePat")||4);
+  line("AGS",gross,0,n("agsPat")||0.25);
+  line("FNAL",plaf,0,n("fnalPat")||0.1);
+  line("Accidents du travail et maladies professionnelles",gross,0,n("atmpPat"));
   var mutSal=n("mutuelleSal"),mutPat=n("mutuellePat");
   if(mutSal||mutPat)lines.push({label:"Complémentaire santé (mutuelle)",base:0,salRate:0,patRate:0,sal:round(mutSal),pat:round(mutPat)});
   var employeeTotal=round(sal+mutSal),employerTotal=round(pat+mutPat);
