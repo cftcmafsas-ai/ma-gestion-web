@@ -1598,7 +1598,7 @@ function renderList(){
   var a=read(active),d=defs[active];
   overlay.querySelector(".mg-module-count").textContent=a.length+" élément"+(a.length>1?"s":"");
   if(!a.length){list.innerHTML='<div class="mg-empty"><b>Aucun élément pour le moment</b><p>Créez une fiche avec le bouton Ajouter.</p></div>';return;}
-  list.innerHTML=a.map(function(x,i){return '<article class="mg-record">'+summary(x,d)+'<div class="mg-record-actions"><button type="button" data-view="${i}">Ouvrir la fiche</button></div></article>';}).join("");
+  list.innerHTML=a.map(function(x,i){return '<article class="mg-record">'+summary(x,d)+'<div class="mg-record-actions"><button type="button" data-view="'+i+'">Ouvrir la fiche</button></div></article>';}).join("");
   list.querySelectorAll("[data-view]").forEach(function(b){b.onclick=function(){viewRecord(+b.dataset.view);form.scrollIntoView({behavior:"smooth",block:"start"});};});
 }
 function contactName(c){return [c.prenom,c.nom].filter(Boolean).join(" ").trim()||c.societe||c.mail||"Contact";}
@@ -1658,22 +1658,68 @@ cards.forEach(function(card){card.addEventListener("click",function(){openModule
     actions.appendChild(add);head.appendChild(actions);
     var list=document.createElement("div");list.className="mg-page-list";
     var items=[];
-    try{if(route==="devis-facture"){items=JSON.parse(localStorage.getItem("mg-preview-items:devis")||"[]").map(function(x){return Object.assign({docKind:"Devis"},x);}).concat(JSON.parse(localStorage.getItem("mg-preview-items:factures")||"[]").map(function(x){return Object.assign({docKind:"Facture"},x);}));}else{items=JSON.parse(localStorage.getItem("mg-preview-items:"+route)||"[]");}if(!Array.isArray(items))items=[];}catch(e){items=[];}
+    try{items=JSON.parse(localStorage.getItem("mg-preview-items:"+route)||"[]");if(!Array.isArray(items))items=[];}catch(e){items=[];}
+    var selected={};var selectionMode=false;
+    var bulk=document.createElement("div");bulk.className="mg-bulk-toolbar";
+    bulk.innerHTML='<button type="button" data-mode>☑ Sélectionner plusieurs</button><span class="mg-bulk-count">0 sélectionnée</span><button type="button" data-all hidden>Tout sélectionner</button><button type="button" data-copy hidden>Copier</button><button type="button" data-cut hidden>Couper</button><button type="button" data-paste hidden>Coller</button><button type="button" data-send hidden>Envoyer</button>';
+    head.appendChild(bulk);
+    var modeButton=bulk.querySelector("[data-mode]"),countLabel=bulk.querySelector(".mg-bulk-count");
+    var bulkButtons=[].slice.call(bulk.querySelectorAll("[data-all],[data-copy],[data-cut],[data-paste],[data-send]"));
+    function selectedIndexes(){return Object.keys(selected).filter(function(k){return selected[k]&&items[Number(k)];}).map(Number).sort(function(a,b){return a-b;});}
+    function selectedData(){return selectedIndexes().map(function(i){return items[i];});}
+    function refreshSelection(){
+      var ids=selectedIndexes();countLabel.textContent=ids.length+" fiche"+(ids.length>1?"s":"")+" sélectionnée"+(ids.length>1?"s":"");
+      modeButton.textContent=selectionMode?"✓ Terminer la sélection":"☑ Sélectionner plusieurs";
+      bulkButtons.forEach(function(b){b.hidden=!selectionMode;});
+      bulk.querySelector("[data-all]").textContent=ids.length===items.length&&items.length?"Désélectionner tout":"Tout sélectionner";
+      list.querySelectorAll("[data-select-index]").forEach(function(cb){cb.checked=!!selected[cb.dataset.selectIndex];});
+      list.querySelectorAll(".mg-record").forEach(function(card){card.classList.toggle("mg-record-selectable",selectionMode);});
+    }
+    modeButton.addEventListener("click",function(){selectionMode=!selectionMode;if(!selectionMode)selected={};refreshSelection();});
+    bulk.querySelector("[data-all]").addEventListener("click",function(){if(selectedIndexes().length===items.length)selected={};else items.forEach(function(_,i){selected[i]=true;});refreshSelection();});
+    bulk.querySelector("[data-copy]").addEventListener("click",function(){var data=selectedData();if(data.length)copyText(JSON.stringify(data,null,2));});
+    bulk.querySelector("[data-cut]").addEventListener("click",function(){
+      var ids=selectedIndexes();if(!ids.length)return;
+      var payload=JSON.stringify(selectedData(),null,2);
+      function remove(){var current=[];try{current=JSON.parse(localStorage.getItem("mg-preview-items:"+route)||"[]");}catch(e){}ids.slice().sort(function(a,b){return b-a;}).forEach(function(i){current.splice(i,1);});localStorage.setItem("mg-preview-items:"+route,JSON.stringify(current));window.dispatchEvent(new CustomEvent("mg:data-changed",{detail:{id:route}}));selected={};renderModulePage(route,page,d);}
+      if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(payload).then(function(){if(confirm("Les fiches sélectionnées ont été copiées. Les couper de cette liste ?"))remove();}).catch(function(){window.prompt("Copiez ces fiches avant de les couper :",payload);if(confirm("Après avoir copié le contenu affiché, couper les fiches sélectionnées ?"))remove();});
+      else{window.prompt("Copiez ces fiches avant de les couper :",payload);if(confirm("Après avoir copié le contenu affiché, couper les fiches sélectionnées ?"))remove();}
+    });
+    bulk.querySelector("[data-paste]").addEventListener("click",function(){
+      function apply(t){if(!t)return;var parsed;try{parsed=JSON.parse(t);}catch(e){parsed=null;}
+        var incoming=Array.isArray(parsed)?parsed:(parsed&&typeof parsed==="object"?[parsed]:null);
+        if(!incoming){var first=(route==="prospection"?["nom"]:["nom"])[0];var obj={};obj[first]=t;incoming=[obj];}
+        var current=[];try{current=JSON.parse(localStorage.getItem("mg-preview-items:"+route)||"[]");if(!Array.isArray(current))current=[];}catch(e){}
+        incoming.forEach(function(x){if(x&&typeof x==="object"&&!Array.isArray(x))current.unshift(x);});
+        localStorage.setItem("mg-preview-items:"+route,JSON.stringify(current));window.dispatchEvent(new CustomEvent("mg:data-changed",{detail:{id:route}}));renderModulePage(route,page,d);
+      }
+      if(navigator.clipboard&&navigator.clipboard.readText)navigator.clipboard.readText().then(apply).catch(function(){var t=prompt("Collez une ou plusieurs fiches (JSON) :");apply(t);});
+      else{var t=prompt("Collez une ou plusieurs fiches (JSON) :");apply(t);}
+    });
+    bulk.querySelector("[data-send]").addEventListener("click",function(){var data=selectedData();if(!data.length)return;var body=data.map(function(x,i){return "Fiche "+(i+1)+"\n"+Object.keys(x).filter(function(k){return x[k]!==""&&x[k]!=null;}).map(function(k){return k+": "+x[k];}).join("\n");}).join("\n\n---\n\n");if(navigator.share)navigator.share({title:d[0]+" — sélection",text:body}).catch(function(){});else location.href="mailto:?subject="+encodeURIComponent(d[0]+" — sélection")+"&body="+encodeURIComponent(body);});
     if(!items.length){
       list.innerHTML='<div><div class="mg-page-empty-icon">'+d[2]+'</div><h3>Aucun élément pour le moment</h3><p>Utilisez « Ajouter » pour créer votre première fiche.</p></div>';
     }else{
-      items.forEach(function(item){
+      items.forEach(function(item,index){
         var record=document.createElement("article");record.className="mg-record";record.tabIndex=0;record.setAttribute("role","button");record.setAttribute("aria-label","Ouvrir la fiche");
-        record.addEventListener("click",function(){window.dispatchEvent(new CustomEvent("mg:open-module",{detail:{id:route,editIndex:items.indexOf(item)}}));});
-        record.addEventListener("keydown",function(e){if(e.key==="Enter"||e.key===" "){e.preventDefault();window.dispatchEvent(new CustomEvent("mg:open-module",{detail:{id:route,editIndex:items.indexOf(item)}}));}});
+        function openOrSelect(){if(selectionMode){selected[index]=!selected[index];refreshSelection();}else{window.dispatchEvent(new CustomEvent("mg:open-module",{detail:{id:route,editIndex:index}}));}}
+        record.addEventListener("click",openOrSelect);
+        record.addEventListener("keydown",function(e){if(e.key==="Enter"||e.key===" "){e.preventDefault();openOrSelect();}});
+        var check=document.createElement("input");check.type="checkbox";check.className="mg-bulk-checkbox";check.dataset.selectIndex=String(index);check.setAttribute("aria-label","Sélectionner cette fiche");check.hidden=true;
+        check.addEventListener("click",function(e){e.stopPropagation();});
+        check.addEventListener("change",function(e){selected[index]=e.target.checked;refreshSelection();});
         var main=document.createElement("div");main.className="mg-record-main";
         var title=document.createElement("b");
-        title.textContent=(item.docKind?item.docKind+" · ":"")+(item.nom||item.titre||item.sujet||item.evenement||item.description||item.salarie||item.societe||item.article||item.client||"Élément enregistré");
+        title.textContent=item.nom||item.titre||item.sujet||item.evenement||item.description||item.salarie||item.societe||item.article||item.client||"Élément enregistré";
         var detail=document.createElement("span");
         detail.textContent=Object.keys(item).filter(function(k){return item[k]&&k!=="createdAt"&&k!=="updatedAt";}).slice(1,4).map(function(k){return k.replace(/-/g," ")+": "+item[k];}).join(" · ");
-        main.appendChild(title);main.appendChild(detail);record.appendChild(main);list.appendChild(record);
+        main.appendChild(title);main.appendChild(detail);record.appendChild(check);record.appendChild(main);list.appendChild(record);
       });
     }
+    var selectionStyle=document.createElement("style");
+    selectionStyle.textContent=".mg-bulk-toolbar{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-top:14px}.mg-bulk-toolbar button{border:1px solid var(--site-border,#dceaf4);border-radius:9px;padding:8px 11px;background:var(--site-soft,#dceefa);color:var(--site-text,#435d73);font-weight:650;cursor:pointer}.mg-bulk-count{font-size:13px;font-weight:600;color:var(--site-text,#435d73)}.mg-bulk-checkbox{width:19px;height:19px;accent-color:var(--site-accent,#397eae);margin-right:10px;vertical-align:middle}.mg-record-selectable{display:flex;align-items:center;gap:8px}.mg-record-selectable .mg-bulk-checkbox{display:block}.mg-record-selectable .mg-record-main{flex:1}";
+    if(!document.getElementById("mg-bulk-style")){selectionStyle.id="mg-bulk-style";document.head.appendChild(selectionStyle);}
+    refreshSelection();
     page.replaceChildren(head,list);
   }
   function render(){
