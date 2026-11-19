@@ -1490,7 +1490,7 @@ function key(id){return "mg-preview-items:"+id;}
 function read(id){try{var v=JSON.parse(localStorage.getItem(key(id))||"[]");return Array.isArray(v)?v:[];}catch(e){return [];}}
 function write(id,items){try{localStorage.setItem(key(id),JSON.stringify(items));window.dispatchEvent(new CustomEvent("mg:data-changed",{detail:{id:id}}));return true;}catch(e){alert("Enregistrement impossible : espace de stockage du navigateur insuffisant.");return false;}}
 function money(n){return (Math.round((Number(n)||0)*100)/100).toLocaleString("fr-FR",{minimumFractionDigits:2,maximumFractionDigits:2})+" €";}
-function openModule(id,editIndex){active=id;editing=Number.isInteger(editIndex)?editIndex:-1;docType="devis";overlay.hidden=false;document.body.classList.add("mg-modal-open");overlay.querySelector("#mg-module-title").textContent=defs[id].title;var w=overlay.querySelector(".mg-module-warning");w.hidden=!defs[id].warning;w.textContent=defs[id].warning||"";if(defs[id].special==="contacts")renderContacts();else if(defs[id].special==="documents")renderDocuments();else{tabs.hidden=true;tools.hidden=false;renderModuleTools();renderForm(editing>=0?read(id)[editing]||null:null);renderList();}overlay.querySelector(".mg-module-close").focus();}
+function openModule(id,editIndex){active=id;editing=Number.isInteger(editIndex)?editIndex:-1;docType="devis";overlay.hidden=false;document.body.classList.add("mg-modal-open");overlay.querySelector("#mg-module-title").textContent=defs[id].title;var w=overlay.querySelector(".mg-module-warning");w.hidden=!defs[id].warning;w.textContent=defs[id].warning||"";if(defs[id].special==="contacts")renderContacts();else if(defs[id].special==="documents")renderDocuments();else{tabs.hidden=true;tools.hidden=false;renderModuleTools();if(editing>=0&&read(id)[editing])viewRecord(editing);else renderForm(null);renderList();}overlay.querySelector(".mg-module-close").focus();}
 function setForm(html){form.innerHTML=html;}
 function renderForm(item){var d=defs[active];form.innerHTML=d.fields.map(function(f){var n=f[0],v=item&&item[n]!=null?item[n]:(active==="bulletins-salaire"&&payrollDefaults[n]!=null?payrollDefaults[n]:""),c;if(f[2]==="select")c='<select name="'+n+'" '+(f[3]?"required":"")+'><option value="">Choisir…</option>'+f[4].map(function(x){return '<option value="'+esc(x)+'" '+(v===x?"selected":"")+'>'+esc(x)+'</option>';}).join("")+'</select>';else if(f[2]==="textarea")c='<textarea name="'+n+'" rows="3">'+esc(v)+'</textarea>';else c='<input name="'+n+'" type="'+f[2]+'" value="'+esc(v)+'" '+(f[3]?"required":"")+(f[2]==="number"?' min="0" step="0.01"':"")+'>';return '<label class="mg-field"><span>'+esc(f[1])+(f[3]?' <i>*</i>':"")+'</span>'+c+'</label>';}).join("")+'<div class="mg-form-actions"><button class="btn" type="submit">'+(item?"Enregistrer les modifications":"Ajouter à la liste")+'</button><button type="button" class="mg-cancel-edit" '+(item?"":"hidden")+' >Annuler</button></div>';form.onsubmit=function(e){e.preventDefault();var data={};d.fields.forEach(function(f){var el=form.elements.namedItem(f[0]);data[f[0]]=el?el.value.trim():"";});var req=d.fields.find(function(f){return f[3];});if(req&&!data[req[0]]){form.reportValidity();return;}var a=read(active);if(editing>=0)a[editing]=Object.assign({},a[editing],data,{updatedAt:new Date().toISOString()});else{data.createdAt=new Date().toISOString();a.unshift(data);}if(write(active,a)){editing=-1;renderForm(null);renderList();}};var c=form.querySelector(".mg-cancel-edit");if(c)c.onclick=function(){editing=-1;renderForm(null);};}
 function summary(item,d){var names=["nom","titre","sujet","evenement","description","societe","information","article","client","numero"],first="";for(var i=0;i<names.length;i++)if(item[names[i]]){first=item[names[i]];break;}if(!first)first="Nouvel élément";var details=d.fields.filter(function(f){return item[f[0]]&&f[0]!==first;}).slice(0,3);return '<div class="mg-record-main"><b>'+esc(first)+'</b><span>'+details.map(function(f){return esc(f[1])+": "+esc(item[f[0]]);}).join(" · ")+'</span></div>';}
@@ -1519,12 +1519,8 @@ function exportModuleCsv(){
   download(active+"-ma-gestion.csv","\ufeff"+csv,"text/csv;charset=utf-8");
 }
 function renderModuleTools(){
-  tools.innerHTML='<button type="button" id="mg-module-new">＋ Nouvelle fiche</button><button type="button" id="mg-module-paste">📋 Coller</button><button type="button" id="mg-module-export">⬇️ Exporter CSV</button><button type="button" id="mg-module-print">🖨️ Imprimer la liste</button><button type="button" id="mg-module-send">📤 Envoyer la liste</button>';
+  tools.innerHTML='<button type="button" id="mg-module-new">＋ Nouvelle fiche</button>';
   tools.querySelector("#mg-module-new").onclick=function(){editing=-1;renderForm(null);form.scrollIntoView({behavior:"smooth",block:"start"});};
-  tools.querySelector("#mg-module-paste").onclick=pasteRecord;
-  tools.querySelector("#mg-module-export").onclick=exportModuleCsv;
-  tools.querySelector("#mg-module-print").onclick=function(){printModuleList();};
-  tools.querySelector("#mg-module-send").onclick=function(){var a=read(active),txt=a.map(function(x){return recordPlain(x,defs[active]);}).join("\n\n---\n\n");shareText(defs[active].title,txt||"Aucune fiche.");};
 }
 function shareText(title,body){
   if(navigator.share){navigator.share({title:title,text:body}).catch(function(){});}
@@ -1585,26 +1581,25 @@ function printRecord(i){
 function viewRecord(i){
   var a=read(active),d=defs[active],r=a[i];if(!r)return;
   editing=i;
-  form.innerHTML='<div class="mg-record-detail"><div class="mg-record-detail-head"><h3>'+esc(r.salarie||r.nom||r.titre||r.sujet||r.evenement||r.description||r.societe||d.title)+'</h3><button type="button" id="mg-back-list">Retour à la liste</button></div>'+d.fields.filter(function(f){return r[f[0]]!==undefined&&r[f[0]]!=="";}).map(function(f){return '<div class="mg-record-detail-field"><small>'+esc(f[1])+'</small><div>'+esc(r[f[0]])+'</div></div>';}).join("")+'<div class="mg-record-actions"><button type="button" id="mg-detail-edit">Modifier</button><button type="button" id="mg-detail-copy">Copier</button><button type="button" id="mg-detail-print">Imprimer</button><button type="button" id="mg-detail-pdf">PDF</button><button type="button" id="mg-detail-send">Envoyer</button><button type="button" id="mg-detail-delete">Supprimer</button></div></div>';
-  form.querySelector("#mg-back-list").onclick=function(){renderForm(null);renderList();};
-  form.querySelector("#mg-detail-edit").onclick=function(){renderForm(a[i]);};
-  form.querySelector("#mg-detail-copy").onclick=function(){copyRecord(i);};
+  var title=r.salarie||r.nom||r.titre||r.sujet||r.evenement||r.description||r.societe||d.title;
+  form.innerHTML='<div class="mg-record-detail"><div class="mg-record-detail-head"><div><small>FICHE '+esc(d.title.toUpperCase())+'</small><h3>'+esc(title)+'</h3></div><button type="button" id="mg-back-list">Retour à la liste</button></div>'+d.fields.filter(function(f){return r[f[0]]!==undefined&&r[f[0]]!=="";}).map(function(f){return '<div class="mg-record-detail-field"><small>'+esc(f[1])+'</small><div>'+esc(r[f[0]])+'</div></div>';}).join("")+'<div class="mg-record-actions mg-record-detail-actions"><button type="button" id="mg-detail-edit">Modifier</button><button type="button" id="mg-detail-copy">Copier</button><button type="button" id="mg-detail-paste">Coller</button><button type="button" id="mg-detail-cut">Couper</button><button type="button" id="mg-detail-delete">Supprimer</button><button type="button" id="mg-detail-print">Imprimer</button><button type="button" id="mg-detail-pdf">Enregistrer en PDF</button><button type="button" id="mg-detail-download">Télécharger</button><button type="button" id="mg-detail-send">Envoyer</button></div></div>';
+  form.querySelector("#mg-back-list").onclick=function(){editing=-1;renderForm(null);renderList();};
+  form.querySelector("#mg-detail-edit").onclick=function(){renderForm(r);form.scrollIntoView({behavior:"smooth",block:"start"});};
+  form.querySelector("#mg-detail-copy").onclick=function(){copyText(JSON.stringify(r,null,2));};
+  form.querySelector("#mg-detail-paste").onclick=function(){pasteRecord();};
+  form.querySelector("#mg-detail-cut").onclick=function(){copyText(JSON.stringify(r,null,2));if(!confirm("La fiche a été copiée. La couper de cette liste ?"))return;var current=read(active);current.splice(i,1);if(write(active,current)){editing=-1;renderForm(null);renderList();}};
+  form.querySelector("#mg-detail-delete").onclick=function(){if(confirm("Supprimer définitivement cette fiche ?")){var current=read(active);current.splice(i,1);write(active,current);editing=-1;renderForm(null);renderList();}};
   form.querySelector("#mg-detail-print").onclick=function(){printRecord(i);};
   form.querySelector("#mg-detail-pdf").onclick=function(){printRecord(i);};
+  form.querySelector("#mg-detail-download").onclick=function(){download((title||"fiche").toString().trim().replace(/[^a-z0-9_-]+/gi,"-")+".json",JSON.stringify(r,null,2),"application/json;charset=utf-8");};
   form.querySelector("#mg-detail-send").onclick=function(){shareRecord(i);};
-  form.querySelector("#mg-detail-delete").onclick=function(){if(confirm("Supprimer cette fiche ?")){a.splice(i,1);write(active,a);editing=-1;renderForm(null);renderList();}};
 }
 function renderList(){
   var a=read(active),d=defs[active];
   overlay.querySelector(".mg-module-count").textContent=a.length+" élément"+(a.length>1?"s":"");
-  if(!a.length){list.innerHTML='<div class="mg-empty"><b>Aucun élément pour le moment</b><p>Créez une fiche, puis gérez-la depuis la liste ou sa fiche détaillée.</p></div>';return;}
-  list.innerHTML=a.map(function(x,i){return '<article class="mg-record">'+summary(x,d)+'<div class="mg-record-actions"><button type="button" data-view="'+i+'">Voir la fiche</button><button type="button" data-edit="'+i+'">Modifier</button><button type="button" data-copy="'+i+'">Copier</button><button type="button" data-print="'+i+'">Imprimer</button><button type="button" data-pdf="'+i+'">PDF</button><button type="button" data-send="'+i+'">Envoyer</button><button type="button" data-delete="'+i+'">Supprimer</button></div></article>';}).join("");
+  if(!a.length){list.innerHTML='<div class="mg-empty"><b>Aucun élément pour le moment</b><p>Créez une fiche avec le bouton Ajouter.</p></div>';return;}
+  list.innerHTML=a.map(function(x,i){return '<article class="mg-record">'+summary(x,d)+'<div class="mg-record-actions"><button type="button" data-view="${i}">Ouvrir la fiche</button></div></article>';}).join("");
   list.querySelectorAll("[data-view]").forEach(function(b){b.onclick=function(){viewRecord(+b.dataset.view);form.scrollIntoView({behavior:"smooth",block:"start"});};});
-  list.querySelectorAll("[data-edit]").forEach(function(b){b.onclick=function(){editing=+b.dataset.edit;renderForm(a[editing]);form.scrollIntoView({behavior:"smooth",block:"start"});};});
-  list.querySelectorAll("[data-copy]").forEach(function(b){b.onclick=function(){copyRecord(+b.dataset.copy);};});
-  list.querySelectorAll("[data-print],[data-pdf]").forEach(function(b){b.onclick=function(){printRecord(+(b.dataset.print||b.dataset.pdf));};});
-  list.querySelectorAll("[data-send]").forEach(function(b){b.onclick=function(){shareRecord(+b.dataset.send);};});
-  list.querySelectorAll("[data-delete]").forEach(function(b){b.onclick=function(){var i=+b.dataset.delete;if(confirm("Supprimer cette fiche ?")){a.splice(i,1);write(active,a);renderList();}};});
 }
 function contactName(c){return [c.prenom,c.nom].filter(Boolean).join(" ").trim()||c.societe||c.mail||"Contact";}
 function allContacts(){return read("contact");}
@@ -1660,13 +1655,7 @@ cards.forEach(function(card){card.addEventListener("click",function(){openModule
     var add=document.createElement("button");
     add.className="mg-page-add";add.type="button";add.textContent="＋ Ajouter";
     add.addEventListener("click",function(){window.dispatchEvent(new CustomEvent("mg:open-module",{detail:{id:route}}));});
-    actions.appendChild(add);
-    function toolButton(label,fn){var b=document.createElement("button");b.type="button";b.textContent=label;b.addEventListener("click",fn);actions.appendChild(b);}
-    toolButton("📋 Coller",function(){var t=window.prompt("Collez une fiche (JSON) ou un texte :");if(!t)return;var obj;try{obj=JSON.parse(t);if(!obj||typeof obj!=="object"||Array.isArray(obj))throw new Error();}catch(e){var f=modules[route],key=route==="devis-facture"?"nom":"nom";obj={};obj[key]=t;}var storeKey=route==="devis-facture"?"devis":"mg-preview-items:"+route;if(route==="devis-facture"){alert("Pour coller un devis ou une facture, ouvrez le module puis utilisez son bouton Coller.");return;}var a=[];try{a=JSON.parse(localStorage.getItem(storeKey)||"[]");if(!Array.isArray(a))a=[];}catch(e){}a.unshift(obj);localStorage.setItem(storeKey,JSON.stringify(a));renderModulePage(route,page,d);});
-    toolButton("⬇️ Exporter CSV",function(){if(route==="devis-facture"){alert("L’export des devis et factures est disponible dans le module.");return;}var a=[];try{a=JSON.parse(localStorage.getItem("mg-preview-items:"+route)||"[]");}catch(e){}var keys=Object.keys(a[0]||{}),csv=[keys].concat(a.map(function(x){return keys.map(function(k){return x[k]==null?"":String(x[k]);});})).map(function(row){return row.map(function(v){return '"'+String(v).replace(/"/g,'""')+'"';}).join(";");}).join("\r\n");var url=URL.createObjectURL(new Blob(["\ufeff"+csv],{type:"text/csv;charset=utf-8"})),link=document.createElement("a");link.href=url;link.download=route+"-ma-gestion.csv";link.click();URL.revokeObjectURL(url);});
-    toolButton("🖨️ Imprimer",function(){if(route==="devis-facture"){alert("L’impression des devis et factures est disponible dans le module.");return;}var a=[];try{a=JSON.parse(localStorage.getItem("mg-preview-items:"+route)||"[]");}catch(e){}var w=window.open("","_blank");if(!w){alert("Autorisez les fenêtres contextuelles pour imprimer.");return;}w.document.write("<html lang='fr'><meta charset='utf-8'><title>"+d[0]+"</title><h1>"+d[0]+"</h1>"+a.map(function(x){return "<p>"+Object.keys(x).map(function(k){return "<b>"+k+":</b> "+String(x[k]||"");}).join(" · ")+"</p>";}).join("")+"<script>window.print()<\\/script></html>");w.document.close();});
-    toolButton("📤 Envoyer",function(){var a=[];try{a=JSON.parse(localStorage.getItem("mg-preview-items:"+route)||"[]");}catch(e){}var body=a.map(function(x){return Object.keys(x).map(function(k){return k+": "+x[k];}).join("\\n");}).join("\n\n---\n\n");if(navigator.share)navigator.share({title:d[0],text:body||"Aucune fiche."}).catch(function(){});else location.href="mailto:?subject="+encodeURIComponent(d[0])+"&body="+encodeURIComponent(body);});
-    head.appendChild(actions);
+    actions.appendChild(add);head.appendChild(actions);
     var list=document.createElement("div");list.className="mg-page-list";
     var items=[];
     try{if(route==="devis-facture"){items=JSON.parse(localStorage.getItem("mg-preview-items:devis")||"[]").map(function(x){return Object.assign({docKind:"Devis"},x);}).concat(JSON.parse(localStorage.getItem("mg-preview-items:factures")||"[]").map(function(x){return Object.assign({docKind:"Facture"},x);}));}else{items=JSON.parse(localStorage.getItem("mg-preview-items:"+route)||"[]");}if(!Array.isArray(items))items=[];}catch(e){items=[];}
@@ -1674,7 +1663,7 @@ cards.forEach(function(card){card.addEventListener("click",function(){openModule
       list.innerHTML='<div><div class="mg-page-empty-icon">'+d[2]+'</div><h3>Aucun élément pour le moment</h3><p>Utilisez « Ajouter » pour créer votre première fiche.</p></div>';
     }else{
       items.forEach(function(item){
-        var record=document.createElement("article");record.className="mg-record";record.tabIndex=0;record.setAttribute("role","button");record.setAttribute("aria-label","Ouvrir et modifier cette fiche");
+        var record=document.createElement("article");record.className="mg-record";record.tabIndex=0;record.setAttribute("role","button");record.setAttribute("aria-label","Ouvrir la fiche");
         record.addEventListener("click",function(){window.dispatchEvent(new CustomEvent("mg:open-module",{detail:{id:route,editIndex:items.indexOf(item)}}));});
         record.addEventListener("keydown",function(e){if(e.key==="Enter"||e.key===" "){e.preventDefault();window.dispatchEvent(new CustomEvent("mg:open-module",{detail:{id:route,editIndex:items.indexOf(item)}}));}});
         var main=document.createElement("div");main.className="mg-record-main";
@@ -1682,14 +1671,7 @@ cards.forEach(function(card){card.addEventListener("click",function(){openModule
         title.textContent=(item.docKind?item.docKind+" · ":"")+(item.nom||item.titre||item.sujet||item.evenement||item.description||item.salarie||item.societe||item.article||item.client||"Élément enregistré");
         var detail=document.createElement("span");
         detail.textContent=Object.keys(item).filter(function(k){return item[k]&&k!=="createdAt"&&k!=="updatedAt";}).slice(1,4).map(function(k){return k.replace(/-/g," ")+": "+item[k];}).join(" · ");
-        main.appendChild(title);main.appendChild(detail);record.appendChild(main);
-        var rowActions=document.createElement("div");rowActions.className="mg-record-actions";
-        function rowButton(label,fn){var b=document.createElement("button");b.type="button";b.textContent=label;b.addEventListener("click",function(e){e.stopPropagation();fn();});rowActions.appendChild(b);}
-        var index=items.indexOf(item);
-        rowButton("Modifier",function(){window.dispatchEvent(new CustomEvent("mg:open-module",{detail:{id:route,editIndex:index}}));});
-        rowButton("Copier",function(){var raw=JSON.stringify(item,null,2);if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(raw).then(function(){alert("Fiche copiée.");}).catch(function(){window.prompt("Copiez la fiche :",raw);});else window.prompt("Copiez la fiche :",raw);});
-        rowButton("Supprimer",function(){if(!confirm("Supprimer cette fiche ?"))return;if(route==="devis-facture"){alert("La suppression des devis et factures se fait dans leur module.");return;}var a=[];try{a=JSON.parse(localStorage.getItem("mg-preview-items:"+route)||"[]");}catch(e){}a.splice(index,1);localStorage.setItem("mg-preview-items:"+route,JSON.stringify(a));renderModulePage(route,page,d);});
-        record.appendChild(rowActions);list.appendChild(record);
+        main.appendChild(title);main.appendChild(detail);record.appendChild(main);list.appendChild(record);
       });
     }
     page.replaceChildren(head,list);
