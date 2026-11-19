@@ -1779,8 +1779,6 @@ window.addEventListener("mg:auth",function(e){unlocked=!!(e.detail&&e.detail.aut
       var d=modules[route];heading.textContent=d[0];
       var page=document.querySelector('.mg-app-page[data-page="'+route+'"]');
       renderModulePage(route,page,d);
-      // Ouvre la vraie interface fonctionnelle du module depuis les cartes du tableau de bord.
-      window.dispatchEvent(new CustomEvent("mg:open-module",{detail:{id:route}}));
     }
     document.body.classList.add("mg-app-mode");
     closeMenu();
