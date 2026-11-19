@@ -17,7 +17,6 @@
   <nav aria-label="Navigation principale">
     <a class="brand-mark" href="#accueil" aria-label="Retour à l’accueil"><img src="/logos.jpg" alt="Logo R"></a>
     <a href="#app-dashboard">Tableau de bord</a>
-    <a href="#autres-sites">Mes espaces</a>
     <button class="btn" id="access-open" type="button" style="padding:6px 14px;font-size:14px">Accès</button>
   </nav>
 </header>
@@ -1791,7 +1790,7 @@ window.addEventListener("mg:auth",function(e){unlocked=!!(e.detail&&e.detail.aut
   var topHeader=document.querySelector("body > header.top");
   if(topHeader){
     var appStyle=document.createElement("style");
-    appStyle.textContent="body.mg-app-mode > header.top{display:none!important}";
+    appStyle.textContent="body.mg-app-mode > header.top #access-open{display:none!important}.mg-page-list .mg-record[role=button]{cursor:pointer}.mg-page-list .mg-record[role=button]:focus-visible{outline:3px solid var(--site-accent,#b9dcf5);outline-offset:2px}";
     document.head.appendChild(appStyle);
   }
   render();
