@@ -1,20 +1,194 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Ma Gestion Web</title>
-  <meta name="description" content="Accédez à votre espace Ma Gestion Web.">
-  <link rel="stylesheet" href="styles.css">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#eff8ff">
+<title>Ma Gestion Web — Rodolphe Torres Tirado</title>
+<meta name="description" content="Ma Gestion Web : un espace clair pour organiser votre activité, vos contacts et vos documents.">
+<style>
+:root{--bg:#f7fafc;--p1:#eaf3fa;--p2:#d6e8f6;--p3:#b9d6ee;--card:#fff;--tx:#46535e;--mu:#7a8c9a;--bd:#dde8f0;--dk:#3a4955}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;font:17px/1.65 -apple-system,system-ui,"Segoe UI",sans-serif;color:var(--tx);background:var(--bg)}
+h1,h2,h3{font-family:Georgia,"Times New Roman",serif;color:var(--tx);line-height:1.2;font-weight:600}
+h1{font-size:2.1rem;margin:.2em 0 .4em}
+h2{font-size:1.6rem}
+h3{font-size:1.25rem;margin:.2em 0}
+a{color:var(--dk)}
+:focus-visible{outline:3px solid var(--dk);outline-offset:3px}
+.top{position:sticky;top:0;z-index:5;display:flex;align-items:center;gap:10px;padding:8px 14px;background:rgba(255,255,255,.95);border-bottom:1px solid var(--bd)}
+.top img{height:46px;width:auto;display:block;flex:none}
+.top nav{display:flex;gap:6px;overflow-x:auto;white-space:nowrap;scrollbar-width:none}
+.top nav a{flex:none;padding:6px 14px;border-radius:999px;background:var(--p1);color:var(--tx);text-decoration:none;font-size:14px}
+.top nav a:hover{background:var(--p3)}
+.hero{text-align:center;padding:44px 20px 52px;background:linear-gradient(180deg,var(--p2),var(--p1))}
+.herologo{width:min(92%,440px);height:auto;display:block;margin:0 auto 14px;background:#fff;border-radius:18px;padding:10px}
+.hero h1{font-size:clamp(1.9rem,6vw,2.8rem)}
+.hero .lead{max-width:640px;margin:10px auto;color:var(--mu);font-family:Georgia,"Times New Roman",serif;font-style:italic;font-size:1.3rem}
+.hero .intro{max-width:720px;margin:0 auto;color:var(--tx)}
+.btn,.space-btn{display:inline-block;padding:12px 24px;border:1px solid var(--bd);border-radius:999px;background:var(--p3);color:var(--dk);text-decoration:none;font-weight:600;font-size:1rem;cursor:pointer}
+.btn:hover,.space-btn:hover{filter:brightness(.96)}
+.hero .btn{margin-top:22px}
+.wrap{max-width:900px;margin:0 auto;padding:28px 18px 50px}
+.section-title{text-align:center;margin:0 0 8px}
+.section-intro{text-align:center;color:var(--mu);max-width:700px;margin:0 auto 24px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,250px),1fr));gap:14px}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:18px;padding:20px;margin:0;box-shadow:0 8px 22px rgba(58,73,85,.05)}
+.card p{margin-bottom:0;color:var(--mu)}
+.card h3{margin-top:0}
+.band{background:var(--p1);border:1px solid var(--bd);color:var(--tx);border-radius:20px;padding:20px 22px;margin:18px 0}
+.band h2,.band h3{color:var(--tx)}
+.center{text-align:center}
+.site-list{display:flex;flex-direction:column;gap:18px}
+.site-item{padding:0 0 18px;border-bottom:1px solid var(--bd);display:flex;flex-direction:column;align-items:center;gap:7px;text-align:center}
+.site-item:last-child{border-bottom:0;padding-bottom:0}
+.site-item b{font:600 18px Inter,system-ui,sans-serif;color:var(--tx)}
+.site-item span{font-size:14px;color:var(--mu);max-width:520px}
+.site-item .unavailable{display:inline-block;padding:10px 20px;border-radius:999px;background:#edf0f3;color:#66717b;font-weight:600;font-size:14px}
+footer{text-align:center;color:var(--mu);font-size:14px;padding:26px 16px;border-top:1px solid var(--bd);background:var(--bg)}
+footer p{margin:4px}
+#pastel-theme-panel{position:fixed;right:14px;bottom:66px;z-index:9999;width:min(310px,calc(100vw - 28px));padding:14px;background:var(--site-card,var(--card));color:var(--site-text,var(--tx));border:1px solid var(--site-border,var(--bd));border-radius:18px;box-shadow:0 12px 36px rgba(50,60,80,.18);font:14px/1.4 system-ui,sans-serif}
+#pastel-theme-panel[hidden]{display:none}
+#pastel-theme-panel .pt-title{font-weight:700;margin:0 0 10px}
+#pastel-theme-panel .pt-colors{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+#pastel-theme-panel button{display:flex;align-items:center;gap:7px;width:100%;padding:8px;border:1px solid var(--site-border,var(--bd));border-radius:11px;background:var(--site-soft,var(--p1));color:var(--site-text,var(--tx));font:13px system-ui,sans-serif;cursor:pointer}
+#pastel-theme-panel button[aria-pressed=true]{outline:2px solid var(--site-text,var(--tx));outline-offset:1px}
+#pastel-theme-panel i{display:block;width:19px;height:19px;flex:none;border-radius:50%;border:1px solid rgba(0,0,0,.08)}
+#pastel-theme-toggle{position:fixed;right:14px;bottom:14px;z-index:10000;padding:9px 15px;border:1px solid var(--site-border,var(--bd));border-radius:999px;background:var(--site-accent,var(--p3));color:var(--site-text,var(--tx));font-weight:700;cursor:pointer;box-shadow:0 4px 14px rgba(50,60,80,.12)}
+#pastel-theme-close{float:right;width:28px;height:28px;padding:0;border:0;border-radius:50%;font-size:18px;line-height:1;background:var(--site-soft,var(--p1));color:var(--site-text,var(--tx))}
+#pastel-theme-reset{margin-top:10px;justify-content:center;font-weight:700}
+@media(max-width:640px){.top{align-items:flex-start}.top nav{padding-top:4px}.hero{padding:32px 15px 40px}.wrap{padding:22px 14px 42px}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important}}
+</style>
 </head>
 <body>
-  <main class="hero">
+<header class="top">
+  <a href="#accueil" aria-label="Accueil Ma Gestion Web"><img src="https://raw.githubusercontent.com/cftcmafsas-ai/Guerisseur-de-lame/main/logos.JPG" alt="Logo R"></a>
+  <nav aria-label="Navigation principale">
+    <a href="#accueil">Accueil</a>
+    <a href="#gestion">Ma Gestion</a>
+    <a href="#autres-sites">Mes espaces</a>
+    <a href="#contact">Contact</a>
+  </nav>
+</header>
+
+<main>
+  <section class="hero" id="accueil">
+    <img class="herologo" src="https://raw.githubusercontent.com/cftcmafsas-ai/Guerisseur-de-lame/main/rodolphe.JPG" alt="Rodolphe Torres Tirado">
     <h1>Ma Gestion Web</h1>
-    <p>Accédez à votre espace de gestion sécurisé.</p>
-    <a class="button" href="https://headless-jzsfhrdevmx-guerrisseur-140b.wix-site-host.com/" rel="noopener">Accéder à l’application</a>
-  </main>
-  <footer>
-    <p>© Ma Gestion Web</p>
-  </footer>
+    <p class="lead">Votre activité, simplement organisée</p>
+    <p class="intro">Retrouvez vos contacts, activités, documents, devis, factures et frais dans un espace clair, accessible depuis votre téléphone, tablette ou ordinateur.</p>
+    <a class="btn" href="login.html">Accéder à Ma Gestion</a>
+  </section>
+
+  <section class="wrap" id="gestion">
+    <h2 class="section-title">Ma Gestion</h2>
+    <p class="section-intro">Un espace pratique pour centraliser vos informations et suivre votre activité au quotidien.</p>
+    <div class="grid">
+      <article class="card"><h3>Centraliser vos informations</h3><p>Contacts, prospects, clients, sociétés, dossiers et échanges dans un espace unique.</p></article>
+      <article class="card"><h3>Suivre votre activité</h3><p>Tâches, rendez-vous, appels, affaires, échéances et avancement au quotidien.</p></article>
+      <article class="card"><h3>Gérer vos documents</h3><p>Retrouvez vos documents et vos éléments de suivi dans un environnement organisé.</p></article>
+      <article class="card"><h3>Accéder simplement</h3><p>Un affichage adapté à votre téléphone, votre tablette et votre ordinateur.</p></article>
+    </div>
+    <div class="center" style="margin-top:26px"><a class="btn" href="login.html">Se connecter à l’espace</a></div>
+  </section>
+
+  <section class="wrap" id="autres-sites">
+    <div class="card">
+      <h2 class="section-title">Mes autres sites</h2>
+      <p class="section-intro">Retrouvez mes autres espaces en un clic.</p>
+      <div class="site-list">
+        <div class="site-item"><b>Guérisseur de l’Âme</b><span>Présentation des soins et accompagnements.</span><a class="space-btn" href="https://guerisseur-de-lame.vercel.app/" target="_blank" rel="noopener noreferrer">Accéder</a></div>
+        <div class="site-item"><b>BLEU PRO</b><span>Espace de présentation et d’accès à l’application.</span><a class="space-btn" href="https://transfert-bleu-pro.vercel.app/" target="_blank" rel="noopener noreferrer">Accéder</a></div>
+        <div class="site-item"><b>Mes Documents</b><span>Adresse en cours de préparation. Le lien sera activé lorsque l’adresse définitive sera disponible.</span><span class="unavailable" aria-disabled="true">Adresse à venir</span></div>
+        <div class="site-item"><b>Espace Créatif</b><span>Adresse en cours de préparation. Le lien sera activé lorsque l’adresse définitive sera disponible.</span><span class="unavailable" aria-disabled="true">Adresse à venir</span></div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer id="contact">
+  <p>Ma Gestion Web · Rodolphe Torres Tirado</p>
+  <p>Contact : coordonnées à compléter</p>
+</footer>
+
+<script>
+(function(){
+  "use strict";
+  var palettes=[
+    {id:"rose",name:"Rose poudré",bg:"#fff3f5",card:"#fffafb",text:"#684c56",muted:"#987b85",accent:"#e8b7c5",soft:"#f8dfe6",border:"#f0dce2"},
+    {id:"lavande",name:"Lavande",bg:"#f7f3ff",card:"#fdfbff",text:"#594f70",muted:"#887e9e",accent:"#cbbbe9",soft:"#e9e0f8",border:"#e8e0f1"},
+    {id:"ciel",name:"Bleu ciel",bg:"#eff8ff",card:"#fbfdff",text:"#435d73",muted:"#7891a5",accent:"#b9dcf5",soft:"#dceefa",border:"#dceaf4"},
+    {id:"menthe",name:"Menthe",bg:"#effaf5",card:"#fbfffd",text:"#45665a",muted:"#78978a",accent:"#b9e2d0",soft:"#dff3e9",border:"#dceee5"},
+    {id:"peche",name:"Pêche",bg:"#fff5ef",card:"#fffdfb",text:"#76584a",muted:"#a08070",accent:"#f2c7ae",soft:"#fbe5d8",border:"#f2e3d9"},
+    {id:"vanille",name:"Jaune vanille",bg:"#fffbed",card:"#fffef8",text:"#6b6245",muted:"#958a68",accent:"#efe0a7",soft:"#f8f0d1",border:"#eee7cf"}
+  ];
+  var key="pastel-theme-v1";
+  var root=document.documentElement;
+  var current="ciel";
+  try{current=localStorage.getItem(key)||"ciel";}catch(e){}
+  var style=document.createElement("style");
+  style.textContent=
+    "body{background:var(--site-bg)!important;color:var(--site-text)!important;transition:background .2s,color .2s}"+
+    ".top,footer,.hero,.card,.band{background-color:var(--site-card)!important;color:var(--site-text)!important;border-color:var(--site-border)!important}"+
+    ".hero{background:linear-gradient(180deg,var(--site-soft),var(--site-bg))!important}"+
+    "h1,h2,h3,p,span,b,strong{color:inherit} .lead,.section-intro,.card p,.site-item span,footer{color:var(--site-muted)!important}"+
+    "a{color:var(--site-text)} .btn,.space-btn{background:var(--site-accent)!important;color:var(--site-text)!important;border-color:var(--site-border)!important}"+
+    ".top nav a{background:var(--site-soft)!important;color:var(--site-text)!important}"+
+    "body{--bg:var(--site-bg);--card:var(--site-card);--tx:var(--site-text);--mu:var(--site-muted);--bd:var(--site-border);--p1:var(--site-soft);--p2:var(--site-soft);--p3:var(--site-accent);--dk:var(--site-text)}";
+  document.head.appendChild(style);
+  function renderButtons(){
+    document.querySelectorAll("#pastel-theme-panel [data-theme]").forEach(function(b){b.setAttribute("aria-pressed",String(b.dataset.theme===current));});
+    document.getElementById("pastel-theme-reset").setAttribute("aria-pressed",String(current==="ciel"));
+  }
+  function apply(id,save){
+    var p=palettes.find(function(x){return x.id===id;})||palettes[2];
+    current=p.id;
+    root.style.setProperty("--site-bg",p.bg);
+    root.style.setProperty("--site-card",p.card);
+    root.style.setProperty("--site-text",p.text);
+    root.style.setProperty("--site-muted",p.muted);
+    root.style.setProperty("--site-accent",p.accent);
+    root.style.setProperty("--site-soft",p.soft);
+    root.style.setProperty("--site-border",p.border);
+    if(save){try{localStorage.setItem(key,p.id);}catch(e){}}
+    renderButtons();
+  }
+  function reset(){
+    current="ciel";
+    try{localStorage.removeItem(key);}catch(e){}
+    apply("ciel",false);
+  }
+  var panel=document.createElement("aside");
+  panel.id="pastel-theme-panel";
+  panel.hidden=true;
+  panel.setAttribute("aria-label","Choisir une couleur pastel");
+  var close=document.createElement("button");
+  close.id="pastel-theme-close";close.type="button";close.textContent="×";
+  close.setAttribute("aria-label","Fermer le panneau des couleurs");
+  close.addEventListener("click",function(){panel.hidden=true;});
+  var title=document.createElement("p");title.className="pt-title";title.textContent="Choisissez votre ambiance pastel";
+  var grid=document.createElement("div");grid.className="pt-colors";
+  palettes.forEach(function(p){
+    var b=document.createElement("button");b.type="button";b.dataset.theme=p.id;
+    var dot=document.createElement("i");dot.style.background=p.accent;
+    var label=document.createElement("span");label.textContent=p.name;
+    b.appendChild(dot);b.appendChild(label);
+    b.addEventListener("click",function(){apply(p.id,true);});
+    grid.appendChild(b);
+  });
+  var resetButton=document.createElement("button");
+  resetButton.id="pastel-theme-reset";resetButton.type="button";resetButton.textContent="Couleurs d’origine";
+  resetButton.addEventListener("click",reset);
+  panel.appendChild(close);panel.appendChild(title);panel.appendChild(grid);panel.appendChild(resetButton);
+  var toggle=document.createElement("button");toggle.id="pastel-theme-toggle";toggle.type="button";toggle.textContent="🎨 Couleurs pastel";
+  toggle.setAttribute("aria-expanded","false");
+  toggle.addEventListener("click",function(){panel.hidden=!panel.hidden;toggle.setAttribute("aria-expanded",String(!panel.hidden));});
+  document.body.appendChild(panel);document.body.appendChild(toggle);
+  var saved=palettes.some(function(p){return p.id===current;})?current:"ciel";
+  apply(saved,false);
+})();
+</script>
 </body>
 </html>
