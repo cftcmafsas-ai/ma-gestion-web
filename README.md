@@ -4,7 +4,7 @@ Page vitrine statique pour **Ma Gestion Web**.
 
 Elle redirige les visiteurs vers l’application Wix Headless existante :
 
-https://headless-jzsfhrdevmx-guerrisseur-140b.wix-site-host.com/
+[https://headless-jzsfhrdevmx-guerrisseur-140b.wix-site-host.com/](https://headless-jzsfhrdevmx-guerrisseur-140b.wix-site-host.com/)
 
 ## Déploiement
 
