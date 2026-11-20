@@ -1,0 +1,15 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "ma-gestion-web",
+  "main": "worker.js",
+  "compatibility_date": "2026-11-20",
+  "compatibility_flags": ["nodejs_compat"],
+  "assets": {
+    "directory": "./",
+    "binding": "ASSETS",
+    "run_worker_first": true,
+    "rules": [
+      { "type": "exclude", "globs": ["**/*.js", "**/*.json", "**/*.jsonc", "**/*.md", "**/*.toml", "**/api/**"] }
+    ]
+  }
+}
