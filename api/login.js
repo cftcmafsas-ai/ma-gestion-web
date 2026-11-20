@@ -1,25 +1,18 @@
-const {redis,json,parseBody,validOrigin,clientKey,passwordMatches,tokenHash,setSessionCookie,SESSION_TTL}=require("./_lib/auth");
-const {randomBytes}=require("node:crypto");
-module.exports=async function(req,res){
-  if(req.method!=="POST") return json(res,405,{error:"Méthode non autorisée."});
-  if(!validOrigin(req)) return json(res,403,{error:"Origine refusée."});
-  try{
-    const body=await parseBody(req), password=String(body.password||"");
-    const key="mgw:auth:fail:"+clientKey(req);
-    const blocked=await redis(["GET",key]);
-    if(Number(blocked)>=5) return json(res,429,{error:"Trop de tentatives. Réessayez dans 15 minutes."});
-    const raw=await redis(["GET","mgw:auth:user"]);
-    if(!raw) return json(res,409,{error:"Le compte n’est pas encore initialisé."});
-    let valid=false; try{valid=passwordMatches(password,JSON.parse(raw));}catch{}
-    if(!valid){
-      const count=await redis(["EVAL","local n=redis.call('INCR',KEYS[1]); if n==1 then redis.call('EXPIRE',KEYS[1],900) end; return n","1",key]);
-      if(Number(count)>=5) return json(res,429,{error:"Trop de tentatives. Réessayez dans 15 minutes."});
-      return json(res,401,{error:"Mot de passe incorrect."});
-    }
-    await redis(["DEL",key]);
-    const token=randomBytes(32).toString("base64url");
-    await redis(["SET","mgw:auth:session:"+tokenHash(token),"1","EX",String(SESSION_TTL)]);
-    setSessionCookie(res,token);
-    return json(res,200,{ok:true});
-  }catch(e){return json(res,500,{error:"Service d’authentification momentanément indisponible."});}
-};
+import { db, ensureSchema, json, readBody, validOrigin, passwordMatches, randomToken, sha256, sessionCookie, SESSION_TTL, failure } from "./_lib/auth.js";
+
+export async function onRequestPost({ request, env }) {
+  if (!validOrigin(request)) return json({ error: "Origine refusée." }, 403);
+  try {
+    const body = await readBody(request);
+    const email = String(body.email || "").trim().toLowerCase();
+    const password = String(body.password || "");
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) || password.length > 256) return json({ error: "Identifiants invalides." }, 400);
+    const sql = db(env);
+    await ensureSchema(sql);
+    const rows = await sql`SELECT email, password_salt, password_hash FROM mgw_admin WHERE id = 1 AND email = ${email} LIMIT 1`;
+    if (!rows.length || !(await passwordMatches(password, rows[0]))) return json({ error: "Adresse e-mail ou mot de passe incorrect." }, 401);
+    const token = randomToken();
+    await sql`INSERT INTO mgw_sessions (token_hash, expires_at) VALUES (${await sha256(token)}, NOW() + (${SESSION_TTL} * INTERVAL '1 second'))`;
+    return new Response(JSON.stringify({ ok: true }), { status: 200, headers: { "Content-Type": "application/json", "Cache-Control": "no-store", "Set-Cookie": sessionCookie(token) } });
+  } catch (error) { return failure(error); }
+}
