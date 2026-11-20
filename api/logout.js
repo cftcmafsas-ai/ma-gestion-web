@@ -1,11 +1,14 @@
-const {redis,json,cookieValue,tokenHash,clearSessionCookie,validOrigin}=require("./_lib/auth");
-module.exports=async function(req,res){
-  if(req.method!=="POST") return json(res,405,{error:"Méthode non autorisée."});
-  if(!validOrigin(req)) return json(res,403,{error:"Origine refusée."});
-  try{
-    const token=cookieValue(req);
-    if(token) await redis(["DEL","mgw:auth:session:"+tokenHash(token)]);
-    clearSessionCookie(res);
-    return json(res,200,{ok:true});
-  }catch(e){clearSessionCookie(res);return json(res,503,{error:"Déconnexion momentanément indisponible."});}
-};
+import { db, ensureSchema, json, validOrigin, cookieToken, sha256, clearCookie, failure } from "./_lib/auth.js";
+
+export async function onRequestPost({ request, env }) {
+  if (!validOrigin(request)) return json({ error: "Origine refusée." }, 403);
+  try {
+    const token = cookieToken(request);
+    if (token) {
+      const sql = db(env);
+      await ensureSchema(sql);
+      await sql`DELETE FROM mgw_sessions WHERE token_hash = ${await sha256(token)}`;
+    }
+    return new Response(JSON.stringify({ ok: true }), { headers: { "Content-Type": "application/json", "Cache-Control": "no-store", "Set-Cookie": clearCookie() } });
+  } catch (error) { return failure(error); }
+}
