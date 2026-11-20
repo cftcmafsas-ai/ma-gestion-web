@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#eff8ff"><title>Connexion — Ma Gestion Web</title>
+<link rel="stylesheet" href="/styles.css">
+<style>
+.auth-page{min-height:100vh;display:grid;place-items:center;padding:24px;background:linear-gradient(135deg,#edf7ff,#f8fbff)}
+.auth-card{width:min(100%,440px);padding:34px;background:#fff;border:1px solid #dceaf4;border-radius:22px;box-shadow:0 18px 55px #244d6818}
+.auth-card h1{margin:0 0 8px;color:#24445d;font-size:28px}.auth-card p{color:#61788b;line-height:1.6}
+.auth-card label{display:block;margin:18px 0 7px;font-weight:650;color:#34546d}
+.auth-card input{width:100%;box-sizing:border-box;padding:13px 14px;border:1px solid #cbdce8;border-radius:10px;font:inherit}
+.auth-submit{width:100%;margin-top:22px;padding:14px;border:0;border-radius:10px;background:#286b9d;color:white;font:inherit;font-weight:700;cursor:pointer}
+.auth-switch{display:block;text-align:center;margin-top:20px;color:#286b9d;font-weight:650}.auth-error{color:#a52b2b!important;min-height:24px}.auth-note{font-size:13px}
+</style>
+</head>
+<body><main class="auth-page"><section class="auth-card">
+<h1>Ma Gestion Web</h1><p id="intro">Connectez-vous à votre espace de gestion.</p>
+<form id="auth-form">
+<label for="email">Adresse e-mail</label><input id="email" name="email" type="email" autocomplete="username" required>
+<label for="password">Mot de passe</label><input id="password" name="password" type="password" autocomplete="current-password" minlength="12" required>
+<div id="confirm-wrap" hidden><label for="confirmation">Confirmer le mot de passe</label><input id="confirmation" name="confirmation" type="password" autocomplete="new-password" minlength="12"></div>
+<button class="auth-submit" id="submit" type="submit">Se connecter</button>
+</form>
+<a class="auth-switch" id="switch" href="#">Créer un compte administrateur</a>
+<p class="auth-error" id="message" role="alert" aria-live="polite"></p>
+<p class="auth-note">Le premier compte créé devient l’unique compte administrateur.</p>
+</section></main>
+<script>
+(async()=>{
+ const form=document.querySelector("#auth-form"),sw=document.querySelector("#switch"),intro=document.querySelector("#intro"),submit=document.querySelector("#submit"),wrap=document.querySelector("#confirm-wrap"),msg=document.querySelector("#message"),pass=document.querySelector("#password"),confirm=document.querySelector("#confirmation");
+ let register=false;
+ try{const r=await fetch("/api/session",{credentials:"same-origin"});const s=await r.json();if(s.authenticated){location.replace("/index.html#app-dashboard");return;}if(s.initialized){sw.hidden=true;}}catch{}
+ function mode(value){register=value;intro.textContent=value?"Créez le premier compte administrateur.":"Connectez-vous à votre espace de gestion.";submit.textContent=value?"Créer mon compte":"Se connecter";wrap.hidden=!value;confirm.required=value;pass.autocomplete=value?"new-password":"current-password";msg.textContent="";}
+ sw.addEventListener("click",e=>{e.preventDefault();mode(!register);});
+ form.addEventListener("submit",async e=>{e.preventDefault();msg.textContent="";submit.disabled=true;try{const body={email:form.email.value,password:form.password.value};if(register)body.confirmation=confirm.value;const r=await fetch(register?"/api/register":"/api/login",{method:"POST",headers:{"Content-Type":"application/json"},credentials:"same-origin",body:JSON.stringify(body)});const data=await r.json();if(!r.ok)throw new Error(data.error||"Une erreur est survenue.");location.replace("/index.html#app-dashboard");}catch(err){msg.textContent=err.message;}finally{submit.disabled=false;}});
+})();
+</script></body></html>
