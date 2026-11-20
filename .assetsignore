@@ -1,0 +1,10 @@
+api/
+worker.js
+wrangler.jsonc
+package.json
+package-lock.json
+README.md
+.assetsignore
+.dev.vars*
+node_modules/
+.wrangler/
