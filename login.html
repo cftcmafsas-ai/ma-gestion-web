@@ -146,5 +146,12 @@
   });
 })();
 </script>
+<script>
+(function(){
+  if(new URLSearchParams(location.search).get('mode')==='creation'&&!/type=recovery|access_token=|code=/.test(location.hash+location.search)){
+    document.getElementById('tab-creation').click();
+  }
+})();
+</script>
 </body>
 </html>
