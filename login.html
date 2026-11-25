@@ -71,12 +71,19 @@
 </main>
 <script>
 (function(){
+  var recuperation=new URLSearchParams(location.hash.slice(1)).get('type')==='recovery'||new URLSearchParams(location.search).get('mode')==='recovery';
   var client=supabase.createClient("https://xrasotdmsybfdldgekfc.supabase.co","sb_publishable_VIQ8wsLVT5ngk6SHfYeHFQ_srQx0XuJ");
   var ESPACE="/gestion";
   var $=function(id){return document.getElementById(id);};
   var msg=$("message");
   function dire(t,ok){msg.textContent=t;msg.className="message "+(ok?"ok":"erreur");}
+  function afficherRecuperation(){
+    recuperation=true;
+    $("form-connexion").hidden=true;$("form-creation").hidden=true;$("form-nouveau").hidden=false;
+    document.querySelector(".onglets").hidden=true;dire("Choisissez votre nouveau mot de passe.",true);
+  }
   function onglet(creation){
+    if(recuperation)return;
     $("tab-connexion").setAttribute("aria-selected",String(!creation));
     $("tab-creation").setAttribute("aria-selected",String(creation));
     $("form-connexion").hidden=creation;$("form-creation").hidden=!creation;$("form-nouveau").hidden=true;dire("",true);
@@ -131,18 +138,36 @@
     ev.preventDefault();var f=this,mdp=$("r-mdp").value,mdp2=$("r-mdp2").value;
     if(mdp.length<6){dire("Le mot de passe doit contenir au moins 6 caractères.");return;}
     if(mdp!==mdp2){dire("Les deux mots de passe ne sont pas identiques.");return;}
-    occupe(f,true);var r=await client.auth.updateUser({password:mdp});occupe(f,false);
-    if(r.error){dire(traduire(r.error));return;}
-    location.href=ESPACE;
+    occupe(f,true);dire("Enregistrement du nouveau mot de passe…",true);
+    try{
+      var session=await client.auth.getSession();
+      if(session.error)throw session.error;
+      if(!session.data.session){dire("Ce lien de récupération est expiré ou invalide. Revenez à la connexion et demandez un nouvel e-mail.");return;}
+      var email=session.data.session.user.email||"";
+      var r=await client.auth.updateUser({password:mdp});
+      if(r.error)throw r.error;
+      var sortie=await client.auth.signOut({scope:"local"});
+      if(sortie.error){dire("Votre nouveau mot de passe est enregistré. Fermez cette page puis reconnectez-vous avec ce nouveau mot de passe.",true);return;}
+      recuperation=false;
+      history.replaceState(null,"",location.pathname);
+      document.querySelector(".onglets").hidden=false;
+      f.reset();onglet(false);$("c-email").value=email;$("c-mdp").value="";
+      dire("Votre nouveau mot de passe a bien été enregistré. Connectez-vous avec votre adresse e-mail et ce nouveau mot de passe.",true);
+      $("c-mdp").focus();
+    }catch(e){dire(traduire(e));}
+    finally{occupe(f,false);}
   };
   client.auth.onAuthStateChange(function(evt){
-    if(evt==="PASSWORD_RECOVERY"){
-      $("form-connexion").hidden=true;$("form-creation").hidden=true;$("form-nouveau").hidden=false;
-      document.querySelector(".onglets").hidden=true;dire("Choisissez votre nouveau mot de passe.",true);
-    }
+    if(evt==="PASSWORD_RECOVERY")afficherRecuperation();
   });
+  if(recuperation)afficherRecuperation();
   client.auth.getSession().then(function(r){
-    if(r.data.session&&!/type=recovery/.test(location.hash))location.href=ESPACE;
+    if(recuperation){
+      afficherRecuperation();
+      if(r.error||!r.data.session)dire("Ce lien de récupération est expiré ou invalide. Revenez à la connexion et demandez un nouvel e-mail.");
+      return;
+    }
+    if(r.data.session)location.href=ESPACE;
   });
 })();
 </script>
