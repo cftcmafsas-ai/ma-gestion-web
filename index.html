@@ -48,18 +48,18 @@ a{color:var(--dk)}
 .site-item .unavailable{display:inline-block;padding:10px 20px;border-radius:999px;background:#edf0f3;color:#66717b;font-weight:600;font-size:14px}
 footer{text-align:center;color:var(--mu);font-size:14px;padding:26px 16px;border-top:1px solid var(--bd);background:var(--bg)}
 footer p{margin:4px}
-#pastel-theme-panel{position:fixed;right:14px;bottom:66px;z-index:9999;width:min(310px,calc(100vw - 28px));padding:14px;background:var(--site-card,var(--card));color:var(--site-text,var(--tx));border:1px solid var(--site-border,var(--bd));border-radius:18px;box-shadow:0 12px 36px rgba(50,60,80,.18);font:14px/1.4 system-ui,sans-serif}
-#pastel-theme-panel[hidden]{display:none}
-#pastel-theme-panel .pt-title{font-weight:700;margin:0 0 10px}
-#pastel-theme-panel .pt-colors{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
-#pastel-theme-panel button{display:flex;align-items:center;gap:7px;width:100%;padding:8px;border:1px solid var(--site-border,var(--bd));border-radius:11px;background:var(--site-soft,var(--p1));color:var(--site-text,var(--tx));font:13px system-ui,sans-serif;cursor:pointer}
-#pastel-theme-panel button[aria-pressed=true]{outline:2px solid var(--site-text,var(--tx));outline-offset:1px}
-#pastel-theme-panel i{display:block;width:19px;height:19px;flex:none;border-radius:50%;border:1px solid rgba(0,0,0,.08)}
-#pastel-theme-toggle{position:fixed;right:14px;bottom:14px;z-index:10000;padding:9px 15px;border:1px solid var(--site-border,var(--bd));border-radius:999px;background:var(--site-accent,var(--p3));color:var(--site-text,var(--tx));font-weight:700;cursor:pointer;box-shadow:0 4px 14px rgba(50,60,80,.12)}
-#pastel-theme-close{float:right;width:28px;height:28px;padding:0;border:0;border-radius:50%;font-size:18px;line-height:1;background:var(--site-soft,var(--p1));color:var(--site-text,var(--tx))}
-#pastel-theme-reset{margin-top:10px;justify-content:center;font-weight:700}
+#pastel-theme-panel{position:fixed;right:14px;bottom:66px;z-index:9999;width:min(300px,calc(100vw - 28px));padding:14px;background:var(--site-card);color:var(--site-text);border:1px solid var(--site-border);border-radius:18px;box-shadow:0 12px 36px rgba(50,60,80,.18);font:14px/1.4 system-ui,sans-serif}#pastel-theme-panel .pt-title{font-weight:700;margin:0 0 10px}#pastel-theme-panel .pt-colors{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}#pastel-theme-panel button{display:flex;align-items:center;gap:7px;width:100%;padding:7px 8px;border:1px solid var(--site-border);border-radius:11px;background:var(--site-soft)!important;color:var(--site-text)!important;font:12px system-ui,sans-serif;cursor:pointer}#pastel-theme-panel button[aria-pressed=true]{outline:2px solid var(--site-text);outline-offset:1px}#pastel-theme-panel i{display:block;width:19px;height:19px;flex:none;border-radius:50%;border:1px solid rgba(0,0,0,.08)}#pastel-theme-toggle{position:fixed;right:14px;bottom:14px;z-index:10000;padding:8px 13px;border:1px solid var(--site-border);border-radius:999px;background:var(--site-accent)!important;color:var(--site-text)!important;font-weight:700;cursor:pointer}#pastel-theme-panel button[data-theme=ciel]{grid-column:1/-1;justify-content:center;font-weight:700}#pastel-theme-panel button[data-theme=vanille]{grid-column:1/-1;justify-content:center}#pastel-theme-panel[hidden]{display:none}#pastel-theme-close{float:right;border:0;border-radius:50%;width:28px;height:28px;font-size:18px;line-height:1;cursor:pointer;background:var(--site-soft)!important;color:var(--site-text)!important}#pastel-theme-panel [data-theme]
 @media(max-width:640px){.top{align-items:flex-start}.top nav{padding-top:4px}.hero{padding:32px 15px 40px}.wrap{padding:22px 14px 42px}}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important}}
+#contact .contact-fields{display:grid;grid-template-columns:1fr 1fr;gap:18px;text-align:left}
+#contact label{display:block;font-size:15px;font-weight:500}
+#contact input,#contact textarea{display:block;width:100%;margin-top:6px;padding:12px;border:1px solid var(--bd);border-radius:10px;background:var(--card);color:var(--tx);font:inherit}
+#contact .contact-full{grid-column:1/-1}
+#contact textarea{resize:vertical}
+#contact .btn{border:0;font-family:inherit}
+#contact .contact-note{font-size:13px;color:var(--mu)}
+@media(max-width:640px){#contact .contact-fields{grid-template-columns:1fr}}
+#contact .card{margin:0 auto 16px;max-width:640px}
 </style>
 </head>
 <body>
@@ -75,8 +75,8 @@ footer p{margin:4px}
 
 <main>
   <section class="hero" id="accueil">
-    <img class="herologo" src="https://raw.githubusercontent.com/cftcmafsas-ai/Guerisseur-de-lame/main/rodolphe.JPG" alt="Rodolphe Torres Tirado">
     <h1>Ma Gestion Web</h1>
+    <img class="herologo" src="https://raw.githubusercontent.com/cftcmafsas-ai/Guerisseur-de-lame/main/rodolphe.JPG" alt="Rodolphe Torres Tirado">
     <p class="lead">Votre activité, simplement organisée</p>
     <p class="intro">Retrouvez vos contacts, activités, documents, devis, factures et frais dans un espace clair, accessible depuis votre téléphone, tablette ou ordinateur.</p>
     <a class="btn" href="login.html">Accéder à Ma Gestion</a>
@@ -108,21 +108,47 @@ footer p{margin:4px}
   </section>
 </main>
 
-<footer id="contact">
-  <p>Ma Gestion Web · Rodolphe Torres Tirado</p>
-  <p>Contact : coordonnées à compléter</p>
+<section id="contact" class="wrap center" aria-labelledby="contact-accueil-titre">
+  <h2 id="contact-accueil-titre">Me contacter</h2>
+  <p class="lead">Ensemble, cheminons vers un mieux-être durable</p>
+  <div class="card">
+    <h3>WhatsApp uniquement</h3>
+    <p>07 69 73 73 56</p>
+    <p><a class="btn" href="https://wa.me/33769737356">Écrire sur WhatsApp ›</a></p>
+  </div>
+  <div class="card">
+    <h3>E-mail</h3>
+    <p>rodolphetorres@outlook.fr</p>
+    <p><a class="btn" href="mailto:rodolphetorres@outlook.fr">Envoyer un e-mail ›</a></p>
+  </div>
+  <form class="card" aria-describedby="contact-accueil-note" onsubmit="event.preventDefault();">
+    <div class="contact-fields">
+      <label for="contact-nom">Nom<input id="contact-nom" name="nom" autocomplete="family-name" required></label>
+      <label for="contact-prenom">Prénom<input id="contact-prenom" name="prenom" autocomplete="given-name" required></label>
+      <label for="contact-email" class="contact-full">Email<input id="contact-email" name="email" type="email" autocomplete="email" required></label>
+      <label for="contact-message" class="contact-full">Message<textarea id="contact-message" name="message" rows="6" required></textarea></label>
+    </div>
+    <p><button class="btn" type="button" disabled aria-describedby="contact-accueil-note">Envoyer</button></p>
+    <p id="contact-accueil-note" class="contact-note">L’envoi par formulaire n’est pas encore activé. Pour me contacter, utilisez WhatsApp ou le lien e-mail ci-dessus.</p>
+  </form>
+</section>
+
+<footer>
+  <p>Ma Gestion Web · <a href="https://wa.me/33769737356">07 69 73 73 56 (WhatsApp uniquement)</a> · <a href="mailto:rodolphetorres@outlook.fr">rodolphetorres@outlook.fr</a></p>
 </footer>
 
 <script>
 (function(){
   "use strict";
   var palettes=[
-    {id:"rose",name:"Rose poudré",bg:"#fff3f5",card:"#fffafb",text:"#684c56",muted:"#987b85",accent:"#e8b7c5",soft:"#f8dfe6",border:"#f0dce2"},
-    {id:"lavande",name:"Lavande",bg:"#f7f3ff",card:"#fdfbff",text:"#594f70",muted:"#887e9e",accent:"#cbbbe9",soft:"#e9e0f8",border:"#e8e0f1"},
-    {id:"ciel",name:"Bleu ciel",bg:"#eff8ff",card:"#fbfdff",text:"#435d73",muted:"#7891a5",accent:"#b9dcf5",soft:"#dceefa",border:"#dceaf4"},
-    {id:"menthe",name:"Menthe",bg:"#effaf5",card:"#fbfffd",text:"#45665a",muted:"#78978a",accent:"#b9e2d0",soft:"#dff3e9",border:"#dceee5"},
-    {id:"peche",name:"Pêche",bg:"#fff5ef",card:"#fffdfb",text:"#76584a",muted:"#a08070",accent:"#f2c7ae",soft:"#fbe5d8",border:"#f2e3d9"},
-    {id:"vanille",name:"Jaune vanille",bg:"#fffbed",card:"#fffef8",text:"#6b6245",muted:"#958a68",accent:"#efe0a7",soft:"#f8f0d1",border:"#eee7cf"}
+    {id:"ciel",name:"Couleur d’origine",bg:"#fcf6e3",card:"#fffdf5",text:"#5f5230",muted:"#8a7c52",accent:"#e8cf7c",soft:"#f5ebc5",border:"#ece1bd"},
+    {id:"azur",name:"Bleu azur",bg:"#f4f7ff",card:"#fcfdff",text:"#46557a",muted:"#7c88a8",accent:"#cdd9f7",soft:"#e6edfc",border:"#e2e8f6"},
+    {id:"perle",name:"Gris perle",bg:"#f8f8fa",card:"#fefefe",text:"#55575f",muted:"#85878f",accent:"#dcdde3",soft:"#eeeef2",border:"#e8e8ec"},
+    {id:"rose",name:"Rose poudré",bg:"#fff8f9",card:"#fffafb",text:"#684c56",muted:"#987b85",accent:"#f0d0d9",soft:"#faeaef",border:"#f4e6eb"},
+    {id:"lavande",name:"Lavande",bg:"#faf8ff",card:"#fdfbff",text:"#594f70",muted:"#887e9e",accent:"#ddd3f1",soft:"#f1ebfa",border:"#efe9f5"},
+    {id:"menthe",name:"Menthe",bg:"#f5fcf9",card:"#fbfffd",text:"#45665a",muted:"#78978a",accent:"#d2ece0",soft:"#eaf7f1",border:"#e6f3ed"},
+    {id:"peche",name:"Pêche",bg:"#fff9f5",card:"#fffdfb",text:"#76584a",muted:"#a08070",accent:"#f7dbca",soft:"#fceee6",border:"#f6ebe4"},
+    {id:"vanille",name:"Bleu ciel",bg:"#eff8ff",card:"#fbfdff",text:"#435d73",muted:"#7891a5",accent:"#b9dcf5",soft:"#dceefa",border:"#dceaf4"}
   ];
   var key="pastel-theme-v1";
   var root=document.documentElement;
@@ -140,10 +166,9 @@ footer p{margin:4px}
   document.head.appendChild(style);
   function renderButtons(){
     document.querySelectorAll("#pastel-theme-panel [data-theme]").forEach(function(b){b.setAttribute("aria-pressed",String(b.dataset.theme===current));});
-    document.getElementById("pastel-theme-reset").setAttribute("aria-pressed",String(current==="ciel"));
   }
   function apply(id,save){
-    var p=palettes.find(function(x){return x.id===id;})||palettes[2];
+    var p=palettes.find(function(x){return x.id===id;})||palettes[0];
     current=p.id;
     root.style.setProperty("--site-bg",p.bg);
     root.style.setProperty("--site-card",p.card);
@@ -181,7 +206,7 @@ footer p{margin:4px}
   var resetButton=document.createElement("button");
   resetButton.id="pastel-theme-reset";resetButton.type="button";resetButton.textContent="Couleurs d’origine";
   resetButton.addEventListener("click",reset);
-  panel.appendChild(close);panel.appendChild(title);panel.appendChild(grid);panel.appendChild(resetButton);
+  panel.appendChild(close);panel.appendChild(title);panel.appendChild(grid);
   var toggle=document.createElement("button");toggle.id="pastel-theme-toggle";toggle.type="button";toggle.textContent="🎨 Couleurs pastel";
   toggle.setAttribute("aria-expanded","false");
   toggle.addEventListener("click",function(){panel.hidden=!panel.hidden;toggle.setAttribute("aria-expanded",String(!panel.hidden));});
