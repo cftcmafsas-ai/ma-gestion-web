@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="fr" class="mg-verif">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Administration — Ma Gestion Web</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+<style>
+  :root{--couleur:#8a6d1f;--accent:#e8cf7c;--soft:#f5ebc5;--fond:#fcf6e3;--carte:#fffdf5;--texte:#5f5230;--bord:#ece1bd}
+  html.mg-verif body{visibility:hidden}
+  *{box-sizing:border-box}
+  body{margin:0;min-height:100vh;padding:24px 16px;font-family:system-ui,Arial,sans-serif;color:var(--texte);background:var(--fond)}
+  :focus-visible{outline:3px solid var(--couleur);outline-offset:2px}
+  .page{max-width:860px;margin:0 auto}
+  header{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-bottom:18px}
+  header img{width:64px;height:auto}
+  h1{font-family:Georgia,"Times New Roman",serif;font-size:1.6rem;margin:0;flex:1}
+  .btn{display:inline-block;padding:10px 16px;border:1px solid var(--bord);border-radius:999px;background:var(--carte);color:var(--texte);font:600 .95rem system-ui,sans-serif;text-decoration:none;cursor:pointer}
+  .carte{background:var(--carte);border:1px solid var(--bord);border-radius:16px;padding:18px;box-shadow:0 10px 30px rgba(95,82,48,.06)}
+  .resume{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:14px}
+  .resume span{background:var(--soft);border-radius:999px;padding:6px 14px;font-weight:600;font-size:.92rem}
+  table{width:100%;border-collapse:collapse}
+  th,td{text-align:left;padding:12px 8px;border-bottom:1px solid var(--bord);font-size:.95rem;vertical-align:middle}
+  th{font-size:.85rem;text-transform:uppercase;letter-spacing:.03em;color:#8a7c52}
+  .badge{display:inline-block;padding:4px 12px;border-radius:999px;font-weight:700;font-size:.85rem}
+  .b-essai{background:#f3e6e0;color:#8a4a32}.b-actif{background:#dcefdc;color:#2f6b3a}.b-admin{background:var(--accent);color:var(--texte)}
+  .action{padding:8px 14px;border-radius:999px;border:1px solid var(--bord);font:600 .9rem system-ui,sans-serif;cursor:pointer}
+  .activer{background:var(--accent);color:var(--texte)}.couper{background:#fff;color:#8a4a32}
+  .message{min-height:1.3em;margin:12px 0 0;font-size:.95rem}.erreur{color:#a23b2a}.ok{color:#2f6b3a}
+  .aide{font-size:.9rem;color:#8a7c52;margin:14px 0 0;line-height:1.5}
+  @media(max-width:600px){thead{display:none}tr{display:block;border-bottom:1px solid var(--bord);padding:10px 0}td{display:flex;justify-content:space-between;gap:10px;border:0;padding:5px 0}td::before{content:attr(data-l);font-weight:600;color:#8a7c52}}
+</style>
+</head>
+<body>
+<div class="page">
+  <header>
+    <img src="https://raw.githubusercontent.com/cftcmafsas-ai/Guerisseur-de-lame/main/logos.JPG" alt="Logo Ma Gestion Web">
+    <h1>Administration</h1>
+    <a class="btn" href="/gestion">← Ma Gestion</a>
+    <button class="btn" type="button" id="deconnexion">Se déconnecter</button>
+  </header>
+  <section class="carte">
+    <div class="resume" id="resume"></div>
+    <table>
+      <thead><tr><th>Adresse e-mail</th><th>Créé le</th><th>Accès</th><th></th></tr></thead>
+      <tbody id="liste"><tr><td colspan="4">Chargement…</td></tr></tbody>
+    </table>
+    <p class="message" id="message" role="status"></p>
+    <p class="aide">« Essai » : la personne peut tout essayer mais rien n’est enregistré.<br>« Accès complet » : la personne utilise le logiciel normalement, avec l’enregistrement.<br>Tout nouveau compte commence en « Essai ».</p>
+  </section>
+</div>
+<script>
+(function(){
+  var c=supabase.createClient("https://aosyeewlrzibqaklhcxp.supabase.co","sb_publishable_MNA_y086hJoleBjry7sm1Q_Mt0yNAnv");
+  var liste=document.getElementById("liste"),msg=document.getElementById("message"),moi=null;
+  function dire(t,cl){msg.textContent=t;msg.className="message "+(cl||"")}
+  function esc(t){return String(t==null?"":t).replace(/[&<>"]/g,function(x){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[x]})}
+  function date(d){try{return new Date(d).toLocaleDateString("fr-FR")}catch(e){return""}}
+  var NOM={essai:"Essai",actif:"Accès complet",admin:"Administrateur"};
+  function charger(){
+    c.from("acces").select("user_id,email,statut,cree_le").order("cree_le",{ascending:false}).then(function(r){
+      if(r.error){liste.innerHTML='<tr><td colspan="4">Impossible de charger la liste.</td></tr>';return}
+      var n={essai:0,actif:0,admin:0};
+      liste.innerHTML=r.data.map(function(u){n[u.statut]=(n[u.statut]||0)+1;
+        var bouton=u.statut==="admin"?"":(u.statut==="actif"?'<button class="action couper" data-id="'+u.user_id+'" data-s="essai">Remettre en essai</button>':'<button class="action activer" data-id="'+u.user_id+'" data-s="actif">Donner l’accès complet</button>');
+        return '<tr><td data-l="E-mail">'+esc(u.email)+'</td><td data-l="Créé le">'+date(u.cree_le)+'</td><td data-l="Accès"><span class="badge b-'+u.statut+'">'+NOM[u.statut]+'</span></td><td>'+bouton+'</td></tr>'}).join("")||'<tr><td colspan="4">Aucun compte pour l’instant.</td></tr>';
+      document.getElementById("resume").innerHTML='<span>'+r.data.length+' compte(s)</span><span>'+n.actif+' accès complet</span><span>'+n.essai+' en essai</span>';
+    });
+  }
+  liste.addEventListener("click",function(e){var b=e.target.closest("button[data-id]");if(!b)return;b.disabled=true;
+    c.from("acces").update({statut:b.dataset.s}).eq("user_id",b.dataset.id).then(function(r){
+      if(r.error){dire("La modification n’a pas pu être enregistrée.","erreur");b.disabled=false;return}
+      dire(b.dataset.s==="actif"?"Accès complet activé.":"Compte remis en essai.","ok");charger()})});
+  document.getElementById("deconnexion").onclick=function(){c.auth.signOut().then(function(){try{sessionStorage.removeItem("mg-statut")}catch(e){}location.href="/login"})};
+  c.auth.getSession().then(function(r){var s=r.data.session;if(!s){location.replace("/login");return}moi=s.user.id;
+    return c.from("acces").select("statut").eq("user_id",moi).maybeSingle().then(function(q){
+      if(!q.data||q.data.statut!=="admin"){location.replace("/gestion");return}
+      document.documentElement.classList.remove("mg-verif");charger()})}).catch(function(){location.replace("/login")});
+})();
+</script>
+</body>
+</html>
