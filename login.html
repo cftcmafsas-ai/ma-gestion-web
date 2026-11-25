@@ -71,7 +71,7 @@
 </main>
 <script>
 (function(){
-  var client=supabase.createClient("https://aosyeewlrzibqaklhcxp.supabase.co","sb_publishable_MNA_y086hJoleBjry7sm1Q_Mt0yNAnv");
+  var client=supabase.createClient("https://xrasotdmsybfdldgekfc.supabase.co","sb_publishable_VIQ8wsLVT5ngk6SHfYeHFQ_srQx0XuJ");
   var ESPACE="/gestion";
   var $=function(id){return document.getElementById(id);};
   var msg=$("message");
@@ -115,7 +115,7 @@
     var c2=await client.auth.signInWithPassword({email:email,password:mdp});
     occupe(f,false);
     if(!c2.error&&c2.data.session){location.href=ESPACE;return;}
-    if(r.data.user&&r.data.user.identities&&r.data.user.identities.length===0){onglet(false);$("c-email").value=email;dire("Cette adresse e-mail a déjà un compte (par exemple sur Mes Documents). Connectez-vous avec son mot de passe habituel, ou cliquez sur « Mot de passe oublié ? ».");return;}
+    if(r.data.user&&r.data.user.identities&&r.data.user.identities.length===0){onglet(false);$("c-email").value=email;dire("Cette adresse e-mail a déjà un compte Ma Gestion Web. Connectez-vous avec votre mot de passe, ou cliquez sur « Mot de passe oublié ? ».");return;}
     onglet(false);$("c-email").value=email;
     dire("Compte créé. Connectez-vous avec votre adresse e-mail et votre mot de passe.",true);
   };
