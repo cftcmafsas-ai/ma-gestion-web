@@ -71,7 +71,7 @@
 </main>
 <script>
 (function(){
-  var client=supabase.createClient("https://cybivcxdsbgzeghgtjka.supabase.co","eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImN5Yml2Y3hkc2JnemVnaGd0amthIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTU2MDQ2OTEsImV4cCI6MjExMTE4MDY5MX0.s-svGKyNZSl6bo01oUBtwiVe5ADlOBkezUaJuo6uZNA");
+  var client=supabase.createClient("https://aosyeewlrzibqaklhcxp.supabase.co","sb_publishable_MNA_y086hJoleBjry7sm1Q_Mt0yNAnv");
   var ESPACE="/gestion";
   var $=function(id){return document.getElementById(id);};
   var msg=$("message");
@@ -109,10 +109,12 @@
     if(mdp.length<6){dire("Le mot de passe doit contenir au moins 6 caractères.");return;}
     if(mdp!==mdp2){dire("Les deux mots de passe ne sont pas identiques.");return;}
     occupe(f,true);dire("Création du compte…",true);
-    var r=await client.auth.signUp({email:email,password:mdp,options:{emailRedirectTo:location.origin+"/login"}});
-    occupe(f,false);
-    if(r.error){dire(traduire(r.error));return;}
+    var r=await client.auth.signUp({email:email,password:mdp,options:{emailRedirectTo:location.origin+"/login",data:{app:"ma-gestion-web"}}});
+    if(r.error){occupe(f,false);dire(traduire(r.error));return;}
     if(r.data.session){location.href=ESPACE;return;}
+    var c2=await client.auth.signInWithPassword({email:email,password:mdp});
+    occupe(f,false);
+    if(!c2.error&&c2.data.session){location.href=ESPACE;return;}
     dire("Compte créé. Un e-mail de confirmation vient de vous être envoyé : cliquez sur le lien qu’il contient, puis connectez-vous.",true);
     onglet(false);$("c-email").value=email;
     dire("Compte créé. Un e-mail de confirmation vient de vous être envoyé : cliquez sur le lien qu’il contient, puis connectez-vous.",true);
