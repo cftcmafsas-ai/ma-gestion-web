@@ -1,121 +1,194 @@
-<!doctype html>
-<html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Ma Gestion Web</title><meta name="description" content="Ma Gestion : l’espace Web de gestion Ma Gestion Web, pour vos contacts, activités, devis, factures, documents et frais."><style>:root{--bg:#f7fafc;--bg2:#eaf3fa;--ac:#b9d6ee;--ac2:#d6e8f6;--bd:#dde8f0;--tx:#46535e;--mu:#7a8c9a;--dk:#3a4955}*{box-sizing:border-box}body{margin:0;font-family:-apple-system,system-ui,Segoe UI,Arial,sans-serif;color:var(--tx);background:linear-gradient(180deg,var(--bg2),var(--bg) 420px)}header{position:sticky;top:0;background:rgba(255,255,255,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--bd);padding:14px 24px;display:flex;align-items:center;justify-content:space-between;gap:16px;z-index:20}.brand{display:flex;align-items:center;gap:10px;font-weight:700;color:var(--dk)}.logo{width:42px;height:36px;border-radius:8px;background:linear-gradient(135deg,var(--ac2),var(--ac));display:grid;place-items:center;font:700 18px Georgia,serif;color:#fff}nav a{color:var(--mu);text-decoration:none;margin-left:16px;font-size:14px}nav a:hover{color:var(--dk)}.hero{max-width:1080px;margin:0 auto;padding:72px 24px 34px;text-align:center}h1{font:600 44px/1.12 Georgia,Times New Roman,serif;color:var(--dk);margin:12px 0}.hero p{color:var(--mu);font-size:19px;max-width:680px;margin:0 auto 28px}.btn{display:inline-block;padding:14px 26px;border-radius:999px;background:var(--ac);color:var(--dk);font-weight:700;text-decoration:none}.btn:hover{filter:brightness(.97)}.btn.ghost{background:#fff;border:1px solid var(--bd);margin-left:10px}.features{max-width:1080px;margin:26px auto 64px;padding:0 24px;display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px}.card{background:#fff;border:1px solid var(--bd);border-radius:20px;padding:26px;box-shadow:0 2px 10px rgba(58,73,85,.06)}.card h3{margin:12px 0 8px;color:var(--dk)}.card p{color:var(--mu);line-height:1.55;margin:0}.icon{font-size:28px}section.modules{max-width:1080px;margin:0 auto;padding:0 24px 70px}h2{font:600 28px Georgia,serif;color:var(--dk);margin:0 0 18px}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}.tile{background:#fff;border:1px solid var(--bd);border-radius:18px;padding:18px}.tile b{display:block;color:var(--dk);margin-bottom:5px}.tile span{color:var(--mu);font-size:13px;line-height:1.45}footer{background:#fff;border-top:1px solid var(--bd);padding:22px;text-align:center;color:var(--mu);font-size:13px}@media(max-width:680px){header{padding:12px 14px}nav a{margin-left:10px;font-size:12px}.hero{padding:42px 16px 22px}h1{font-size:30px}.hero p{font-size:16px}.btn{display:block;width:100%;text-align:center}.btn.ghost{margin:10px 0 0}}</style><style id="mg-original-brand">.mg-real-logo{width:66px;height:54px;object-fit:contain;flex:none;background:white;border-radius:6px}.mg-real-banner{display:block;width:min(100%,760px);height:auto;margin:0 auto 30px;object-fit:contain}.brand,.mg-brand{display:flex;align-items:center;gap:12px}.mg-brand-mark{display:none}@media(max-width:680px){.mg-real-logo{width:48px;height:42px}.mg-real-banner{margin-bottom:20px}.brand,.mg-brand{flex-wrap:wrap;gap:8px}}</style><style id="mg-site-links-style">.mg-site-links{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin:16px 0}.mg-site-links a{display:inline-block;padding:11px 16px;border:1px solid #a5d9dd;border-radius:10px;background:#fff;color:#126b78;font:600 14px/1.4 system-ui,sans-serif;text-decoration:none}.mg-site-links a:hover{background:#e4f5f5}.hero>.mg-site-links{justify-content:center;margin:24px 0}.mg-main>.mg-site-links{max-width:1320px;margin:0 auto 24px}@media print{.mg-site-links{display:none}}</style><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#eff8ff">
+<title>Ma Gestion Web — Rodolphe Torres Tirado</title>
+<meta name="description" content="Ma Gestion Web : un espace clair pour organiser votre activité, vos contacts et vos documents.">
 <style>
-.color-system{max-width:760px;margin:28px auto;padding:22px;background:#fff;border:1px solid var(--bd);border-radius:20px}
-.color-system h2{margin:0 0 8px}
-.color-system p{margin:0 0 14px;color:var(--mu)}
-.color-system label{display:block;margin:10px 0 4px;font-size:14px;color:var(--tx)}
-.color-system input{width:100%;max-width:360px;padding:10px 12px;border:1px solid var(--bd);border-radius:10px;font:inherit}
-.color-system button{padding:10px 16px;border:0;border-radius:999px;background:var(--ac);color:var(--dk);font:inherit;font-weight:600;cursor:pointer}
-.color-system #sign-out{margin-top:10px}
-.swatches{display:flex;gap:12px;margin-top:6px}
-.swatch{width:38px;height:38px;border:2px solid transparent;border-radius:50%;background:var(--swatch)!important;cursor:pointer}
-.swatch:hover{transform:scale(1.08)}
-.swatch[aria-pressed="true"]{border-color:var(--dk)}
-.system-status{margin-top:12px;font-size:14px;color:var(--mu)}
-
-.account-fab{position:fixed;right:18px;bottom:18px;z-index:70;display:inline-flex;align-items:center;gap:8px;padding:13px 18px;border:0;border-radius:999px;background:rgba(255,255,255,.88);backdrop-filter:blur(14px);color:#22303c;font:600 14px Inter,system-ui,sans-serif;box-shadow:0 10px 28px rgba(43,65,95,.16);cursor:pointer}
-.account-fab:hover{transform:translateY(-2px)}
-.account-fab span{width:22px;height:22px;display:grid;place-items:center;border-radius:50%;background:linear-gradient(135deg,#5b8def,#7c5cff);color:#fff;font-size:12px}
-.modal{position:fixed;inset:0;z-index:80;display:grid;place-items:center;visibility:hidden}
-.modal.open{visibility:visible}
-.modal-backdrop{position:absolute;inset:0;background:rgba(24,38,56,.35);opacity:0;transition:opacity .22s}
-.modal.open .modal-backdrop{opacity:1}
-.modal-card{position:relative;width:min(420px,94vw);max-height:86vh;overflow:auto;background:rgba(255,255,255,.95);backdrop-filter:blur(20px);border-radius:24px;padding:26px;box-shadow:0 24px 60px rgba(24,38,56,.22);transform:scale(.96);opacity:0;transition:all .25s}
-.modal.open .modal-card{transform:none;opacity:1}
-.modal-close{position:absolute;top:14px;right:14px;width:36px;height:36px;border:0;border-radius:50%;background:#eef4fb;color:#3a4955;font-size:18px;cursor:pointer}
-.modal h2{margin:4px 0 14px;font:600 22px/1.2 Inter,system-ui,sans-serif;color:#22303c}
-.field{margin:12px 0}
-.field label{display:block;font-size:13px;font-weight:600;color:#54657a;margin-bottom:5px}
-.field input{width:100%;padding:13px 15px;border:1px solid #dce6f0;border-radius:14px;background:#fff;font:inherit}
-.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
-.actions button{padding:12px 18px;border:0;border-radius:999px;background:linear-gradient(135deg,#5b8def,#7c5cff);color:#fff;font:600 15px Inter,system-ui,sans-serif;cursor:pointer}
-.actions button#sign-up{background:#fff;color:#3a4955;border:1px solid #dce6f0}
-.swatches{margin-top:16px}
-.swatch{width:36px;height:36px}
-
-.spaces{max-width:900px;margin:34px auto;padding:0 20px}
-.spaces-card{background:rgba(255,255,255,.8);backdrop-filter:blur(14px);border:1px solid rgba(255,255,255,.8);border-radius:22px;box-shadow:0 14px 36px rgba(43,65,95,.10);padding:24px}
-.spaces-card h2{margin:0 0 6px;font:600 22px/1.2 Inter,system-ui,sans-serif;color:#22303c}
-.spaces-card p{margin:0 0 16px;color:#6d7f92;font-size:15px}
-.spaces-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px}
-.space-tile{display:block;padding:16px 18px;border:1px solid #dce6f0;border-radius:16px;background:#fff;color:#22303c;text-decoration:none;transition:transform .18s,box-shadow .18s}
-.space-tile:hover{transform:translateY(-2px);box-shadow:0 10px 24px rgba(43,65,95,.12)}
-.space-tile b{display:block;font:600 16px Inter,system-ui,sans-serif;margin-bottom:4px}
-.space-tile span{font-size:13px;color:#6d7f92}
-@media(max-width:640px){.spaces{padding:0 14px}.spaces-card{padding:20px}}
-
-.spaces{max-width:900px;margin:26px auto;padding:0 20px}
-.spaces-card{background:rgba(255,255,255,.85);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,.8);border-radius:20px;box-shadow:0 12px 30px rgba(43,65,95,.10);padding:22px}
-.spaces-card h2{margin:0 0 6px;font:600 20px/1.2 Inter,system-ui,sans-serif;color:#22303c}
-.spaces-card p{margin:0 0 14px;color:#6d7f92;font-size:14px}
-.spaces-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px}
-.space-tile{display:flex;flex-direction:column;align-items:flex-start;gap:8px;padding:16px 18px;border:1px solid #dce6f0;border-radius:16px;background:#fff}
-.space-tile b{font:600 16px Inter,system-ui,sans-serif;color:#22303c}
-.space-btn{display:inline-block;padding:9px 16px;border-radius:999px;background:linear-gradient(135deg,#5b8def,#7c5cff);color:#fff;font:600 14px Inter,system-ui,sans-serif;text-decoration:none}
-.space-btn:hover{filter:brightness(.96)}
-@media(max-width:640px){.spaces{padding:0 14px}.spaces-card{padding:18px}}
-
-.spaces{max-width:900px;margin:26px auto;padding:0 20px}
-.spaces-card{background:rgba(255,255,255,.85);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,.8);border-radius:20px;box-shadow:0 12px 30px rgba(43,65,95,.10);padding:22px}
-.spaces-card h2{margin:0 0 6px;font:600 20px/1.2 Inter,system-ui,sans-serif;color:#22303c}
-.spaces-card p{margin:0 0 14px;color:#6d7f92;font-size:14px}
-.spaces-list{display:flex;flex-direction:column;gap:14px}
-.space-item{display:flex;flex-direction:column;align-items:flex-start;gap:8px;padding:0 0 14px;border-bottom:1px solid #e6edf5}
-.space-item:last-child{border-bottom:0;padding-bottom:0}
-.space-item b{font:600 17px Inter,system-ui,sans-serif;color:#22303c}
-.space-item span{font-size:14px;color:#6d7f92}
-.space-btn{display:inline-block;padding:10px 18px;border-radius:999px;background:linear-gradient(135deg,#5b8def,#7c5cff);color:#fff;font:600 14px Inter,system-ui,sans-serif;text-decoration:none}
-.space-btn:hover{filter:brightness(.96)}
-@media(max-width:640px){.spaces{padding:0 14px}.spaces-card{padding:18px}}
-
-.spaces{max-width:900px;margin:26px auto;padding:0 20px}
-.spaces-card{background:rgba(255,255,255,.85);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,.8);border-radius:20px;box-shadow:0 12px 30px rgba(43,65,95,.10);padding:22px;text-align:center}
-.spaces-card h2{margin:0 0 6px;font:600 20px/1.2 Inter,system-ui,sans-serif;color:#22303c}
-.spaces-card p{margin:0 0 18px;color:#6d7f92;font-size:14px}
-.spaces-list{display:flex;flex-direction:column;gap:22px}
-.space-item{display:flex;flex-direction:column;align-items:center;gap:6px;padding:0 0 18px;border-bottom:1px solid #e6edf5}
-.space-item:last-child{border-bottom:0;padding-bottom:0}
-.space-item b{font:600 17px Inter,system-ui,sans-serif;color:#22303c}
-.space-item span{font-size:14px;color:#6d7f92;max-width:520px}
-.space-btn{display:inline-block;padding:10px 18px;border-radius:999px;background:var(--ac,#b9d6ee);color:var(--dk,#3a4955);font:600 14px Inter,system-ui,sans-serif;text-decoration:none}
-.space-btn:hover{filter:brightness(.96)}
-@media(max-width:640px){.spaces{padding:0 14px}.spaces-card{padding:18px}}
-
-.duo{max-width:760px;margin:26px auto;padding:0 20px}
-.duo-card{background:rgba(255,255,255,.85);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,.8);border-radius:24px;box-shadow:0 14px 34px rgba(43,65,95,.10);padding:26px;text-align:center}
-.duo-card h2{margin:0 0 8px;font:600 24px/1.2 Inter,system-ui,sans-serif;color:#22303c}
-.duo-card p{margin:0 0 18px;color:#6d7f92;font-size:16px;line-height:1.6}
-.duo-btn{display:inline-block;padding:12px 24px;border-radius:999px;background:var(--ac,#b9d6ee);color:var(--dk,#3a4955);font:600 15px Inter,system-ui,sans-serif;text-decoration:none}
-.duo-btn:hover{filter:brightness(.96)}
-@media(max-width:640px){.duo{padding:0 14px}.duo-card{padding:20px}}
-
-.duo{max-width:760px;margin:26px auto;padding:0 20px}
-.duo-card{background:rgba(255,255,255,.85);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,.8);border-radius:24px;box-shadow:0 14px 34px rgba(43,65,95,.10);padding:26px;text-align:center}
-.duo-card h2{margin:0 0 8px;font:600 24px/1.2 Inter,system-ui,sans-serif;color:#22303c}
-.duo-card p{margin:0 0 18px;color:#6d7f92;font-size:16px;line-height:1.6}
-.duo-list{display:flex;flex-direction:column;gap:18px}
-.duo-item{display:flex;flex-direction:column;align-items:center;gap:6px;padding:0 0 18px;border-bottom:1px solid #e6edf5}
-.duo-item:last-child{border-bottom:0;padding-bottom:0}
-.duo-item b{font:600 18px Inter,system-ui,sans-serif;color:#22303c}
-.duo-item span{font-size:14px;color:#6d7f92;max-width:520px}
-.duo-btn{display:inline-block;padding:12px 24px;border-radius:999px;background:var(--ac,#b9d6ee);color:var(--dk,#3a4955);font:600 15px Inter,system-ui,sans-serif;text-decoration:none}
-.duo-btn:hover{filter:brightness(.96)}
-@media(max-width:640px){.duo{padding:0 14px}.duo-card{padding:20px}}
+:root{--bg:#f7fafc;--p1:#eaf3fa;--p2:#d6e8f6;--p3:#b9d6ee;--card:#fff;--tx:#46535e;--mu:#7a8c9a;--bd:#dde8f0;--dk:#3a4955}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;font:17px/1.65 -apple-system,system-ui,"Segoe UI",sans-serif;color:var(--tx);background:var(--bg)}
+h1,h2,h3{font-family:Georgia,"Times New Roman",serif;color:var(--tx);line-height:1.2;font-weight:600}
+h1{font-size:2.1rem;margin:.2em 0 .4em}
+h2{font-size:1.6rem}
+h3{font-size:1.25rem;margin:.2em 0}
+a{color:var(--dk)}
+:focus-visible{outline:3px solid var(--dk);outline-offset:3px}
+.top{position:sticky;top:0;z-index:5;display:flex;align-items:center;gap:10px;padding:8px 14px;background:rgba(255,255,255,.95);border-bottom:1px solid var(--bd)}
+.top img{height:46px;width:auto;display:block;flex:none}
+.top nav{display:flex;gap:6px;overflow-x:auto;white-space:nowrap;scrollbar-width:none}
+.top nav a{flex:none;padding:6px 14px;border-radius:999px;background:var(--p1);color:var(--tx);text-decoration:none;font-size:14px}
+.top nav a:hover{background:var(--p3)}
+.hero{text-align:center;padding:44px 20px 52px;background:linear-gradient(180deg,var(--p2),var(--p1))}
+.herologo{width:min(92%,440px);height:auto;display:block;margin:0 auto 14px;background:#fff;border-radius:18px;padding:10px}
+.hero h1{font-size:clamp(1.9rem,6vw,2.8rem)}
+.hero .lead{max-width:640px;margin:10px auto;color:var(--mu);font-family:Georgia,"Times New Roman",serif;font-style:italic;font-size:1.3rem}
+.hero .intro{max-width:720px;margin:0 auto;color:var(--tx)}
+.btn,.space-btn{display:inline-block;padding:12px 24px;border:1px solid var(--bd);border-radius:999px;background:var(--p3);color:var(--dk);text-decoration:none;font-weight:600;font-size:1rem;cursor:pointer}
+.btn:hover,.space-btn:hover{filter:brightness(.96)}
+.hero .btn{margin-top:22px}
+.wrap{max-width:900px;margin:0 auto;padding:28px 18px 50px}
+.section-title{text-align:center;margin:0 0 8px}
+.section-intro{text-align:center;color:var(--mu);max-width:700px;margin:0 auto 24px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,250px),1fr));gap:14px}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:18px;padding:20px;margin:0;box-shadow:0 8px 22px rgba(58,73,85,.05)}
+.card p{margin-bottom:0;color:var(--mu)}
+.card h3{margin-top:0}
+.band{background:var(--p1);border:1px solid var(--bd);color:var(--tx);border-radius:20px;padding:20px 22px;margin:18px 0}
+.band h2,.band h3{color:var(--tx)}
+.center{text-align:center}
+.site-list{display:flex;flex-direction:column;gap:18px}
+.site-item{padding:0 0 18px;border-bottom:1px solid var(--bd);display:flex;flex-direction:column;align-items:center;gap:7px;text-align:center}
+.site-item:last-child{border-bottom:0;padding-bottom:0}
+.site-item b{font:600 18px Inter,system-ui,sans-serif;color:var(--tx)}
+.site-item span{font-size:14px;color:var(--mu);max-width:520px}
+.site-item .unavailable{display:inline-block;padding:10px 20px;border-radius:999px;background:#edf0f3;color:#66717b;font-weight:600;font-size:14px}
+footer{text-align:center;color:var(--mu);font-size:14px;padding:26px 16px;border-top:1px solid var(--bd);background:var(--bg)}
+footer p{margin:4px}
+#pastel-theme-panel{position:fixed;right:14px;bottom:66px;z-index:9999;width:min(310px,calc(100vw - 28px));padding:14px;background:var(--site-card,var(--card));color:var(--site-text,var(--tx));border:1px solid var(--site-border,var(--bd));border-radius:18px;box-shadow:0 12px 36px rgba(50,60,80,.18);font:14px/1.4 system-ui,sans-serif}
+#pastel-theme-panel[hidden]{display:none}
+#pastel-theme-panel .pt-title{font-weight:700;margin:0 0 10px}
+#pastel-theme-panel .pt-colors{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+#pastel-theme-panel button{display:flex;align-items:center;gap:7px;width:100%;padding:8px;border:1px solid var(--site-border,var(--bd));border-radius:11px;background:var(--site-soft,var(--p1));color:var(--site-text,var(--tx));font:13px system-ui,sans-serif;cursor:pointer}
+#pastel-theme-panel button[aria-pressed=true]{outline:2px solid var(--site-text,var(--tx));outline-offset:1px}
+#pastel-theme-panel i{display:block;width:19px;height:19px;flex:none;border-radius:50%;border:1px solid rgba(0,0,0,.08)}
+#pastel-theme-toggle{position:fixed;right:14px;bottom:14px;z-index:10000;padding:9px 15px;border:1px solid var(--site-border,var(--bd));border-radius:999px;background:var(--site-accent,var(--p3));color:var(--site-text,var(--tx));font-weight:700;cursor:pointer;box-shadow:0 4px 14px rgba(50,60,80,.12)}
+#pastel-theme-close{float:right;width:28px;height:28px;padding:0;border:0;border-radius:50%;font-size:18px;line-height:1;background:var(--site-soft,var(--p1));color:var(--site-text,var(--tx))}
+#pastel-theme-reset{margin-top:10px;justify-content:center;font-weight:700}
+@media(max-width:640px){.top{align-items:flex-start}.top nav{padding-top:4px}.hero{padding:32px 15px 40px}.wrap{padding:22px 14px 42px}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important}}
 </style>
-</head><body><header><div class="brand"><img class="mg-real-logo" src="data:image/webp;base64,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" alt="Logo Rodolphe Torres Tirado"><span>Ma Gestion Web</span></div><nav><a href="/">Accueil</a><a href="/gestion.html">Ma Gestion</a></nav></header><section class="hero"><img class="mg-real-banner" src="data:image/webp;base64,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" alt="Rodolphe Torres Tirado"><h1>Ma Gestion<br>Votre activité, simplement organisée</h1><p>Retrouvez vos contacts, activités, documents, devis, factures et frais dans un espace clair, accessible depuis votre téléphone, tablette ou ordinateur.</p>
+</head>
+<body>
+<header class="top">
+  <a href="#accueil" aria-label="Accueil Ma Gestion Web"><img src="https://raw.githubusercontent.com/cftcmafsas-ai/Guerisseur-de-lame/main/logos.JPG" alt="Logo R"></a>
+  <nav aria-label="Navigation principale">
+    <a href="#accueil">Accueil</a>
+    <a href="#gestion">Ma Gestion</a>
+    <a href="#autres-sites">Mes espaces</a>
+    <a href="#contact">Contact</a>
+  </nav>
+</header>
 
+<main>
+  <section class="hero" id="accueil">
+    <img class="herologo" src="https://raw.githubusercontent.com/cftcmafsas-ai/Guerisseur-de-lame/main/rodolphe.JPG" alt="Rodolphe Torres Tirado">
+    <h1>Ma Gestion Web</h1>
+    <p class="lead">Votre activité, simplement organisée</p>
+    <p class="intro">Retrouvez vos contacts, activités, documents, devis, factures et frais dans un espace clair, accessible depuis votre téléphone, tablette ou ordinateur.</p>
+    <a class="btn" href="login.html">Accéder à Ma Gestion</a>
+  </section>
 
+  <section class="wrap" id="gestion">
+    <h2 class="section-title">Ma Gestion</h2>
+    <p class="section-intro">Un espace pratique pour centraliser vos informations et suivre votre activité au quotidien.</p>
+    <div class="grid">
+      <article class="card"><h3>Centraliser vos informations</h3><p>Contacts, prospects, clients, sociétés, dossiers et échanges dans un espace unique.</p></article>
+      <article class="card"><h3>Suivre votre activité</h3><p>Tâches, rendez-vous, appels, affaires, échéances et avancement au quotidien.</p></article>
+      <article class="card"><h3>Gérer vos documents</h3><p>Retrouvez vos documents et vos éléments de suivi dans un environnement organisé.</p></article>
+      <article class="card"><h3>Accéder simplement</h3><p>Un affichage adapté à votre téléphone, votre tablette et votre ordinateur.</p></article>
+    </div>
+    <div class="center" style="margin-top:26px"><a class="btn" href="login.html">Se connecter à l’espace</a></div>
+  </section>
 
+  <section class="wrap" id="autres-sites">
+    <div class="card">
+      <h2 class="section-title">Mes autres sites</h2>
+      <p class="section-intro">Retrouvez mes autres espaces en un clic.</p>
+      <div class="site-list">
+        <div class="site-item"><b>Guérisseur de l’Âme</b><span>Présentation des soins et accompagnements.</span><a class="space-btn" href="https://guerisseur-de-lame.vercel.app/" target="_blank" rel="noopener noreferrer">Accéder</a></div>
+        <div class="site-item"><b>BLEU PRO</b><span>Espace de présentation et d’accès à l’application.</span><a class="space-btn" href="https://transfert-bleu-pro.vercel.app/" target="_blank" rel="noopener noreferrer">Accéder</a></div>
+        <div class="site-item"><b>Mes Documents</b><span>Adresse en cours de préparation. Le lien sera activé lorsque l’adresse définitive sera disponible.</span><span class="unavailable" aria-disabled="true">Adresse à venir</span></div>
+        <div class="site-item"><b>Espace Créatif</b><span>Adresse en cours de préparation. Le lien sera activé lorsque l’adresse définitive sera disponible.</span><span class="unavailable" aria-disabled="true">Adresse à venir</span></div>
+      </div>
+    </div>
+  </section>
+</main>
 
+<footer id="contact">
+  <p>Ma Gestion Web · Rodolphe Torres Tirado</p>
+  <p>Contact : coordonnées à compléter</p>
+</footer>
 
-
-<a class="btn" href="/gestion.html">Accéder à Ma Gestion</a><a class="btn ghost" href="#modules">Découvrir les modules</a></section>
-
-<section class="duo" aria-label="Mes autres sites"><div class="duo-card"><h2>Mes autres sites</h2><p>Retrouvez mes autres espaces en un clic.</p><div class="duo-list"><div class="duo-item"><b>Guérisseur de l’Âme</b><span>Présentation des soins et accompagnements.</span><a class="duo-btn" href="https://guerisseur-de-lame.rodolphetorres.workers.dev/">Accéder</a></div><div class="duo-item"><b>BLEU PRO</b><span>Espace de présentation et d’accès à l’application.</span><a class="duo-btn" href="https://bleu-pro.rodolphetorres.workers.dev/">Accéder</a></div><div class="duo-item"><b>Mes Documents</b><span>Espace de documents et ressources.</span><a class="duo-btn" href="https://mes-documents.rodolphetorres.workers.dev/">Accéder</a></div></div></div></section>
-
-
-<section class="features"><div class="card"><div class="icon">◎</div><h3>Centraliser vos informations</h3><p>Contacts, prospects, clients, sociétés, dossiers et échanges dans un espace unique.</p></div><div class="card"><div class="icon">▤</div><h3>Suivre votre activité</h3><p>Tâches, rendez-vous, appels, affaires, échéances et avancement au quotidien.</p></div><div class="card"><div class="icon">↗</div><h3>Gérer vos documents</h3><p>Devis, factures, dépenses, ventes, documents et suivis prêts à imprimer.</p></div></section><section class="modules" id="modules"><h2>Une seule application, plusieurs modules</h2><div class="grid"><div class="tile"><b>🎯 Prospection</b><span>Prospects, étapes et relances</span></div><div class="tile"><b>👤 Contacts</b><span>Fiches complètes et réseaux</span></div><div class="tile"><b>🏢 Comptes</b><span>Sociétés et contacts principaux</span></div><div class="tile"><b>💼 Affaires</b><span>Opportunités et montants</span></div><div class="tile"><b>✅ Tâches</b><span>Échéances et avancement</span></div><div class="tile"><b>📅 Réunions</b><span>Invitations et comptes rendus</span></div><div class="tile"><b>🗓️ Calendrier</b><span>Événements et rappels</span></div><div class="tile"><b>🧾 Devis & factures</b><span>Documents prêts à imprimer</span></div><div class="tile"><b>🧮 Frais</b><span>Notes de frais et totaux</span></div><div class="tile"><b>📁 Documents</b><span>Classement et suivi</span></div><div class="tile"><b>🛡️ Protection</b><span>Code d’accès et confidentialité</span></div><div class="tile"><b>🛒 Ventes & achats</b><span>Suivi des opérations</span></div></div></section><button class="account-fab" id="account-toggle" type="button" aria-label="Ouvrir mon espace et mes couleurs"><span>✦</span>Mon espace</button><div class="modal" id="account-modal" aria-hidden="true"><div class="modal-backdrop" data-close-account></div><div class="modal-card" role="dialog" aria-label="Mon espace"><button class="modal-close" type="button" data-close-account aria-label="Fermer">×</button><h2>Mon espace</h2><div id="auth-form"><div class="field"><label for="email">E-mail</label><input id="email" type="email" autocomplete="email" placeholder="ton@email.com"></div><div class="field"><label for="password">Mot de passe</label><input id="password" type="password" autocomplete="current-password" placeholder="Mot de passe"></div><div class="actions"><button id="sign-in" type="button">Se connecter</button><button id="sign-up" type="button">Créer un compte</button></div><p id="auth-status" class="system-status" role="status"></p></div><div id="user-panel" hidden><p id="user-email"></p><div class="actions"><button id="sign-out" type="button">Se déconnecter</button></div></div><h2>Couleur préférée</h2><p class="muted">Choisissez une teinte pour personnaliser votre espace.</p><div class="swatches"><button class="swatch" data-color="#7c5cff" style="--swatch:#7c5cff" aria-label="Violet"></button><button class="swatch" data-color="#00a884" style="--swatch:#00a884" aria-label="Vert"></button><button class="swatch" data-color="#ff7a59" style="--swatch:#ff7a59" aria-label="Orange"></button><button class="swatch" data-color="#2f80ed" style="--swatch:#2f80ed" aria-label="Bleu"></button></div><p id="color-status" class="system-status" role="status">Connectez-vous pour enregistrer une couleur.</p></div></div>
-<footer>© Ma Gestion Web · Rodolphe Torres Tirado — Ma Gestion</footer><script>
-(function(){var m=document.getElementById("account-modal"),b=document.getElementById("account-toggle");if(!m||!b)return;function set(o){m.classList.toggle("open",o);m.setAttribute("aria-hidden",String(!o));b.setAttribute("aria-expanded",String(o));}b.addEventListener("click",function(){set(!m.classList.contains("open"))});m.querySelectorAll("[data-close-account]").forEach(function(e){e.addEventListener("click",function(){set(false)})});document.addEventListener("keydown",function(e){if(e.key==="Escape")set(false)});})();</script><script src="/app.js"></script>
-</body></html>
+<script>
+(function(){
+  "use strict";
+  var palettes=[
+    {id:"rose",name:"Rose poudré",bg:"#fff3f5",card:"#fffafb",text:"#684c56",muted:"#987b85",accent:"#e8b7c5",soft:"#f8dfe6",border:"#f0dce2"},
+    {id:"lavande",name:"Lavande",bg:"#f7f3ff",card:"#fdfbff",text:"#594f70",muted:"#887e9e",accent:"#cbbbe9",soft:"#e9e0f8",border:"#e8e0f1"},
+    {id:"ciel",name:"Bleu ciel",bg:"#eff8ff",card:"#fbfdff",text:"#435d73",muted:"#7891a5",accent:"#b9dcf5",soft:"#dceefa",border:"#dceaf4"},
+    {id:"menthe",name:"Menthe",bg:"#effaf5",card:"#fbfffd",text:"#45665a",muted:"#78978a",accent:"#b9e2d0",soft:"#dff3e9",border:"#dceee5"},
+    {id:"peche",name:"Pêche",bg:"#fff5ef",card:"#fffdfb",text:"#76584a",muted:"#a08070",accent:"#f2c7ae",soft:"#fbe5d8",border:"#f2e3d9"},
+    {id:"vanille",name:"Jaune vanille",bg:"#fffbed",card:"#fffef8",text:"#6b6245",muted:"#958a68",accent:"#efe0a7",soft:"#f8f0d1",border:"#eee7cf"}
+  ];
+  var key="pastel-theme-v1";
+  var root=document.documentElement;
+  var current="ciel";
+  try{current=localStorage.getItem(key)||"ciel";}catch(e){}
+  var style=document.createElement("style");
+  style.textContent=
+    "body{background:var(--site-bg)!important;color:var(--site-text)!important;transition:background .2s,color .2s}"+
+    ".top,footer,.hero,.card,.band{background-color:var(--site-card)!important;color:var(--site-text)!important;border-color:var(--site-border)!important}"+
+    ".hero{background:linear-gradient(180deg,var(--site-soft),var(--site-bg))!important}"+
+    "h1,h2,h3,p,span,b,strong{color:inherit} .lead,.section-intro,.card p,.site-item span,footer{color:var(--site-muted)!important}"+
+    "a{color:var(--site-text)} .btn,.space-btn{background:var(--site-accent)!important;color:var(--site-text)!important;border-color:var(--site-border)!important}"+
+    ".top nav a{background:var(--site-soft)!important;color:var(--site-text)!important}"+
+    "body{--bg:var(--site-bg);--card:var(--site-card);--tx:var(--site-text);--mu:var(--site-muted);--bd:var(--site-border);--p1:var(--site-soft);--p2:var(--site-soft);--p3:var(--site-accent);--dk:var(--site-text)}";
+  document.head.appendChild(style);
+  function renderButtons(){
+    document.querySelectorAll("#pastel-theme-panel [data-theme]").forEach(function(b){b.setAttribute("aria-pressed",String(b.dataset.theme===current));});
+    document.getElementById("pastel-theme-reset").setAttribute("aria-pressed",String(current==="ciel"));
+  }
+  function apply(id,save){
+    var p=palettes.find(function(x){return x.id===id;})||palettes[2];
+    current=p.id;
+    root.style.setProperty("--site-bg",p.bg);
+    root.style.setProperty("--site-card",p.card);
+    root.style.setProperty("--site-text",p.text);
+    root.style.setProperty("--site-muted",p.muted);
+    root.style.setProperty("--site-accent",p.accent);
+    root.style.setProperty("--site-soft",p.soft);
+    root.style.setProperty("--site-border",p.border);
+    if(save){try{localStorage.setItem(key,p.id);}catch(e){}}
+    renderButtons();
+  }
+  function reset(){
+    current="ciel";
+    try{localStorage.removeItem(key);}catch(e){}
+    apply("ciel",false);
+  }
+  var panel=document.createElement("aside");
+  panel.id="pastel-theme-panel";
+  panel.hidden=true;
+  panel.setAttribute("aria-label","Choisir une couleur pastel");
+  var close=document.createElement("button");
+  close.id="pastel-theme-close";close.type="button";close.textContent="×";
+  close.setAttribute("aria-label","Fermer le panneau des couleurs");
+  close.addEventListener("click",function(){panel.hidden=true;});
+  var title=document.createElement("p");title.className="pt-title";title.textContent="Choisissez votre ambiance pastel";
+  var grid=document.createElement("div");grid.className="pt-colors";
+  palettes.forEach(function(p){
+    var b=document.createElement("button");b.type="button";b.dataset.theme=p.id;
+    var dot=document.createElement("i");dot.style.background=p.accent;
+    var label=document.createElement("span");label.textContent=p.name;
+    b.appendChild(dot);b.appendChild(label);
+    b.addEventListener("click",function(){apply(p.id,true);});
+    grid.appendChild(b);
+  });
+  var resetButton=document.createElement("button");
+  resetButton.id="pastel-theme-reset";resetButton.type="button";resetButton.textContent="Couleurs d’origine";
+  resetButton.addEventListener("click",reset);
+  panel.appendChild(close);panel.appendChild(title);panel.appendChild(grid);panel.appendChild(resetButton);
+  var toggle=document.createElement("button");toggle.id="pastel-theme-toggle";toggle.type="button";toggle.textContent="🎨 Couleurs pastel";
+  toggle.setAttribute("aria-expanded","false");
+  toggle.addEventListener("click",function(){panel.hidden=!panel.hidden;toggle.setAttribute("aria-expanded",String(!panel.hidden));});
+  document.body.appendChild(panel);document.body.appendChild(toggle);
+  var saved=palettes.some(function(p){return p.id===current;})?current:"ciel";
+  apply(saved,false);
+})();
+</script>
+</body>
+</html>
