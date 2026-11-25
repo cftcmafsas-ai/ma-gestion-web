@@ -115,9 +115,9 @@
     var c2=await client.auth.signInWithPassword({email:email,password:mdp});
     occupe(f,false);
     if(!c2.error&&c2.data.session){location.href=ESPACE;return;}
-    dire("Compte créé. Un e-mail de confirmation vient de vous être envoyé : cliquez sur le lien qu’il contient, puis connectez-vous.",true);
+    if(r.data.user&&r.data.user.identities&&r.data.user.identities.length===0){onglet(false);$("c-email").value=email;dire("Cette adresse e-mail a déjà un compte (par exemple sur Mes Documents). Connectez-vous avec son mot de passe habituel, ou cliquez sur « Mot de passe oublié ? ».");return;}
     onglet(false);$("c-email").value=email;
-    dire("Compte créé. Un e-mail de confirmation vient de vous être envoyé : cliquez sur le lien qu’il contient, puis connectez-vous.",true);
+    dire("Compte créé. Connectez-vous avec votre adresse e-mail et votre mot de passe.",true);
   };
   $("oubli").onclick=async function(){
     var email=$("c-email").value.trim();

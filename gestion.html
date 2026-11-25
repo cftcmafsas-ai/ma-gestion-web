@@ -12,7 +12,7 @@ function fin(st){var complet=(st==="actif"||st==="admin");if(complet===!window.M
 function afficher(){var go=function(){var bar=document.querySelector(".mg-main>.mg-site-links");if(window.MGEssai&&!document.getElementById("mg-essai")){var d=document.createElement("div");d.id="mg-essai";d.innerHTML="<strong>Version d’essai</strong>Vous pouvez tout essayer, mais rien n’est enregistré : vos saisies s’effacent quand vous fermez ou rechargez la page. Pour obtenir l’accès complet, contactez-moi : WhatsApp 07&nbsp;69&nbsp;73&nbsp;73&nbsp;56 · <a href=\"mailto:rodolphetorres@outlook.fr\">rodolphetorres@outlook.fr</a>";if(bar)bar.insertAdjacentElement("afterend",d)}
 if(window.MGStatut==="admin"&&bar&&!document.getElementById("mg-admin")){var a=document.createElement("a");a.id="mg-admin";a.href="/admin";a.textContent="Administration";var dec=document.getElementById("mg-deconnexion");bar.insertBefore(a,dec)}};if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",go);else go()}
 c.auth.getSession().then(function(r){var s=r.data.session;if(!s){location.replace("/login");return}
-return c.from("acces").select("statut").eq("user_id",s.user.id).maybeSingle().then(function(q){var st=(q.data&&q.data.statut)||"essai";try{sessionStorage.setItem("mg-statut",st)}catch(e){}fin(st)})}).catch(function(){location.replace("/login")});})();</script>
+return c.rpc("mg_inscrire").then(function(q){var st=q.data||"essai";try{sessionStorage.setItem("mg-statut",st)}catch(e){}fin(st)})}).catch(function(){location.replace("/login")});})();</script>
 
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="apple-mobile-web-app-capable" content="yes">
