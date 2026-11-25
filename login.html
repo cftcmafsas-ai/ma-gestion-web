@@ -4,95 +4,145 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Connexion — Ma Gestion Web</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
 <style>
-  :root {
-    --couleur: #1f4e79;
-    --couleur-fonce: #163a5b;
-    --fond: #f5f7fa;
-    --texte: #1d2733;
-    --blanc: #ffffff;
-  }
-  * { box-sizing: border-box; }
-  body {
-    margin: 0; min-height: 100vh;
-    display: flex; align-items: center; justify-content: center;
-    padding: 16px;
-    font-family: system-ui, Arial, sans-serif;
-    color: var(--texte); background: var(--fond);
-  }
-  :focus-visible { outline: 3px solid var(--couleur); outline-offset: 2px; }
-  .carte {
-    width: 100%; max-width: 400px; text-align: center;
-    background: var(--blanc); border: 2px solid var(--couleur);
-    border-radius: 12px; padding: 28px 22px;
-  }
-  .logo { width: min(180px, 60%); height: auto; }
-  h1 { color: var(--couleur); font-size: 1.4rem; margin: 14px 0 18px; }
-  label { display: block; text-align: left; margin: 12px 0 4px; font-weight: 600; }
-  input {
-    width: 100%; padding: 12px; font-size: 1rem;
-    border: 2px solid #8a96a3; border-radius: 8px;
-  }
-  button {
-    width: 100%; margin-top: 22px; padding: 14px;
-    background: var(--couleur); color: var(--blanc);
-    font: 600 1.1rem system-ui, Arial, sans-serif;
-    border: 0; border-radius: 8px; cursor: pointer;
-  }
-  button:hover { background: var(--couleur-fonce); }
-  .erreur { color: #b3262e; min-height: 1.4em; margin: 10px 0 0; }
-  .retour { display: inline-block; margin-top: 16px; color: var(--couleur); }
+  :root{--couleur:#8a6d1f;--accent:#e8cf7c;--soft:#f5ebc5;--fond:#fcf6e3;--carte:#fffdf5;--texte:#5f5230;--bord:#ece1bd}
+  *{box-sizing:border-box}
+  body{margin:0;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:16px;font-family:system-ui,Arial,sans-serif;color:var(--texte);background:var(--fond)}
+  :focus-visible{outline:3px solid var(--couleur);outline-offset:2px}
+  .carte{width:100%;max-width:420px;text-align:center;background:var(--carte);border:1px solid var(--bord);border-radius:18px;padding:26px 22px;box-shadow:0 10px 30px rgba(95,82,48,.08)}
+  .logo{width:min(150px,50%);height:auto}
+  h1{font-family:Georgia,"Times New Roman",serif;font-size:1.45rem;margin:10px 0 16px}
+  .onglets{display:flex;gap:6px;background:var(--soft);padding:5px;border-radius:999px;margin-bottom:18px}
+  .onglets button{flex:1;padding:10px;border:0;border-radius:999px;background:transparent;color:var(--texte);font:600 .95rem system-ui,sans-serif;cursor:pointer}
+  .onglets button[aria-selected=true]{background:var(--carte);box-shadow:0 2px 6px rgba(95,82,48,.12)}
+  label{display:block;text-align:left;margin:12px 0 4px;font-weight:600;font-size:.95rem}
+  input{width:100%;padding:12px;font-size:1rem;border:1px solid #cbbf98;border-radius:10px;background:#fff;color:var(--texte)}
+  .principal{width:100%;margin-top:20px;padding:13px;background:var(--accent);color:var(--texte);font:700 1.05rem system-ui,sans-serif;border:1px solid var(--bord);border-radius:999px;cursor:pointer}
+  .principal:disabled{opacity:.6;cursor:wait}
+  .lien{background:none;border:0;padding:0;margin-top:12px;color:var(--couleur);text-decoration:underline;font:inherit;font-size:.9rem;cursor:pointer}
+  .aide{font-size:.85rem;color:#8a7c52;text-align:left;margin:6px 0 0}
+  .message{min-height:1.3em;margin:14px 0 0;font-size:.95rem}
+  .message.erreur{color:#a23b2a}.message.ok{color:#2f6b3a}
+  .retour{display:inline-block;margin-top:16px;color:var(--couleur);font-size:.9rem}
+  [hidden]{display:none!important}
 </style>
 </head>
 <body>
-
 <main class="carte">
   <img class="logo" src="https://raw.githubusercontent.com/cftcmafsas-ai/Guerisseur-de-lame/main/logos.JPG" alt="Logo Ma Gestion Web">
-  <h1>Connexion à ma gestion web</h1>
+  <h1>Ma Gestion Web</h1>
 
-  <form id="formulaire" novalidate>
-    <label for="identifiant">Identifiant</label>
-    <input id="identifiant" type="text" autocomplete="username">
+  <div class="onglets" role="tablist">
+    <button type="button" role="tab" id="tab-connexion" aria-selected="true">Se connecter</button>
+    <button type="button" role="tab" id="tab-creation" aria-selected="false">Créer un compte</button>
+  </div>
 
-    <label for="mdp">Mot de passe</label>
-    <input id="mdp" type="password" autocomplete="current-password">
-
-    <p class="erreur" id="erreur" role="alert"></p>
-    <button type="submit">Se connecter</button>
+  <form id="form-connexion" novalidate>
+    <label for="c-email">Adresse e-mail</label>
+    <input id="c-email" type="email" autocomplete="email" required>
+    <label for="c-mdp">Mot de passe</label>
+    <input id="c-mdp" type="password" autocomplete="current-password" required>
+    <button class="principal" type="submit">Se connecter</button>
+    <button class="lien" type="button" id="oubli">Mot de passe oublié ?</button>
   </form>
 
-  <a class="retour" href="index.html">Retour à l'accueil</a>
+  <form id="form-creation" novalidate hidden>
+    <label for="n-email">Adresse e-mail</label>
+    <input id="n-email" type="email" autocomplete="email" required>
+    <label for="n-mdp">Choisissez un mot de passe</label>
+    <input id="n-mdp" type="password" autocomplete="new-password" minlength="6" required>
+    <p class="aide">6 caractères minimum.</p>
+    <label for="n-mdp2">Confirmez le mot de passe</label>
+    <input id="n-mdp2" type="password" autocomplete="new-password" required>
+    <button class="principal" type="submit">Créer mon compte</button>
+  </form>
+
+  <form id="form-nouveau" novalidate hidden>
+    <label for="r-mdp">Nouveau mot de passe</label>
+    <input id="r-mdp" type="password" autocomplete="new-password" minlength="6" required>
+    <label for="r-mdp2">Confirmez le nouveau mot de passe</label>
+    <input id="r-mdp2" type="password" autocomplete="new-password" required>
+    <button class="principal" type="submit">Enregistrer le mot de passe</button>
+  </form>
+
+  <p class="message" id="message" role="alert"></p>
+  <a class="retour" href="/">Retour à l’accueil</a>
 </main>
-
 <script>
-  // Lien de l'application Wix
-  var LIEN_WIX = "gestion.html";
-
-  // Reprendre la couleur choisie sur la page d'accueil
-  try {
-    var c = localStorage.getItem("mgw-couleur");
-    if (c) {
-      var n = parseInt(c.slice(1), 16);
-      var r = Math.round(((n >> 16) & 255) * 0.75);
-      var g = Math.round(((n >> 8) & 255) * 0.75);
-      var b = Math.round((n & 255) * 0.75);
-      var f = "#" + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1);
-      document.documentElement.style.setProperty("--couleur", c);
-      document.documentElement.style.setProperty("--couleur-fonce", f);
+(function(){
+  var client=supabase.createClient("https://aosyeewlrzibqaklhcxp.supabase.co","sb_publishable_MNA_y086hJoleBjry7sm1Q_Mt0yNAnv");
+  var ESPACE="/gestion";
+  var $=function(id){return document.getElementById(id);};
+  var msg=$("message");
+  function dire(t,ok){msg.textContent=t;msg.className="message "+(ok?"ok":"erreur");}
+  function onglet(creation){
+    $("tab-connexion").setAttribute("aria-selected",String(!creation));
+    $("tab-creation").setAttribute("aria-selected",String(creation));
+    $("form-connexion").hidden=creation;$("form-creation").hidden=!creation;$("form-nouveau").hidden=true;dire("",true);
+  }
+  $("tab-connexion").onclick=function(){onglet(false);};
+  $("tab-creation").onclick=function(){onglet(true);};
+  function traduire(e){
+    var m=(e&&e.message)||"";
+    if(/Invalid login/i.test(m))return "Adresse e-mail ou mot de passe incorrect.";
+    if(/Email not confirmed/i.test(m))return "Confirmez d’abord votre adresse : cliquez sur le lien reçu par e-mail.";
+    if(/already registered|already been registered/i.test(m))return "Un compte existe déjà avec cette adresse. Utilisez « Se connecter ».";
+    if(/Password should be/i.test(m))return "Le mot de passe doit contenir au moins 6 caractères.";
+    if(/rate limit|security purposes/i.test(m))return "Trop de tentatives. Patientez une minute puis réessayez.";
+    if(/valid email|invalid format/i.test(m))return "Adresse e-mail invalide.";
+    return "Une erreur est survenue : "+m;
+  }
+  function occupe(form,oui){form.querySelector(".principal").disabled=oui;}
+  $("form-connexion").onsubmit=async function(ev){
+    ev.preventDefault();var f=this,email=$("c-email").value.trim(),mdp=$("c-mdp").value;
+    if(!email||!mdp){dire("Saisissez votre adresse e-mail et votre mot de passe.");return;}
+    occupe(f,true);dire("Connexion…",true);
+    var r=await client.auth.signInWithPassword({email:email,password:mdp});
+    occupe(f,false);
+    if(r.error){dire(traduire(r.error));return;}
+    location.href=ESPACE;
+  };
+  $("form-creation").onsubmit=async function(ev){
+    ev.preventDefault();var f=this,email=$("n-email").value.trim(),mdp=$("n-mdp").value,mdp2=$("n-mdp2").value;
+    if(!email||!mdp){dire("Saisissez une adresse e-mail et un mot de passe.");return;}
+    if(mdp.length<6){dire("Le mot de passe doit contenir au moins 6 caractères.");return;}
+    if(mdp!==mdp2){dire("Les deux mots de passe ne sont pas identiques.");return;}
+    occupe(f,true);dire("Création du compte…",true);
+    var r=await client.auth.signUp({email:email,password:mdp,options:{emailRedirectTo:location.origin+"/login"}});
+    occupe(f,false);
+    if(r.error){dire(traduire(r.error));return;}
+    if(r.data.session){location.href=ESPACE;return;}
+    dire("Compte créé. Un e-mail de confirmation vient de vous être envoyé : cliquez sur le lien qu’il contient, puis connectez-vous.",true);
+    onglet(false);$("c-email").value=email;
+    dire("Compte créé. Un e-mail de confirmation vient de vous être envoyé : cliquez sur le lien qu’il contient, puis connectez-vous.",true);
+  };
+  $("oubli").onclick=async function(){
+    var email=$("c-email").value.trim();
+    if(!email){dire("Saisissez d’abord votre adresse e-mail, puis cliquez sur « Mot de passe oublié ? ».");$("c-email").focus();return;}
+    dire("Envoi…",true);
+    var r=await client.auth.resetPasswordForEmail(email,{redirectTo:location.origin+"/login"});
+    if(r.error){dire(traduire(r.error));return;}
+    dire("Si un compte existe avec cette adresse, un e-mail pour choisir un nouveau mot de passe vient d’être envoyé.",true);
+  };
+  $("form-nouveau").onsubmit=async function(ev){
+    ev.preventDefault();var f=this,mdp=$("r-mdp").value,mdp2=$("r-mdp2").value;
+    if(mdp.length<6){dire("Le mot de passe doit contenir au moins 6 caractères.");return;}
+    if(mdp!==mdp2){dire("Les deux mots de passe ne sont pas identiques.");return;}
+    occupe(f,true);var r=await client.auth.updateUser({password:mdp});occupe(f,false);
+    if(r.error){dire(traduire(r.error));return;}
+    location.href=ESPACE;
+  };
+  client.auth.onAuthStateChange(function(evt){
+    if(evt==="PASSWORD_RECOVERY"){
+      $("form-connexion").hidden=true;$("form-creation").hidden=true;$("form-nouveau").hidden=false;
+      document.querySelector(".onglets").hidden=true;dire("Choisissez votre nouveau mot de passe.",true);
     }
-  } catch (e) {}
-
-  document.getElementById("formulaire").addEventListener("submit", function (e) {
-    e.preventDefault();
-    var id = document.getElementById("identifiant").value.trim();
-    var mdp = document.getElementById("mdp").value;
-    var erreur = document.getElementById("erreur");
-    if (!id || !mdp) {
-      erreur.textContent = "Saisissez votre identifiant et votre mot de passe.";
-      return;
-    }
-    window.location.href = LIEN_WIX;
   });
+  client.auth.getSession().then(function(r){
+    if(r.data.session&&!/type=recovery/.test(location.hash))location.href=ESPACE;
+  });
+})();
 </script>
 </body>
 </html>
