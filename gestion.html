@@ -255,14 +255,15 @@ const PIE=["Salon","Séjour","Salle à manger","Cuisine","Chambre parentale","Ch
 M.splice(M.findIndex(x=>x.id==="biens")+1,0,{id:"amenagement",n:"Aménagement intérieur",i:"🛋️",d:"Déco, amélioration, réaménagement : bien, surfaces, pièces, extérieur, budget",f:[["nom","Projet"],["client","Client","ctc"],["statut","Statut","sel",["Idée","Devis","En cours","Terminé","Suspendu"]],["h","Le bien","h"],["type","Type de bien","sel",["Maison","Appartement","Studio","Villa","Loft","Local professionnel","Bureau","Commerce","Hôtel / location","Autre"]],["adresse","Adresse du bien","addr"],["surface","Surface totale du bien (m²)",N],["surfam","Surface à aménager (m²)",N],["niveaux","Étages / niveaux"],["h","Intérieur","h"],["travaux","Nature du projet","multi",TRV],["pieces","Pièces concernées","multi",PIE],["detailp","Détail pièce par pièce (surface, travaux, mobilier)","area"],["style","Style souhaité","sel",["Moderne","Contemporain","Scandinave","Classique","Industriel","Bohème","Campagne","Autre"]],["matieres","Couleurs et matériaux"],["h","Extérieur","h"],["ext","Aménagement extérieur","multi",EXT],["extdet","Détail extérieur (jardin, terrasse, piscine…)","area"],["h","Budget et dates","h"],["budget","Budget estimé (€)",N],["debut","Début des travaux",D],["date","Fin prévue",D],["note","Notes","area"],FIL]});
 M.find(x=>x.id==="rapports").f.push(FIL);M.find(x=>x.id==="documents").f.push(FIL);
 M.forEach(m=>{if(m.id==="biens")return;const f=[];m.f.forEach(x=>{f.push(x);if(x[2]==="addr")f.push([x[0]+"_cp","Code postal","cp"],[x[0]+"_v","Ville"])});m.f=f});
-let view="home",q="",cur=null,hid=S("hid")||[],pend=null;
+let view="home",q="",cur=null,hid=[],pend=null;
+S("hid",[]);
 const app=document.getElementById("app"),$=s=>document.querySelector(s);
 const esc=s=>String(s==null?"":s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 const eur=n=>(Math.round(n*100)/100).toLocaleString("fr-FR")+" €";
 const gm=id=>M.find(x=>x.id===id),title=m=>m.f.find(x=>x[0]==="nom")[0];
 const av=(r,c="")=>`<div class="av ${c}" ${r.photo?`style="background-image:url(${r.photo})"`:""}>${r.photo?"":esc(((r.prenom||r.nom||"?")[0]||"?").toUpperCase())}</div>`;
 function home(){
- app.innerHTML=`<input id="gs" type="search" placeholder="🔍 Tout rechercher : nom, société, ville, numéro…" oninput="gsr(this.value)" autocomplete="off"><div id="gr"></div><div id="gh">${dash()}<div class="grid">`+
+ app.innerHTML=`<div class="top"><div class="logo">G</div><h1>Ma Gestion Web</h1></div><h2 style="font:600 20px Georgia,serif;margin:4px 0 12px">Vue d’ensemble</h2><input id="gs" type="search" placeholder="🔍 Tout rechercher : nom, société, ville, numéro…" oninput="gsr(this.value)" autocomplete="off"><div id="gr"></div><div id="gh">${dash()}<div class="grid">`+
  M.filter(m=>!hid.includes(m.id)).map(m=>`<button class="tile" onclick="go('${m.id}')"><b>${m.i}</b><span>${m.n}</span><small>${m.d}</small></button>`).join("")+`</div></div>`;
 }
 function setp(){
@@ -402,9 +403,9 @@ function docbar(id,i){return `<div class="top no"><button class="g" onclick="${i
 const docName=()=>(document.querySelector("#doc h1,#doc b")||{}).textContent||"document";
 function docSave(){const e=document.getElementById("doc");if(!e)return;saveFile((docName().trim().slice(0,40)||"document")+".html","<!doctype html><html lang=fr><meta charset=utf-8><title>Document</title><body>"+e.innerHTML+"
 <style id="mg-floating-widgets-style">
-#mg-pastel-theme-toggle,#mg-music-float{position:fixed!important;bottom:22px!important;z-index:12000!important;display:grid!important;place-items:center!important;width:54px!important;height:54px!important;padding:0!important;border:2px solid #fff!important;border-radius:50%!important;box-shadow:0 7px 22px rgba(32,115,187,.22)!important;font-size:27px!important;line-height:1!important;cursor:pointer!important}
-#mg-pastel-theme-toggle{right:86px!important;background:linear-gradient(145deg,#dceefa,#9fc9e9)!important;color:#315575!important}
-#mg-music-float{right:20px!important;background:linear-gradient(145deg,#8fc7eb,#4f9bd0)!important;color:#fff!important}
+#mg-pastel-theme-toggle,#mg-music-float{position:fixed!important;bottom:18px!important;z-index:12000!important;display:grid!important;place-items:center!important;width:54px!important;height:54px!important;padding:0!important;border:2px solid #fff!important;border-radius:50%!important;background:#123b83!important;color:#fff!important;box-shadow:0 7px 22px rgba(18,59,131,.28)!important;font-size:27px!important;line-height:1!important;cursor:pointer!important}
+#mg-pastel-theme-toggle{right:86px!important}
+#mg-music-float{right:20px!important}
 #mg-pastel-theme-panel[hidden],#mg-music-modal[hidden]{display:none!important}
 #mg-pastel-theme-panel{position:fixed!important;right:14px!important;bottom:88px!important;z-index:12010!important;width:min(320px,calc(100vw - 28px))!important;padding:14px!important;border:1px solid var(--site-border,#dceaf4)!important;border-radius:18px!important;background:var(--site-card,#fbfdff)!important;color:var(--site-text,#435d73)!important;box-shadow:0 12px 36px rgba(50,60,80,.2)!important;font:14px/1.4 system-ui,sans-serif!important}
 #mg-pastel-theme-panel .mg-pt-head{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:10px}
