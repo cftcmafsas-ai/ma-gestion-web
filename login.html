@@ -6,22 +6,22 @@
 <title>Connexion — Ma Gestion Web</title>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
 <style>
-  :root{--couleur:#8a6d1f;--accent:#e8cf7c;--soft:#f5ebc5;--fond:#fcf6e3;--carte:#fffdf5;--texte:#5f5230;--bord:#ece1bd}
+  :root{--couleur:#246fae;--accent:#a9d8f7;--soft:#e5f3ff;--fond:#f0f7ff;--carte:#ffffff;--texte:#244d70;--bord:#cfe3f5}
   *{box-sizing:border-box}
   body{margin:0;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:16px;font-family:system-ui,Arial,sans-serif;color:var(--texte);background:var(--fond)}
-  :focus-visible{outline:3px solid var(--couleur);outline-offset:2px}
-  .carte{width:100%;max-width:420px;text-align:center;background:var(--carte);border:1px solid var(--bord);border-radius:18px;padding:26px 22px;box-shadow:0 10px 30px rgba(95,82,48,.08)}
+  :focus-visible{outline:3px solid #78b9e8;outline-offset:2px}
+  .carte{width:100%;max-width:420px;text-align:center;background:var(--carte);border:1px solid var(--bord);border-radius:18px;padding:26px 22px;box-shadow:0 10px 30px rgba(36,91,139,.10)}
   .logo{width:min(150px,50%);height:auto}
   h1{font-family:Georgia,"Times New Roman",serif;font-size:1.45rem;margin:10px 0 16px}
   .onglets{display:flex;gap:6px;background:var(--soft);padding:5px;border-radius:999px;margin-bottom:18px}
   .onglets button{flex:1;padding:10px;border:0;border-radius:999px;background:transparent;color:var(--texte);font:600 .95rem system-ui,sans-serif;cursor:pointer}
-  .onglets button[aria-selected=true]{background:var(--carte);box-shadow:0 2px 6px rgba(95,82,48,.12)}
+  .onglets button[aria-selected=true]{background:var(--carte);box-shadow:0 2px 6px rgba(36,91,139,.12)}
   label{display:block;text-align:left;margin:12px 0 4px;font-weight:600;font-size:.95rem}
-  input{width:100%;padding:12px;font-size:1rem;border:1px solid #cbbf98;border-radius:10px;background:#fff;color:var(--texte)}
-  .principal{width:100%;margin-top:20px;padding:13px;background:var(--accent);color:var(--texte);font:700 1.05rem system-ui,sans-serif;border:1px solid var(--bord);border-radius:999px;cursor:pointer}
+  input{width:100%;padding:12px;font-size:1rem;border:1px solid #c7dced;border-radius:10px;background:#fff;color:var(--texte)}
+  .principal{width:100%;margin-top:20px;padding:13px;background:linear-gradient(120deg,#d9efff,#a9d8f7);color:#174b78;font:700 1.05rem system-ui,sans-serif;border:1px solid var(--bord);border-radius:999px;cursor:pointer}
   .principal:disabled{opacity:.6;cursor:wait}
   .lien{background:none;border:0;padding:0;margin-top:12px;color:var(--couleur);text-decoration:underline;font:inherit;font-size:.9rem;cursor:pointer}
-  .aide{font-size:.85rem;color:#8a7c52;text-align:left;margin:6px 0 0}
+  .aide{font-size:.85rem;color:#6b88a2;text-align:left;margin:6px 0 0}
   .message{min-height:1.3em;margin:14px 0 0;font-size:.95rem}
   .message.erreur{color:#a23b2a}.message.ok{color:#2f6b3a}
   .retour{display:inline-block;margin-top:16px;color:var(--couleur);font-size:.9rem}
@@ -30,7 +30,7 @@
 </head>
 <body>
 <main class="carte">
-  <img class="logo" src="https://raw.githubusercontent.com/cftcmafsas-ai/Guerisseur-de-lame/main/logos.JPG" alt="Logo Ma Gestion Web">
+  <img class="logo" src="https://raw.githubusercontent.com/cftcmafsas-ai/bleu-pro/main/IMG_7275.jpeg" alt="Logo Ma Gestion Web">
   <h1>Ma Gestion Web</h1>
 
   <div class="onglets" role="tablist">
