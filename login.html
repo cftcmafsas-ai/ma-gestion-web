@@ -6,25 +6,25 @@
 <title>Connexion — Ma Gestion Web</title>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
 <style>
-  :root{--couleur:#8a6d1f;--accent:#e8cf7c;--soft:#f5ebc5;--fond:#fcf6e3;--carte:#fffdf5;--texte:#5f5230;--bord:#ece1bd}
+  :root{--couleur:#315f91;--accent:#9fc9e9;--soft:#dceefa;--fond:#eff8ff;--carte:#fbfdff;--texte:#315575;--bord:#d2e5f5}
   *{box-sizing:border-box}
-  body{margin:0;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:16px;font-family:system-ui,Arial,sans-serif;color:var(--texte);background:var(--fond)}
-  :focus-visible{outline:3px solid var(--couleur);outline-offset:2px}
-  .carte{width:100%;max-width:420px;text-align:center;background:var(--carte);border:1px solid var(--bord);border-radius:18px;padding:26px 22px;box-shadow:0 10px 30px rgba(95,82,48,.08)}
+  body{margin:0;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:16px;font-family:system-ui,Arial,sans-serif;color:var(--texte);background:linear-gradient(145deg,#e5f3ff 0%,var(--fond) 52%,#e7f2ff 100%)}
+  :focus-visible{outline:3px solid #4f9bd0;outline-offset:2px}
+  .carte{width:100%;max-width:420px;text-align:center;background:var(--carte);border:1px solid var(--bord);border-radius:18px;padding:26px 22px;box-shadow:0 14px 36px rgba(38,91,139,.12)}
   .logo{width:min(150px,50%);height:auto}
   h1{font-family:Georgia,"Times New Roman",serif;font-size:1.45rem;margin:10px 0 16px}
   .onglets{display:flex;gap:6px;background:var(--soft);padding:5px;border-radius:999px;margin-bottom:18px}
   .onglets button{flex:1;padding:10px;border:0;border-radius:999px;background:transparent;color:var(--texte);font:600 .95rem system-ui,sans-serif;cursor:pointer}
-  .onglets button[aria-selected=true]{background:var(--carte);box-shadow:0 2px 6px rgba(95,82,48,.12)}
+  .onglets button[aria-selected=true]{background:var(--carte);box-shadow:0 3px 9px rgba(38,91,139,.14)}
   label{display:block;text-align:left;margin:12px 0 4px;font-weight:600;font-size:.95rem}
-  input{width:100%;padding:12px;font-size:1rem;border:1px solid #cbbf98;border-radius:10px;background:#fff;color:var(--texte)}
-  .principal{width:100%;margin-top:20px;padding:13px;background:var(--accent);color:var(--texte);font:700 1.05rem system-ui,sans-serif;border:1px solid var(--bord);border-radius:999px;cursor:pointer}
+  input{width:100%;padding:12px;font-size:1rem;border:1px solid #bfdcf3;border-radius:12px;background:#fff;color:var(--texte);transition:border-color .18s,box-shadow .18s}
+  .principal{width:100%;margin-top:20px;padding:13px;background:linear-gradient(120deg,#d9efff,#9fc9e9);color:#244d73;font:700 1.05rem system-ui,sans-serif;border:1px solid #8fc4ed;border-radius:999px;box-shadow:0 5px 14px rgba(38,111,170,.14);cursor:pointer}
   .principal:disabled{opacity:.6;cursor:wait}
-  .lien{background:none;border:0;padding:0;margin-top:12px;color:var(--couleur);text-decoration:underline;font:inherit;font-size:.9rem;cursor:pointer}
+  .lien{background:none;border:0;padding:0;margin-top:12px;color:#397eaf;text-decoration:underline;font:inherit;font-size:.9rem;cursor:pointer}
   .aide{font-size:.85rem;color:#8a7c52;text-align:left;margin:6px 0 0}
-  .message{min-height:1.3em;margin:14px 0 0;font-size:.95rem}
+  input:focus{border-color:#69a9d8;box-shadow:0 0 0 3px rgba(105,169,216,.18);outline:none}\n  .message{min-height:1.3em;margin:14px 0 0;font-size:.95rem}
   .message.erreur{color:#a23b2a}.message.ok{color:#2f6b3a}
-  .retour{display:inline-block;margin-top:16px;color:var(--couleur);font-size:.9rem}
+  .retour{display:inline-block;margin-top:16px;color:#397eaf;font-size:.9rem}
   [hidden]{display:none!important}
 </style>
 </head>
