@@ -257,7 +257,7 @@ const eur=n=>(Math.round(n*100)/100).toLocaleString("fr-FR")+" €";
 const gm=id=>M.find(x=>x.id===id),title=m=>m.f.find(x=>x[0]==="nom")[0];
 const av=(r,c="")=>`<div class="av ${c}" ${r.photo?`style="background-image:url(${r.photo})"`:""}>${r.photo?"":esc(((r.prenom||r.nom||"?")[0]||"?").toUpperCase())}</div>`;
 function home(){
- app.innerHTML=`<div class="top"><div class="logo">G</div><h1>Ma Gestion</h1><button class="g" onclick="view='set';render()">⚙️ Paramètres</button></div><input id="gs" type="search" placeholder="🔍 Tout rechercher : nom, société, ville, numéro…" oninput="gsr(this.value)" autocomplete="off"><div id="gr"></div><div id="gh">${dash()}<div class="grid">`+
+ app.innerHTML=`<div class="top"><div class="logo">G</div><h1>Ma Gestion Web</h1><button class="g" onclick="view='set';render()">⚙️ Paramètres</button></div><input id="gs" type="search" placeholder="🔍 Tout rechercher : nom, société, ville, numéro…" oninput="gsr(this.value)" autocomplete="off"><div id="gr"></div><div id="gh">${dash()}<div class="grid">`+
  M.filter(m=>!hid.includes(m.id)).map(m=>`<button class="tile" onclick="go('${m.id}')"><b>${m.i}</b><span>${m.n}</span><small>${m.d}</small></button>`).join("")+`</div></div>`;
 }
 function setp(){
