@@ -60,24 +60,36 @@ footer p{margin:4px}
 #contact .contact-note{font-size:13px;color:var(--mu)}
 @media(max-width:640px){#contact .contact-fields{grid-template-columns:1fr}}
 #contact .card{margin:0 auto 16px;max-width:640px}
+
+/* Harmonisation Ma Gestion Web — même finition que BLEU PRO, palette bleue */
+body{background:linear-gradient(180deg,#eaf6ff 0%,#f8fcff 48%,#e9f5ff 100%)!important;color:#10377f!important;font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif!important}
+.brand-header{position:relative!important;display:grid!important;grid-template-columns:minmax(110px,190px) minmax(0,1fr) minmax(110px,190px)!important;align-items:center!important;gap:clamp(12px,2.5vw,30px)!important;min-height:150px;padding:12px clamp(16px,4vw,54px)!important;background:linear-gradient(105deg,#e5f4ff 0%,#c9e6fb 48%,#eaf6ff 100%)!important;border:0!important;border-bottom:1px solid #b5d8f4!important;box-shadow:0 5px 18px rgba(24,78,139,.10)!important}
+.brand-mark{display:flex!important;align-items:center!important;justify-content:center!important;width:100%!important;height:120px!important;line-height:0!important}
+.brand-mark img{display:block!important;width:100%!important;height:100%!important;max-width:180px!important;max-height:120px!important;object-fit:contain!important;padding:0!important;margin:0!important;border:0!important;border-radius:0!important;background:transparent!important;box-shadow:none!important}
+.brand-heading{text-align:center!important;min-width:0!important}.brand-heading h1{margin:0!important;color:#10377f!important;font:700 clamp(2.1rem,5vw,4rem)/1.08 "Cormorant Garamond",Georgia,serif!important;letter-spacing:.01em!important}.brand-heading p{margin:8px 0 0!important;color:#244d91!important;font:italic 500 clamp(1.05rem,2.2vw,1.65rem)/1.25 "Cormorant Garamond",Georgia,serif!important}.brand-spacer{min-width:0}
+.site-nav{position:sticky!important;top:0!important;z-index:60!important;display:flex!important;align-items:center!important;justify-content:center!important;flex-wrap:nowrap!important;gap:8px!important;margin:0!important;padding:10px clamp(10px,3vw,38px)!important;background:linear-gradient(110deg,#e4f2ff,#fafdff,#dceeff)!important;border:0!important;border-bottom:1px solid #b8d9f3!important;box-shadow:0 5px 16px rgba(24,78,139,.08)!important;overflow-x:auto!important;white-space:nowrap!important}
+.site-nav a{flex:none!important;padding:9px clamp(12px,1.5vw,20px)!important;border:1px solid rgba(92,157,212,.2)!important;border-radius:999px!important;background:#eaf6ff!important;color:#123b83!important;text-decoration:none!important;font:600 15px/1.2 "Cormorant Garamond",Georgia,serif!important;box-shadow:0 2px 7px rgba(27,88,153,.08)!important;transition:background .18s,transform .18s!important}.site-nav a:hover,.site-nav a:focus-visible{background:#3295dc!important;color:#fff!important;border-color:#3295dc!important;transform:translateY(-1px)!important}
+.hero{position:relative!important;isolation:isolate!important;overflow:hidden!important;max-width:none!important;margin:0!important;padding:clamp(36px,5vw,58px) 20px!important;background:linear-gradient(180deg,#cfeaff 0%,#eaf6ff 54%,#d6edff 100%)!important;border-bottom:1px solid #bddcf5!important;text-align:center!important}.hero:before{content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;background:radial-gradient(ellipse at 8% 88%,rgba(255,255,255,.95),transparent 30%),radial-gradient(ellipse at 95% 15%,rgba(255,255,255,.8),transparent 30%)}
+.hero .intro{max-width:850px!important;margin:0 auto 22px!important;color:#244d91!important;font:500 clamp(1.1rem,2.2vw,1.5rem)/1.5 "Cormorant Garamond",Georgia,serif!important}.btn,.space-btn{background:linear-gradient(120deg,#d9efff,#a9d8f7)!important;color:#10377f!important;border:1px solid #8fc4ed!important;border-radius:999px!important;box-shadow:0 4px 12px rgba(24,90,153,.12)!important;font-weight:700!important}.grid{gap:18px!important}.card,.band{background:linear-gradient(145deg,#fafdff,#f1f8ff)!important;color:#10377f!important;border:1px solid #c5def3!important;border-radius:22px!important;box-shadow:0 8px 24px rgba(25,77,132,.07)!important}.card h3,.band h2,.band h3{color:#123b83!important}.card p,.section-intro,.site-item span{color:#45658f!important}.site-item{border-color:#c5def3!important}.site-item .unavailable{background:#dceefa!important;color:#315575!important}
+@media(max-width:700px){.brand-header{grid-template-columns:74px minmax(0,1fr)!important;min-height:100px;padding:9px 13px!important;gap:12px!important}.brand-mark{height:76px!important}.brand-mark img{max-width:74px!important;max-height:76px!important}.brand-heading{text-align:left!important}.brand-heading h1{font-size:clamp(1.65rem,6vw,2.35rem)!important}.brand-heading p{font-size:1rem!important}.brand-spacer{display:none!important}.site-nav{justify-content:flex-start!important;padding:8px 10px!important}.site-nav a{font-size:13px!important;padding:8px 12px!important}.hero{padding:32px 16px!important}}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{transition:none!important;scroll-behavior:auto!important}}
 </style>
 </head>
 <body>
-<header class="top">
-  <a href="#accueil" aria-label="Accueil Ma Gestion Web"><img src="https://raw.githubusercontent.com/cftcmafsas-ai/Guerisseur-de-lame/main/logos.JPG" alt="Logo R"></a>
-  <nav aria-label="Navigation principale">
-    <a href="#accueil">Accueil</a>
-    <a href="#gestion">Ma Gestion</a>
-    <a href="#autres-sites">Mes espaces</a>
-    <a href="#contact">Contact</a>
-  </nav>
+<header class="brand-header" id="accueil">
+  <a class="brand-mark" href="#accueil" aria-label="Accueil Ma Gestion Web"><img src="data:image/webp;base64,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" alt="Logo officiel Rodolphe Torres Tirado"></a>
+  <div class="brand-heading"><h1>Ma Gestion Web</h1><p>Votre activité, simplement organisée</p></div>
+  <div class="brand-spacer" aria-hidden="true"></div>
 </header>
+<nav class="site-nav" aria-label="Navigation principale">
+  <a href="#accueil">Accueil</a>
+  <a href="#gestion">Ma Gestion</a>
+  <a href="#autres-sites">Mes espaces</a>
+  <a href="#contact">Contact</a>
+</nav>
 
 <main>
-  <section class="hero" id="accueil">
-    <h1>Ma Gestion Web</h1>
-    <img class="herologo" src="/PHOTO-2026-11-25-20-19-54.jpg" alt="Rodolphe Torres Tirado">
-    <p class="lead">Votre activité, simplement organisée</p>
+  <section class="hero" id="presentation">
     <p class="intro">Retrouvez vos contacts, activités, documents, devis, factures et frais dans un espace clair, accessible depuis votre téléphone, tablette ou ordinateur.</p>
     <a class="btn" href="login.html">Accéder à Ma Gestion</a>
   </section>
@@ -141,7 +153,7 @@ footer p{margin:4px}
 (function(){
   "use strict";
   var palettes=[
-    {id:"ciel",name:"Couleur d’origine",bg:"#fcf6e3",card:"#fffdf5",text:"#5f5230",muted:"#8a7c52",accent:"#e8cf7c",soft:"#f5ebc5",border:"#ece1bd"},
+    {id:"ciel",name:"Bleu d’origine",bg:"#edf7ff",card:"#fafdff",text:"#10377f",muted:"#45658f",accent:"#8fc9f2",soft:"#e4f2ff",border:"#c6def4"},
     {id:"azur",name:"Bleu azur",bg:"#f4f7ff",card:"#fcfdff",text:"#46557a",muted:"#7c88a8",accent:"#cdd9f7",soft:"#e6edfc",border:"#e2e8f6"},
     {id:"perle",name:"Gris perle",bg:"#f8f8fa",card:"#fefefe",text:"#55575f",muted:"#85878f",accent:"#dcdde3",soft:"#eeeef2",border:"#e8e8ec"},
     {id:"rose",name:"Rose poudré",bg:"#fff8f9",card:"#fffafb",text:"#684c56",muted:"#987b85",accent:"#f0d0d9",soft:"#faeaef",border:"#f4e6eb"},
