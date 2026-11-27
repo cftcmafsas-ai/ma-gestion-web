@@ -395,7 +395,92 @@ function rtext(m,r){const o=[m.i+" "+m.n+" — "+dn(m,r)];m.f.forEach(([k,l,t])=
 const rec=(id,i)=>(S("d:"+id)||[])[i];
 function docbar(id,i){return `<div class="top no"><button class="g" onclick="${i<0?`go('${id}')`:`fiche('${id}',${i})`}">‹</button><button onclick="window.print()">Imprimer</button><button class="g" onclick="docSave()">Enregistrer</button><button class="g" onclick="docShare()">Partager</button></div>`}
 const docName=()=>(document.querySelector("#doc h1,#doc b")||{}).textContent||"document";
-function docSave(){const e=document.getElementById("doc");if(!e)return;saveFile((docName().trim().slice(0,40)||"document")+".html","<!doctype html><html lang=fr><meta charset=utf-8><title>Document</title><body>"+e.innerHTML+"</body></html>")}
+function docSave(){const e=document.getElementById("doc");if(!e)return;saveFile((docName().trim().slice(0,40)||"document")+".html","<!doctype html><html lang=fr><meta charset=utf-8><title>Document</title><body>"+e.innerHTML+"
+<style id="mg-floating-widgets-style">
+#mg-pastel-theme-toggle,#mg-music-float{position:fixed!important;bottom:22px!important;z-index:12000!important;display:grid!important;place-items:center!important;width:54px!important;height:54px!important;padding:0!important;border:2px solid #fff!important;border-radius:50%!important;box-shadow:0 7px 22px rgba(32,115,187,.22)!important;font-size:27px!important;line-height:1!important;cursor:pointer!important}
+#mg-pastel-theme-toggle{right:86px!important;background:linear-gradient(145deg,#dceefa,#9fc9e9)!important;color:#315575!important}
+#mg-music-float{right:20px!important;background:linear-gradient(145deg,#8fc7eb,#4f9bd0)!important;color:#fff!important}
+#mg-pastel-theme-panel[hidden],#mg-music-modal[hidden]{display:none!important}
+#mg-pastel-theme-panel{position:fixed!important;right:14px!important;bottom:88px!important;z-index:12010!important;width:min(320px,calc(100vw - 28px))!important;padding:14px!important;border:1px solid var(--site-border,#dceaf4)!important;border-radius:18px!important;background:var(--site-card,#fbfdff)!important;color:var(--site-text,#435d73)!important;box-shadow:0 12px 36px rgba(50,60,80,.2)!important;font:14px/1.4 system-ui,sans-serif!important}
+#mg-pastel-theme-panel .mg-pt-head{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:10px}
+#mg-pastel-theme-panel .mg-pt-title{margin:0!important;font-weight:700!important;color:var(--site-text,#435d73)!important}
+#mg-pastel-theme-panel .mg-pt-close{width:30px!important;height:30px!important;padding:0!important;border:0!important;border-radius:50%!important;background:var(--site-soft,#dceefa)!important;color:var(--site-text,#435d73)!important;font-size:20px!important;line-height:1!important}
+#mg-pastel-theme-panel .mg-pt-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+#mg-pastel-theme-panel .mg-pt-grid button,#mg-pastel-theme-panel .mg-pt-original{display:flex!important;align-items:center!important;gap:7px!important;width:100%!important;min-width:0!important;padding:9px!important;border:1px solid var(--site-border,#dceaf4)!important;border-radius:11px!important;background:var(--site-soft,#e4f2ff)!important;color:var(--site-text,#435d73)!important;font:12px system-ui,sans-serif!important;cursor:pointer!important}
+#mg-pastel-theme-panel .mg-pt-grid button[aria-pressed=true]{outline:2px solid var(--site-text,#435d73)!important;outline-offset:1px}
+#mg-pastel-theme-panel .mg-pt-grid i{display:block;width:19px;height:19px;flex:none;border:1px solid rgba(0,0,0,.08);border-radius:50%}
+#mg-pastel-theme-panel .mg-pt-original{justify-content:center;margin-bottom:9px;font-weight:700!important}
+#mg-music-modal{position:fixed!important;inset:0!important;z-index:12020!important;display:grid!important;place-items:center!important;padding:12px!important}
+#mg-music-modal .mg-music-backdrop{position:absolute!important;inset:0!important;width:100%!important;height:100%!important;border:0!important;border-radius:0!important;background:rgba(35,67,100,.5)!important;backdrop-filter:blur(3px);cursor:pointer}
+#mg-music-modal .mg-music-card{position:relative!important;z-index:2!important;width:min(620px,100%)!important;max-height:92dvh!important;overflow:auto!important;padding:0!important;border:1px solid var(--site-border,#cfe3f3)!important;border-radius:24px!important;background:linear-gradient(145deg,var(--site-card,#fff),var(--site-soft,#e2f0fb))!important;color:var(--site-text,#315575)!important;box-shadow:0 20px 60px rgba(20,77,142,.3)!important}
+#mg-music-modal .mg-music-head{display:flex!important;align-items:center!important;justify-content:space-between!important;padding:14px 18px!important;background:linear-gradient(90deg,var(--site-soft,#dceefa),var(--site-card,#fff))!important;border-bottom:1px solid var(--site-border,#c6e2fb)!important}
+#mg-music-modal .mg-music-head h2{margin:0!important;color:var(--site-text,#315575)!important;font:700 clamp(1.4rem,4vw,2rem)/1.2 Georgia,serif!important}
+#mg-music-modal .mg-music-close{display:grid!important;place-items:center!important;width:40px!important;height:40px!important;padding:0!important;border:0!important;border-radius:50%!important;background:var(--site-accent,#8fc7eb)!important;color:#fff!important;font-size:28px!important;line-height:1!important}
+#mg-music-modal .mg-music-subtitle{margin:14px 18px!important;color:var(--site-muted,#718da5)!important;text-align:center!important;font:italic 1.15rem Georgia,serif!important}
+#mg-music-modal .mg-music-intro{display:grid!important;grid-template-columns:132px minmax(0,1fr)!important;gap:16px!important;align-items:center!important;margin:14px 18px!important;padding:12px!important;border:1px solid var(--site-border,#d2e5f5)!important;border-radius:16px!important;background:var(--site-card,#fff)!important}
+#mg-music-modal .mg-music-intro img{display:block!important;width:132px!important;height:132px!important;object-fit:cover!important;border-radius:10px!important}
+#mg-music-modal .mg-music-intro h3{margin:0 0 6px!important;color:var(--site-text,#315575)!important;font:700 1.35rem Georgia,serif!important}
+#mg-music-modal .mg-music-intro p{margin:0!important;color:var(--site-muted,#718da5)!important}
+#mg-music-modal .mg-music-slogan{margin:14px 20px 0!important;padding:12px 0!important;border-top:1px solid var(--site-border,#c6e2f5)!important;border-bottom:1px solid var(--site-border,#c6e2f5)!important;color:var(--site-text,#315575)!important;text-align:center!important;font:italic 1.15rem Georgia,serif!important}
+#mg-music-modal .mg-music-actions{display:flex!important;justify-content:center!important;flex-wrap:wrap!important;gap:10px!important;padding:16px!important}
+#mg-music-modal .mg-music-actions a{display:inline-flex!important;align-items:center!important;justify-content:center!important;padding:10px 22px!important;border:1px solid var(--site-border,#b3d8f2)!important;border-radius:999px!important;background:linear-gradient(135deg,var(--site-soft,#dceefa),var(--site-accent,#9fc9e9))!important;color:var(--site-text,#315575)!important;font-weight:650!important;text-decoration:none!important}
+body.mg-music-open{overflow:hidden!important}
+@media(max-width:520px){#mg-pastel-theme-toggle,#mg-music-float{width:50px!important;height:50px!important;bottom:18px!important}#mg-pastel-theme-toggle{right:78px!important}#mg-music-float{right:16px!important}#mg-pastel-theme-panel{right:10px!important;bottom:78px!important}#mg-music-modal{padding:8px!important}#mg-music-modal .mg-music-card{max-height:94dvh!important;border-radius:18px!important}#mg-music-modal .mg-music-intro{grid-template-columns:88px minmax(0,1fr)!important;gap:10px!important;margin:10px!important;padding:8px!important}#mg-music-modal .mg-music-intro img{width:88px!important;height:88px!important}#mg-music-modal .mg-music-intro h3{font-size:1.05rem!important}#mg-music-modal .mg-music-actions{padding:12px!important}}
+/* Les palettes recolorent les surfaces de l’espace sans toucher aux données ni aux fonctions. */
+html.mg-theme-active body{background:linear-gradient(180deg,var(--site-soft),var(--site-bg) 360px)!important;color:var(--site-text)!important}
+html.mg-theme-active .mg-sidebar,html.mg-theme-active .mg-main-head,html.mg-theme-active .mg-topbar,html.mg-theme-active #app .it,html.mg-theme-active #app .tile,html.mg-theme-active #app .tot,html.mg-theme-active #app .box,html.mg-theme-active #app .card{background-color:var(--site-card)!important;color:var(--site-text)!important;border-color:var(--site-border)!important}
+html.mg-theme-active .mg-main-head{background:linear-gradient(120deg,var(--site-soft),var(--site-card),var(--site-soft))!important}
+html.mg-theme-active #app input,html.mg-theme-active #app textarea,html.mg-theme-active #app select{background:var(--site-card)!important;color:var(--site-text)!important;border-color:var(--site-border)!important}
+html.mg-theme-active #app button:not(.active),html.mg-theme-active .mg-nav button:not(.active){border-color:var(--site-border)!important}
+html.mg-theme-active .mg-admin-actions .mg-admin-pill{background:var(--site-accent)!important;border-color:var(--site-accent)!important;color:var(--site-text)!important}
+</style>
+<script id="mg-floating-widgets">
+(function(){
+"use strict";
+var palettes=[
+{id:"ciel",name:"Couleur d’origine",bg:"#eff8ff",card:"#fbfdff",text:"#435d73",muted:"#7891a5",accent:"#b9dcf5",soft:"#dceefa",border:"#dceaf4"},
+{id:"corail",name:"Corail",bg:"#fff6f1",card:"#fffdfb",text:"#704b43",muted:"#a17b70",accent:"#efb19d",soft:"#fbe4da",border:"#f3ddd4"},
+{id:"perle",name:"Gris perle",bg:"#f8f8fa",card:"#fefefe",text:"#55575f",muted:"#85878f",accent:"#dcdde3",soft:"#eeeef2",border:"#e8e8ec"},
+{id:"rose",name:"Rose poudré",bg:"#fff8f9",card:"#fffafb",text:"#684c56",muted:"#987b85",accent:"#f0d0d9",soft:"#faeaef",border:"#f4e6eb"},
+{id:"lavande",name:"Lavande",bg:"#faf8ff",card:"#fdfbff",text:"#594f70",muted:"#887e9e",accent:"#ddd3f1",soft:"#f1ebfa",border:"#efe9f5"},
+{id:"menthe",name:"Menthe",bg:"#f5fcf9",card:"#fbfffd",text:"#45665a",muted:"#78978a",accent:"#d2ece0",soft:"#eaf7f1",border:"#e6f3ed"},
+{id:"peche",name:"Pêche",bg:"#fff9f5",card:"#fffdfb",text:"#76584a",muted:"#a08070",accent:"#f7dbca",soft:"#fceee6",border:"#f6ebe4"},
+{id:"vanille",name:"Jaune vanille",bg:"#fffdf4",card:"#fffef8",text:"#6b6245",muted:"#958a68",accent:"#f5ebc6",soft:"#faf5e1",border:"#f3eedd"}
+];
+var root=document.documentElement,key="mg-pastel-theme-v1",current="ciel";
+try{current=localStorage.getItem(key)||"ciel"}catch(e){}
+function applyTheme(id){
+var p=palettes.find(function(x){return x.id===id})||palettes[0];current=p.id;
+[["--site-bg",p.bg],["--site-card",p.card],["--site-text",p.text],["--site-muted",p.muted],["--site-accent",p.accent],["--site-soft",p.soft],["--site-border",p.border],["--bg",p.bg],["--bg2",p.soft],["--card",p.card],["--tx",p.text],["--mu",p.muted],["--ac",p.accent],["--ac2",p.soft],["--bd",p.border],["--dk",p.text]].forEach(function(v){root.style.setProperty(v[0],v[1])});
+root.classList.add("mg-theme-active");
+try{localStorage.setItem(key,p.id)}catch(e){}
+panel.querySelectorAll("[data-theme]").forEach(function(b){b.setAttribute("aria-pressed",String(b.dataset.theme===p.id))});
+}
+var panel=document.createElement("aside");panel.id="mg-pastel-theme-panel";panel.hidden=true;panel.setAttribute("aria-label","Choisir une couleur");
+var head=document.createElement("div");head.className="mg-pt-head";
+var title=document.createElement("p");title.className="mg-pt-title";title.textContent="Choisissez votre ambiance";
+var close=document.createElement("button");close.type="button";close.className="mg-pt-close";close.textContent="×";close.setAttribute("aria-label","Fermer");close.addEventListener("click",function(){panel.hidden=true});
+head.appendChild(title);head.appendChild(close);panel.appendChild(head);
+var original=document.createElement("button");original.type="button";original.className="mg-pt-original";original.textContent="↺ Revenir à la couleur d’origine";original.addEventListener("click",function(){applyTheme("ciel")});panel.appendChild(original);
+var grid=document.createElement("div");grid.className="mg-pt-grid";
+palettes.forEach(function(p){var b=document.createElement("button");b.type="button";b.dataset.theme=p.id;b.setAttribute("aria-label",p.name);var dot=document.createElement("i");dot.style.background=p.accent;var label=document.createElement("span");label.textContent=p.name;b.appendChild(dot);b.appendChild(label);b.addEventListener("click",function(){applyTheme(p.id)});grid.appendChild(b)});
+panel.appendChild(grid);document.body.appendChild(panel);
+var themeToggle=document.createElement("button");themeToggle.id="mg-pastel-theme-toggle";themeToggle.type="button";themeToggle.textContent="🎨";themeToggle.setAttribute("aria-label","Changer les couleurs");themeToggle.title="Changer les couleurs";themeToggle.addEventListener("click",function(){panel.hidden=!panel.hidden});document.body.appendChild(themeToggle);
+var musicToggle=document.createElement("button");musicToggle.id="mg-music-float";musicToggle.type="button";musicToggle.textContent="♫";musicToggle.setAttribute("aria-label","Ouvrir Mon Espace Musique");musicToggle.setAttribute("aria-haspopup","dialog");musicToggle.setAttribute("aria-expanded","false");document.body.appendChild(musicToggle);
+var modal=document.createElement("div");modal.id="mg-music-modal";modal.hidden=true;modal.setAttribute("role","dialog");modal.setAttribute("aria-modal","true");modal.setAttribute("aria-labelledby","mg-music-title");
+modal.innerHTML='<button class="mg-music-backdrop" type="button" aria-label="Fermer la fenêtre musicale"></button><section class="mg-music-card"><header class="mg-music-head"><h2 id="mg-music-title">♫ Mon Espace Musique</h2><button class="mg-music-close" type="button" aria-label="Fermer">×</button></header><p class="mg-music-subtitle">Écoutez et découvrez ma musique</p><div class="mg-music-intro"><img alt="Illustration de l’univers musical de Rodolphe"><div><h3>Rodolphe Torres Tirado</h3><p>Mes créations musicales</p></div></div><div class="mg-music-slogan">Retrouvez mon univers musical ♫</div><div class="mg-music-actions"><a href="https://mon-espace-musique.rodolphetorres.workers.dev/" target="_blank" rel="noopener noreferrer">▶ Écouter ma musique</a><a href="https://mon-espace-musique.rodolphetorres.workers.dev/" target="_blank" rel="noopener noreferrer">Accéder à ma playlist ↗</a></div></section>';
+document.body.appendChild(modal);
+var album=modal.querySelector(".mg-music-intro img");
+fetch("./assets/reference-album.b64").then(function(r){if(!r.ok)throw new Error("album");return r.text()}).then(function(data){album.src="data:image/webp;base64,"+data.trim()}).catch(function(){});
+var lastFocus=null;
+function openMusic(){lastFocus=document.activeElement;modal.hidden=false;document.body.classList.add("mg-music-open");musicToggle.setAttribute("aria-expanded","true");modal.querySelector(".mg-music-close").focus()}
+function closeMusic(){modal.hidden=true;document.body.classList.remove("mg-music-open");musicToggle.setAttribute("aria-expanded","false");if(lastFocus&&lastFocus.focus)lastFocus.focus()}
+musicToggle.addEventListener("click",openMusic);modal.querySelector(".mg-music-close").addEventListener("click",closeMusic);modal.querySelector(".mg-music-backdrop").addEventListener("click",closeMusic);
+document.addEventListener("keydown",function(e){if(e.key==="Escape"){panel.hidden=true;if(!modal.hidden)closeMusic()}});
+applyTheme(current);
+})();
+</script>
+</body></html>")}
 function docShare(){const e=document.getElementById("doc");shareTxt(docName(),e.innerText)}
 function prt(id,i){const m=gm(id),r=rec(id,i);if(m.doc)return invDoc(id,i);if(m.paie)return bul(i);view="doc";
  app.innerHTML=docbar(id,i)+`<div id="doc" class="it" style="display:block;background:#fff;color:#000"><h1 style="font-size:18px">${m.i} ${esc(dn(m,r))}</h1><p>${esc(m.n)}</p><div style="overflow-x:auto"><table style="width:100%;border-collapse:collapse;font-size:13px" border="1" cellpadding="5">${rtext(m,r).split("\n").slice(1).map(l=>{const k=l.indexOf(" : ");return k<0?`<tr><td colspan="2">${esc(l)}</td></tr>`:`<tr><td><b>${esc(l.slice(0,k))}</b></td><td>${esc(l.slice(k+3))}</td></tr>`}).join("")}</table></div></div>`}
